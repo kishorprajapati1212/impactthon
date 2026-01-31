@@ -1,0 +1,6 @@
+--> config files (env, DB config, constants)
+
+Stores all configuration files.
+Example: database connection, environment setup.
+
+Example file: db.js
