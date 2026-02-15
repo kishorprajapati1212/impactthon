@@ -1,0 +1,29 @@
+-------------------------------------------------------------------------------------------------
+use the AppError to show the json status not like before one
+-------------------------------------------------------------------------------------------------
+
+// You do this for EVERY route
+exports.getUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: "Not found" });
+    res.status(200).json({ data: user });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// Using an asyncHandler utility
+exports.getUser = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+  
+  if (!user) return next(new AppError('No user found', 404));
+
+  res.status(200).json({ data: user });
+});
+
+
+-----------------------------------------------------------------------------------------------------------
+Make the factor so we can do more like the CRUD operation repetion null
+-----------------------------------------------------------------------------------------------------------
+

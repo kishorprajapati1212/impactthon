@@ -47,6 +47,8 @@ await connectDB();
 //   }
 // })
 
+// DELETE lecture session
+
 app.use(admin);
 app.use(faculty);
 app.use(student);

@@ -71,8 +71,7 @@ export const getLectureAttendanceStatus = async (req, res) => {
   const fss = await FacultySubjectSection.findById(
     lecture.facultySubjectSectionId
   );
-  // console.log(lecture.facultySubjectSectionId)
-  // console.log(fss)
+ 
   // 3️⃣ Total students in that section
   const totalStudents = await Student.countDocuments({
     sectionId: { $in: [fss.sectionId] } // or derived sectionId

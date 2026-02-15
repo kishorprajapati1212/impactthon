@@ -2,15 +2,15 @@
 import mongoose from "mongoose";
 
 const excelExportSchema = new mongoose.Schema({
-  subjectId: {
+  facultySubjectSectionId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Subject",
+    ref: "FacultySubjectSection",
     index: true
   },
   sectionId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Section",
-    index: true
+    required: true,
   },
   month: { type: String, index: true },
   filePath: String,

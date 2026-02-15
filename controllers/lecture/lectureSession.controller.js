@@ -1,6 +1,7 @@
 import asyncHandler from "../../middleware/asyncHandler.js";
 import LectureSession from "../../models/Attendece/LectureSession.js";
 import FacultySubjectSection from "../../models/mapping/FacultySubjectSection.js";
+import { updateAttendanceExcel } from "../../services/excel/attendanceExcel.service.js";
 import generateQrToken from "../../utils/generateQrToken.js";
 
 export const startLectureSession = asyncHandler(async (req, res) => {
@@ -15,17 +16,17 @@ export const startLectureSession = asyncHandler(async (req, res) => {
     return res.status(404).json({ message: "Invalid mapping" });
   }
 
-  // 2️⃣ Check if lecture already active
-  const activeLecture = await LectureSession.findOne({
-    facultySubjectSectionId,
-    isActive: true,
-  });
+  // // 2️⃣ Check if lecture already active
+  // const activeLecture = await LectureSession.findOne({
+  //   facultySubjectSectionId,
+  //   isActive: true,
+  // });
 
-  if (activeLecture) {
-    return res.status(400).json({
-      message: "Lecture already active for this class",
-    });
-  }
+  // if (activeLecture) {
+  //   return res.status(400).json({
+  //     message: "Lecture already active for this class",
+  //   });
+  // }
 
   // 3️⃣ Create lecture session
   const lecture = await LectureSession.create({
@@ -62,11 +63,15 @@ export const endLectureSession = asyncHandler(async (req, res) => {
     lecture.durationMinutes = durationMinutes;
     lecture.isActive = false;
   
+    await updateAttendanceExcel(lectureSessionId);
     await lecture.save();
-  
+
+
     res.status(200).json({
       message: "Lecture ended successfully",
       lecture,
     });
+
+    
   });
   
