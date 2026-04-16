@@ -11,6 +11,7 @@ import Department from "./models/Academics/Department.js";
 import createFacultySubjectSection from "./routes/mapping/facultySubjectSection.routes.js"
 import lectureSession from "./routes/lecture/lectureSession.routes.js"
 import Attendance from "./routes/attendance/attendance.routes.js";
+import Academic from "./routes/academics/academic.routes.js"
 
 // import myCache from "./config/catch.js";
 
@@ -56,7 +57,9 @@ app.use(subject);
 app.use(createFacultySubjectSection);
 app.use(lectureSession);
 app.use(Attendance)
+app.use(Academic);
 app.use(errorHandler);
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async() => {

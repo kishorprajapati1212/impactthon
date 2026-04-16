@@ -101,3 +101,11 @@ export const studentLogin = asyncHandler(async (req, res) => {
     },
   });
 });
+
+export const getAllStudents = asyncHandler(async (req, res) => {
+  const students = await Student.find()
+    .populate("userId", "name email") // ✅ improved
+    .select("_id enrollmentNo firstName lastName");
+
+  res.json(students);
+});

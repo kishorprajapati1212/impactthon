@@ -2,6 +2,7 @@ import asyncHandler from "../../middleware/asyncHandler.js";
 import LectureSession from "../../models/Attendece/LectureSession.js";
 import FacultySubjectSection from "../../models/mapping/FacultySubjectSection.js";
 import { updateAttendanceExcel } from "../../services/excel/attendanceExcel.service.js";
+import { getLectureAttendanceReport } from "../../services/Attendance/getMarkStudent.service.js"
 import generateQrToken from "../../utils/generateQrToken.js";
 
 export const startLectureSession = asyncHandler(async (req, res) => {
@@ -63,14 +64,18 @@ export const endLectureSession = asyncHandler(async (req, res) => {
     lecture.durationMinutes = durationMinutes;
     lecture.isActive = false;
   
-    await updateAttendanceExcel(lectureSessionId);
-    await lecture.save();
+    // await lecture.save();
+    const report = await getLectureAttendanceReport(lectureSessionId)
 
+    console.log(report);
 
     res.status(200).json({
       message: "Lecture ended successfully",
       lecture,
+      report
     });
+    
+    await updateAttendanceExcel(lectureSessionId);
 
     
   });

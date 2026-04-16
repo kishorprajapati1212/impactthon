@@ -33,7 +33,7 @@ export const createFaculty = asyncHandler(async (req, res) => {
 });
 
 export const loginUser = asyncHandler(async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password } = req.body; 
   
     if (!email || !password) {
       return res.status(400).json({ message: "Email and password are required" });
@@ -46,3 +46,31 @@ export const loginUser = asyncHandler(async (req, res) => {
       token: generateToken(user),
     });
   });
+
+// GET all faculty
+export const getAllFaculty = asyncHandler(async (req, res) => {
+  const faculty = await Faculty.find()
+    .populate("userId", "name email")
+    .select("_id employeeId");
+
+  res.status(200).json({
+    message: "Faculty fetched successfully",
+    data: faculty,
+  });
+});
+
+// GET logged-in faculty
+export const getMyFaculty = asyncHandler(async (req, res) => {
+  console.log("req user Id", req.user._id);
+
+  const faculty = await Faculty.findOne({ userId: req.user.id })
+    .populate("userId", "email name")
+    .populate("departmentId", "name");
+
+  console.log(faculty);
+
+  res.status(200).json({
+    message: "Faculty profile fetched",
+    data: faculty,
+  });
+});

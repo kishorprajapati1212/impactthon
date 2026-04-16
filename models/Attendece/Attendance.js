@@ -25,6 +25,8 @@ const attendanceSchema = new mongoose.Schema({
   facerecongntion: {type: Boolean, default: false },
   facevalid : {type:Boolean, default: false },
 
+},{
+  timestamps: true
 });
 
 attendanceSchema.index(
