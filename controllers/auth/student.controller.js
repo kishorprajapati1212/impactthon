@@ -1,12 +1,13 @@
 import asyncHandler from "../../middleware/asyncHandler.js";
 import createUser from "../../services/user/createUser.service.js";
 import Student from "../../models/users/Student.js";
-// import user from "../../models/users/User.js";
+import user from "../../models/users/User.js";
 import authenticateUser from "../../services/user/authenticateUser.service.js"
 import generateToken from "../../utils/generateToken.js";
+import mongoose from "mongoose";
 
 export const createStudent = asyncHandler(async (req, res) => {
-  const {email, password, mobileNumber, enrollmentNo, firstName, lastName, dob, sectionId, mentorFacultyId,} = req.body;
+  const { email, password, mobileNumber, enrollmentNo, firstName, lastName, dob, sectionId, mentorFacultyId, academicYear, batch} = req.body;
 
   // 1️ Create USER
   const user = await createUser({ email, password, mobileNumber, role: "STUDENT", });
@@ -20,6 +21,8 @@ export const createStudent = asyncHandler(async (req, res) => {
     dob,
     sectionId,
     mentorFacultyId,
+    academicYear,
+    batch,
     // x DO NOT set device / selfie here
   });
 
@@ -34,7 +37,7 @@ export const studentLogin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const deviceId = "jrhfhfb";
 
-  if (!email || !password ) {
+  if (!email || !password) {
     return res.status(400).json({
       message: "Email, password and deviceId are required",
     });
@@ -108,4 +111,89 @@ export const getAllStudents = asyncHandler(async (req, res) => {
     .select("_id enrollmentNo firstName lastName");
 
   res.json(students);
+});
+
+// GET single student
+export const getStudentById = asyncHandler(async (req, res) => {
+  const student = await Student.findById(req.params.id);
+
+  if (!student) {
+    return res.status(404).json({ message: "Student not found" });
+  }
+
+  res.status(200).json({
+    message: "Student fetched successfully",
+    data: student,
+  });
+});
+
+// GET logged-in student
+export const getMyStudent = asyncHandler(async (req, res) => {
+  const student = await Student.findOne({ userId: req.user.id });
+
+  res.status(200).json({
+    message: "Student profile fetched",
+    data: student,
+  });
+});
+
+// UPDATE student
+export const updateStudent = asyncHandler(async (req, res) => {
+  const student = await Student.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true }
+  );
+
+  res.status(200).json({
+    message: "Student updated successfully",
+    data: student,
+  });
+});
+
+// DELETE student
+export const deleteStudent = asyncHandler(async (req, res) => {
+  const studentId = req.params.id;
+
+  // 1. Start a Session for the Transaction
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    // 2. Find the Student first to get their userId
+    // Note: Use .session(session) to include this operation in the transaction
+    const student = await Student.findById(studentId).session(session);
+
+    if (!student) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(404).json({ message: "Student record not found" });
+    }
+
+    // 3. Delete the User record using the userId stored in the Student document
+    if (student.userId) {
+      // We look for the _id in the User collection that matches student.userId
+      await user.findByIdAndDelete(student.userId).session(session);
+    }
+
+    // 4. Delete the Student profile record
+    await Student.findByIdAndDelete(studentId).session(session);
+
+    // 5. Commit the changes
+    await session.commitTransaction();
+    session.endSession();
+
+    res.status(200).json({
+      message: "Student and associated User account deleted successfully",
+    });
+  } catch (error) {
+    // If anything fails, abort the transaction to prevent partial deletion
+    await session.abortTransaction();
+    session.endSession();
+    
+    res.status(500).json({ 
+      message: "Delete failed", 
+      error: error.message 
+    });
+  }
 });

@@ -26,6 +26,12 @@ const studentSchema = new mongoose.Schema({
     ref: "Faculty",
     index: true
   }],
+  academicYear: { 
+    type: String, 
+    required: true, 
+    index: true 
+  }, // e.g., "2025-26"
+  batch: { type: String }, // e.g., "2024-2028"
   selfiePhoto: String,
   boundDeviceId: String,
   deviceBoundUntil: Date

@@ -2,28 +2,17 @@ import mongoose from "mongoose";
 
 const facultySubjectSectionSchema = new mongoose.Schema(
   {
-    facultyId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Faculty",
-      required: true,
-    },
-    subjectId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Subject",
-      required: true,
-    },
-    sectionId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Section",
-      required: true,
-    },
+    facultyId: { type: mongoose.Schema.Types.ObjectId, ref: "Faculty", required: true },
+    subjectId: { type: mongoose.Schema.Types.ObjectId, ref: "Subject", required: true },
+    sectionId: { type: mongoose.Schema.Types.ObjectId, ref: "Section", required: true },
+    academicYear: { type: String, required: true, index: true }, // e.g., "2025-26"
   },
   { timestamps: true }
 );
 
 // prevent duplicate mapping
 facultySubjectSectionSchema.index(
-  { facultyId: 1, subjectId: 1, sectionId: 1 },
+  { facultyId: 1, subjectId: 1, sectionId: 1, academicYear: 1 },
   { unique: true }
 );
 

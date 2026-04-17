@@ -50,3 +50,78 @@ export const loginUser = asyncHandler(async (req, res) => {
       token: generateToken(user)
     });
   });
+
+
+// GET all admins
+export const getAllAdmins = asyncHandler(async (req, res) => {
+  const admins = await Admin.find().select("_id name email");
+
+  res.status(200).json({
+    message: "Admins fetched successfully",
+    data: admins,
+  });
+});
+
+// GET admin by ID
+export const getAdminById = asyncHandler(async (req, res) => {
+  const admin = await Admin.findById(req.params.id);
+
+  if (!admin) {
+    return res.status(404).json({ message: "Admin not found" });
+  }
+
+  res.status(200).json({
+    message: "Admin fetched successfully",
+    data: admin,
+  });
+});
+
+// UPDATE admin
+export const updateAdmin = asyncHandler(async (req, res) => {
+  const admin = await Admin.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true }
+  );
+
+  res.status(200).json({
+    message: "Admin updated successfully",
+    data: admin,
+  });
+});
+
+// DELETE admin
+export const deleteAdmin = asyncHandler(async (req, res) => {
+  const adminId = req.params.id;
+
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    // 1. Find admin to get the userId
+    const admin = await Admin.findById(adminId).session(session);
+
+    if (!admin) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(404).json({ message: "Admin not found" });
+    }
+
+    // 2. Delete the User record
+    if (admin.userId) {
+      await User.findByIdAndDelete(admin.userId).session(session);
+    }
+
+    // 3. Delete the Admin record
+    await Admin.findByIdAndDelete(adminId).session(session);
+
+    await session.commitTransaction();
+    session.endSession();
+
+    res.status(200).json({ message: "Admin and associated User deleted successfully" });
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+    res.status(500).json({ message: "Delete failed", error: error.message });
+  }
+});

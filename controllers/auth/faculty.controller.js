@@ -74,3 +74,64 @@ export const getMyFaculty = asyncHandler(async (req, res) => {
     data: faculty,
   });
 });
+
+export const getFacultyById = asyncHandler(async (req, res) => {
+  const faculty = await Faculty.findById(req.params.id);
+
+  if (!faculty) {
+    return res.status(404).json({ message: "Faculty not found" });
+  }
+
+  res.status(200).json({
+    message: "Faculty fetched successfully",
+    data: faculty,
+  });
+});
+
+export const updateFaculty = asyncHandler(async (req, res) => {
+  const faculty = await Faculty.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true }
+  );
+
+  res.status(200).json({
+    message: "Faculty updated successfully",
+    data: faculty,
+  });
+});
+
+export const deleteFaculty = asyncHandler(async (req, res) => {
+  const facultyId = req.params.id;
+
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    // 1. Find faculty to get the userId
+    const faculty = await Faculty.findById(facultyId).session(session);
+
+    if (!faculty) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(404).json({ message: "Faculty not found" });
+    }
+
+    // 2. Delete the User record
+    if (faculty.userId) {
+      await User.findByIdAndDelete(faculty.userId).session(session);
+    }
+
+    // 3. Delete the Faculty record
+    await Faculty.findByIdAndDelete(facultyId).session(session);
+
+    await session.commitTransaction();
+    session.endSession();
+
+    res.status(200).json({ message: "Faculty and associated User deleted successfully" });
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+    res.status(500).json({ message: "Delete failed", error: error.message });
+  }
+});
