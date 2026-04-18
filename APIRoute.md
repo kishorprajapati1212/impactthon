@@ -75,8 +75,5 @@ This document outlines the available API endpoints for the University Attendance
 | Endpoint | Method | Auth | Description | Body / Params | Response |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | `/faculty/assignments` | `GET` | Faculty/ Admin | **Schedule View:** Lists all subjects and sections assigned to the authenticated faculty member. | None | `{ count, assignments: [] }` |
-
-On the way -----------------------------------
-
-| `/faculty/dashboard-summary` | `GET` | Faculty | **Analytics:** Provides an aggregated overview of total lectures and student counts for a specific year. | `?academicYear=2025-26` | `{ success, count, data: [] }` |
-| `/faculty/section-stats/:mappingId` | `GET` | Faculty | **Deep Dive:** Returns detailed attendance reports for a specific class, including year-to-date stats. | `mappingId` (Param) | `{ success, data: { stats: { ... } } }` |
+| `/facultys/section-students` | `GET` | Faculty | **Dashboard Overview:** Returns all assigned sections with real-time student counts. | `?academicYear=2025-26` (Query) | `{ success, data: [{ sectionName, totalStudents, ... }] }` |
+| `/faculty/section-lectures/:mappingId` | `GET` | Faculty | **Lecture History:** Provides total lecture count and paginated list of latest sessions. | `mappingId` (Param), `?page=1&limit=5` | `{ totalLectures, currentPage, data: [] }` |
