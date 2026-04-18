@@ -43,6 +43,51 @@ export const createFacultySubjectSection = asyncHandler(async (req, res) => {
   });
 });
 
+export const updateFacultySubjectSection = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { facultyId, subjectId, sectionId, academicYear } = req.body;
+
+  // 1. Validate Mapping ID
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: "Invalid Mapping ID" });
+  }
+
+  // 2. Check if the updated mapping would create a duplicate
+  // We check if another record (not this one) has the same combination
+  if (facultyId || subjectId || sectionId || academicYear) {
+    const duplicate = await FacultySubjectSection.findOne({
+      _id: { $ne: id }, // Not this record
+      facultyId: facultyId || undefined,
+      subjectId: subjectId || undefined,
+      sectionId: sectionId || undefined,
+      academicYear: academicYear || undefined,
+    });
+
+    if (duplicate) {
+      return res.status(400).json({ 
+        message: "Another mapping with this combination already exists for this year" 
+      });
+    }
+  }
+
+  // 3. Perform Update
+  const updatedMapping = await FacultySubjectSection.findByIdAndUpdate(
+    id,
+    { facultyId, subjectId, sectionId, academicYear },
+    { new: true, runValidators: true }
+  )
+  
+
+  if (!updatedMapping) {
+    return res.status(404).json({ message: "Mapping not found" });
+  }
+
+  res.status(200).json({
+    message: "Mapping updated successfully",
+    data: updatedMapping,
+  });
+});
+
 export const getFacultyAssignments = asyncHandler(async (req, res) => {
   const facultyId = req.profileId; // already ObjectId
   console.log("Faculty profileId:", facultyId);
@@ -76,121 +121,90 @@ export const getFacultyAssignments = asyncHandler(async (req, res) => {
     assignments: formatted,
   });
 });
-
-export const getFacultyDashboardSummary = asyncHandler(async (req, res) => {
+export const getFacultySectionStudents = asyncHandler(async (req, res) => {
   const facultyId = new mongoose.Types.ObjectId(req.profileId);
+  const academicYear = req.query.academicYear ? req.query.academicYear.trim() : "2025-26";
 
-  const summary = await FacultySubjectSection.aggregate([
-    { $match: { facultyId: facultyId } },
-    
-    // Join with Subject
+  const sections = await FacultySubjectSection.aggregate([
+    { 
+      $match: { 
+        facultyId: facultyId,
+        academicYear: academicYear 
+      } 
+    },
+    // 1. Join Section
+    {
+      $lookup: {
+        from: "sections", 
+        localField: "sectionId",
+        foreignField: "_id",
+        as: "sectionData"
+      }
+    },
+    { $unwind: { path: "$sectionData", preserveNullAndEmptyArrays: true } },
+
+    // 2. Join Subject
     {
       $lookup: {
         from: "subjects",
         localField: "subjectId",
         foreignField: "_id",
-        as: "subject"
+        as: "subjectData"
       }
     },
-    { $unwind: "$subject" },
+    { $unwind: { path: "$subjectData", preserveNullAndEmptyArrays: true } },
 
-    // Join with Section
-    {
-      $lookup: {
-        from: "sections",
-        localField: "sectionId",
-        foreignField: "_id",
-        as: "section"
-      }
-    },
-    { $unwind: "$section" },
-
-    // Count Students (Handles sectionId as an array in Student model)
+    // 3. Join Students & Count
     {
       $lookup: {
         from: "students",
         localField: "sectionId",
-        foreignField: "sectionId",
+        foreignField: "sectionId", // Matches if mapping.sectionId exists in student.sectionId array
         as: "studentList"
       }
     },
-
-    // Count Lectures (Ensuring ID types match using $expr)
-    {
-      $lookup: {
-        from: "lecture_sessions",
-        let: { mappingId: "$_id" },
-        pipeline: [
-          { $match: { $expr: { $eq: ["$facultySubjectSectionId", "$$mappingId"] } } }
-        ],
-        as: "lectureList"
-      }
-    },
-
-    // Final Shape of data
     {
       $project: {
         _id: 0,
         mappingId: "$_id",
-        subjectName: "$subject.subjectName",
-        subjectCode: "$subject.subjectCode",
-        sectionName: "$section.name",
-        semester: "$section.semester",
+        // If section is missing in DB, show a warning
+        sectionName: { $ifNull: ["$sectionData.name", "DELETED SECTION"] },
+        subjectName: { $ifNull: ["$subjectData.subjectName", "UNKNOWN SUBJECT"] },
+        semester: "$sectionData.semester",
         totalStudents: { $size: "$studentList" },
-        totalLectures: { $size: "$lectureList" }
+        academicYear: 1
       }
     }
   ]);
 
   res.status(200).json({
     success: true,
-    count: summary.length,
-    data: summary
+    data: sections
   });
 });
 
-export const getIndividualSectionStats = asyncHandler(async (req, res) => {
+// GET /api/mapping/faculty/section-lectures/:mappingId?page=1&limit=5
+export const getFacultySectionLectures = asyncHandler(async (req, res) => {
   const { mappingId } = req.params;
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 5;
+  const skip = (page - 1) * limit;
 
-  if (!mongoose.Types.ObjectId.isValid(mappingId)) {
-    return res.status(400).json({ message: "Invalid Mapping ID" });
-  }
-
-  // 1. Fetch Mapping with Basic Details
-  const mapping = await FacultySubjectSection.findById(mappingId)
-    .populate("subjectId", "subjectName subjectCode")
-    .populate("sectionId", "name semester");
-
-  if (!mapping) return res.status(404).json({ message: "Mapping not found" });
-
-  // 2. Parallel execution for performance (Scalability!)
-  const [totalStudents, totalLectures, lastLecture] = await Promise.all([
-    Student.countDocuments({ sectionId: mapping.sectionId }),
+  // Parallel execution for speed
+  const [totalLectures, lectures] = await Promise.all([
     LectureSession.countDocuments({ facultySubjectSectionId: mappingId }),
-    LectureSession.findOne({ facultySubjectSectionId: mappingId }).sort({ lectureDate: -1 })
+    LectureSession.find({ facultySubjectSectionId: mappingId })
+      .sort({ lectureDate: -1, startTime: -1 })
+      .skip(skip)
+      .limit(limit)
+      .select("lectureDate startTime endTime durationMinutes isActive")
   ]);
-
-  // 3. (Optional) Get attendance for the last lecture if it exists
-  let lastLectureAttendance = 0;
-  if (lastLecture) {
-    const attendanceCount = await mongoose.model("Attendance").countDocuments({ 
-      lectureSessionId: lastLecture._id 
-    });
-    lastLectureAttendance = totalStudents > 0 ? (attendanceCount / totalStudents) * 100 : 0;
-  }
 
   res.status(200).json({
     success: true,
-    data: {
-      mappingId: mapping._id,
-      subject: mapping.subjectId,
-      section: mapping.sectionId,
-      stats: {
-        totalStudents,
-        totalLectures,
-        lastLectureDate: lastLecture?.lectureDate || null,
-        lastLectureAttendancePercent: Math.round(lastLectureAttendance)
-      }
-    }
+    totalLectures, 
+    currentPage: page,
+    totalPages: Math.ceil(totalLectures / limit),
+    data: lectures 
   });
 });
