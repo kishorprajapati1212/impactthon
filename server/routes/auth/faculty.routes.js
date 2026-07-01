@@ -1,0 +1,10 @@
+import express from "express";
+import { createFaculty, loginUser, getAllFaculty, getFacultyProfile } from "../../controllers/auth/faculty.controller.js";
+import protect from "../../middleware/auth.middleware.js";
+import authorizeRoles from "../../middleware/role.middleware.js";
+const r = express.Router();
+r.post("/faculty/create", protect, authorizeRoles("ADMIN"), createFaculty);
+r.post("/faculty/login", loginUser);
+r.get("/faculty", protect, authorizeRoles("ADMIN"), getAllFaculty);
+r.get("/faculty/me", protect, authorizeRoles("FACULTY"), getFacultyProfile);
+export default r;

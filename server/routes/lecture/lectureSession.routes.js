@@ -1,0 +1,10 @@
+import express from "express";
+import { startLectureSession, endLectureSession, getFacultyDashboard } from "../../controllers/lecture/lectureSession.controller.js";
+import protect from "../../middleware/auth.middleware.js";
+import authorizeRoles from "../../middleware/role.middleware.js";
+import getProfileId from "../../middleware/identity.middleware.js";
+const r = express.Router();
+r.post("/lecture/start", protect, getProfileId, authorizeRoles("FACULTY","ADMIN"), startLectureSession);
+r.post("/lecture/end", protect, getProfileId, authorizeRoles("FACULTY","ADMIN"), endLectureSession);
+r.get("/faculty/dashboard", protect, getProfileId, authorizeRoles("FACULTY","ADMIN"), getFacultyDashboard);
+export default r;
