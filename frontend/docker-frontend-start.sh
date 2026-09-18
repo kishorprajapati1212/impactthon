@@ -1,0 +1,11 @@
+#!/bin/sh
+echo ""
+echo "╔════════════════════════════════════════════════════════╗"
+echo "║  AttendX FRONTEND (Nginx) is up                        ║"
+echo "╠════════════════════════════════════════════════════════╣"
+echo "║  Local UI : http://127.0.0.1:5173                      ║"
+echo "║  IDX      : Ports panel → click port 5173              ║"
+echo "║             https://5173-<id>.cloudworkstations.dev    ║"
+echo "╚════════════════════════════════════════════════════════╝"
+echo ""
+exec nginx -g "daemon off;"

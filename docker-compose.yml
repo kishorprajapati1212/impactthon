@@ -1,0 +1,135 @@
+# AttendX — Docker Compose (IDX + local)
+#
+# START:
+#   docker compose up --build
+#
+# You MUST see banners from "attendx-server" and "attendx-frontend".
+# If you only see mongo JSON lines, something is wrong — this file
+# silences mongo/redis logs on purpose.
+#
+# URLS:
+#   Local:  http://127.0.0.1:5173   (UI)
+#           http://127.0.0.1:3000/health  (API)
+#   IDX:    open Ports panel → Ctrl+click 5173 and 3000
+
+name: attendx
+
+services:
+  # ── Mongo (logs HIDDEN — was flooding the console) ───────────────────
+  mongo:
+    image: mongo:7
+    container_name: attendx-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: attendx_db
+    command: ["mongod", "--bind_ip_all", "--quiet"]
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - attendx-net
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+    # ★ Do not stream mongo logs into `docker compose up`
+    logging:
+      driver: "none"
+
+  # ── Redis (optional, logs hidden) ────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: attendx-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--save", "", "--loglevel", "warning"]
+    networks:
+      - attendx-net
+    logging:
+      driver: "none"
+
+  # ── API (this prints the URL banner) ─────────────────────────────────
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: attendx-server
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - HOST=0.0.0.0
+      - MONGODB_URI=mongodb://mongo:27017/attendx_db
+      - JWT_SECRET=attendx_jwt_dev_2026_secure_key_32_chars_long_!!
+      - JWT_EXPIRE=7d
+      - FRONTEND_URL=http://localhost:5173,http://127.0.0.1:5173
+      - REDIS_URL=redis://redis:6379
+      - AUTO_SEED=true
+      - FORCE_SEED=false
+      - CORS_OPEN=true
+      - MONGO_RETRY_ATTEMPTS=40
+      - MONGO_RETRY_MS=2000
+    # ★ Do NOT wait for healthy — start ASAP; app retries Mongo itself
+    depends_on:
+      - mongo
+      - redis
+    networks:
+      - attendx-net
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 45s
+
+  # ── Frontend Nginx (port 5173 → container 80) ─────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:3000
+    container_name: attendx-frontend
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      - server
+    networks:
+      - attendx-net
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # ── Manual re-seed: docker compose --profile seed run --rm seeder ────
+  seeder:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.seed
+    container_name: attendx-seeder
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/attendx_db
+      - JWT_SECRET=attendx_jwt_dev_2026_secure_key_32_chars_long_!!
+    depends_on:
+      - mongo
+    networks:
+      - attendx-net
+    profiles:
+      - seed
+    restart: "no"
+
+volumes:
+  mongo_data:
+
+networks:
+  attendx-net:
+    driver: bridge

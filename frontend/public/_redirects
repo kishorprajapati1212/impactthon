@@ -1,0 +1,3 @@
+# Netlify SPA fallback — fixes blank/404 page on browser refresh
+# of client-side routes like /login, /admin, /faculty, /student
+/*    /index.html   200

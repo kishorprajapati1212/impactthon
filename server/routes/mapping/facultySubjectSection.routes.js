@@ -1,0 +1,13 @@
+import express from "express";
+import { createFacultySubjectSection, getFacultyAssignments, getAllAssignments, updateAssignment, deleteAssignment, permanentlyDeleteAssignment } from "../../controllers/mapping/facultySubjectSection.controller.js";
+import protect from "../../middleware/auth.middleware.js";
+import authorizeRoles from "../../middleware/role.middleware.js";
+import getProfileId from "../../middleware/identity.middleware.js";
+const r = express.Router();
+r.post("/faculty-subject-section", protect, authorizeRoles("ADMIN"), createFacultySubjectSection);
+r.get("/faculty/assignments", protect, getProfileId, authorizeRoles("FACULTY","ADMIN"), getFacultyAssignments);
+r.get("/assignments", protect, authorizeRoles("ADMIN"), getAllAssignments);
+r.put("/assignment/:id", protect, authorizeRoles("ADMIN"), updateAssignment);
+r.delete("/assignment/:id", protect, authorizeRoles("ADMIN"), deleteAssignment);
+r.delete("/assignment/:id/permanent", protect, authorizeRoles("ADMIN"), permanentlyDeleteAssignment);
+export default r;

@@ -1,0 +1,11 @@
+import express from "express";
+import { createSection, getAllSections, updateSection, deleteSection, permanentlyDeleteSection } from "../../controllers/academics/section.controller.js";
+import protect from "../../middleware/auth.middleware.js";
+import authorizeRoles from "../../middleware/role.middleware.js";
+const r = express.Router();
+r.post("/section/create", protect, authorizeRoles("ADMIN"), createSection);
+r.get("/sections", getAllSections);
+r.put("/section/:id", protect, authorizeRoles("ADMIN"), updateSection);
+r.delete("/section/:id", protect, authorizeRoles("ADMIN"), deleteSection);
+r.delete("/section/:id/permanent", protect, authorizeRoles("ADMIN"), permanentlyDeleteSection);
+export default r;
