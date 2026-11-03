@@ -49,8 +49,8 @@ export function LiveLecturesPage() {
 
   const columns = [
     { key: "topic", label: "Lecture", primary: true, render: (l) => <div className="flex items-center gap-3"><span className="relative flex h-2.5 w-2.5 shrink-0"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" /><span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" /></span><div className="min-w-0"><p className="truncate font-medium text-slate-900 dark:text-slate-100">{l.topic}</p><p className="truncate text-xs text-slate-500">{l.subject} {l.subjectCode ? `(${l.subjectCode})` : ""}</p></div></div> },
-    { key: "faculty", label: "Teacher", render: (l) => l.faculty || "—" },
-    { key: "section", label: "Class", render: (l) => l.classLabel || l.section || "—" },
+    { key: "faculty", label: "Teacher", render: (l) => l.faculty || "-" },
+    { key: "section", label: "Class", render: (l) => l.classLabel || l.section || "-" },
     { key: "started", label: "Started", render: (l) => <span title={formatDateTime(l.startTime)}>{timeAgo(l.startTime)}</span> },
     { key: "elapsed", label: "Running for", render: (l) => <Pill tone={l.elapsedMin > 90 ? "amber" : "green"}>{l.elapsedMin} min</Pill> },
     { key: "present", label: "Marked present", className: "text-center", render: (l) => <b className="tabular-nums">{l.presentCount || 0}</b> },
@@ -104,7 +104,7 @@ export function LoginApprovalsPage() {
 
   return (
     <div className="space-y-4">
-      <Header icon={Smartphone} title="Student login approvals" hint="A student's first login from a new device must be approved — normally by their mentor. Approve here when the mentor is unavailable. Auto-refreshes every 15 seconds.">
+      <Header icon={Smartphone} title="Student login approvals" hint="A student's first login from a new device must be approved, normally by their mentor. Approve here when the mentor is unavailable. Auto-refreshes every 15 seconds.">
         <Button variant="outline" icon={RefreshCw} onClick={reload}>Refresh</Button>
       </Header>
       <DataTable columns={columns} items={rows} loading={loading} rowKey={(l) => l.id}

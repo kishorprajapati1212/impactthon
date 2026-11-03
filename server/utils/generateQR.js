@@ -5,7 +5,7 @@ const secret = () => {
   return process.env.JWT_SECRET;
 };
 
-/** QR rotates every 5s on faculty screen — allow enough skew for last-second scans.
+/** QR rotates every 5s on faculty screen - allow enough skew for last-second scans.
  *  25s max age gives a first-time scanner (cold GPS + slower network) a full
  *  buffer even when they lock onto a QR a couple of frames old. */
 export const QR_MAX_AGE_MS = Number(process.env.QR_MAX_AGE_MS || 25_000); // 25s

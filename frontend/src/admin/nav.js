@@ -1,13 +1,13 @@
 import { LayoutDashboard, Building2, BookOpen, Users, UserCog, GraduationCap, Link2, Radio, Smartphone, Grid3X3, BarChart3, CalendarClock } from "lucide-react";
 
 /**
- * Sidebar navigation — plain words, grouped the way an admin thinks:
+ * Sidebar navigation - plain words, grouped the way an admin thinks:
  * "set up the college" → "manage people" → "what is happening now" → "reports".
  * `section` is the URL value (?section=students) so every page is linkable.
  */
 export const NAV = [
   { group: "Overview", items: [
-    { section: "overview", label: "Dashboard", icon: LayoutDashboard, title: "Dashboard", hint: "Today at a glance — what needs attention and what is happening now" },
+    { section: "overview", label: "Dashboard", icon: LayoutDashboard, title: "Dashboard", hint: "Today at a glance: what needs attention and what is happening now" },
   ] },
   { group: "Academic setup", items: [
     { section: "departments", label: "Departments", icon: Building2, entity: "departments" },
@@ -41,7 +41,7 @@ export const findNav = (section) => NAV_ITEMS.find((i) => i.section === (SECTION
 
 /**
  * Query keys owned by the shell. They must never be read back as a page
- * filter — otherwise `?section=students` (the page selector) is sent to the
+ * filter - otherwise `?section=students` (the page selector) is sent to the
  * API as the Students page's *class* filter (`GET /students?section=students`
  * → 400 "record not found" and an empty table). That exact bug shipped once.
  */

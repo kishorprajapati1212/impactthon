@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { idOf, dash, batchLabel, classLabel, lifecycleOf, statusOf, personName, initials, formatPhone, formatDate, timeAgo, mentorName, percentTone, auditLine, semesterOptions } from "../admin/adminFormat.js";
 
-describe("adminFormat — labels the admin console shows", () => {
+describe("adminFormat: labels the admin console shows", () => {
   it("idOf accepts populated docs, raw ids and nulls", () => {
     expect(idOf({ _id: "abc" })).toBe("abc");
     expect(idOf("abc")).toBe("abc");
@@ -9,21 +9,21 @@ describe("adminFormat — labels the admin console shows", () => {
   });
 
   it("dash shows an em dash for empty values only", () => {
-    expect(dash("")).toBe("—"); expect(dash(null)).toBe("—"); expect(dash(0)).toBe(0); expect(dash("x")).toBe("x");
+    expect(dash("")).toBe("-"); expect(dash(null)).toBe("-"); expect(dash(0)).toBe(0); expect(dash("x")).toBe("x");
   });
 
-  it("batchLabel prefers the server label, else builds 2024–28", () => {
-    expect(batchLabel({ batchLabel: "2024–28" })).toBe("2024–28");
-    expect(batchLabel({ batchYear: 2024, batchEndYear: 2028 })).toBe("2024–28");
+  it("batchLabel prefers the server label, else builds 2024-28", () => {
+    expect(batchLabel({ batchLabel: "2024-28" })).toBe("2024-28");
+    expect(batchLabel({ batchYear: 2024, batchEndYear: 2028 })).toBe("2024-28");
     expect(batchLabel({ batchYear: 2024 })).toBe("2024");
-    expect(batchLabel(null)).toBe("—");
+    expect(batchLabel(null)).toBe("-");
   });
 
   it("classLabel reads 'CSE · A' with optional semester", () => {
     const sec = { name: "A", semester: 3, departmentId: { code: "CSE", name: "Computer Science" } };
     expect(classLabel(sec)).toBe("CSE · A");
     expect(classLabel(sec, { withSemester: true })).toBe("CSE · A · Sem 3");
-    expect(classLabel("5f0")).toBe("—"); // unpopulated id → never shows a raw ObjectId
+    expect(classLabel("5f0")).toBe("-"); // unpopulated id → never shows a raw ObjectId
   });
 
   it("lifecycleOf distinguishes studying / deactivated / left", () => {
@@ -47,12 +47,12 @@ describe("adminFormat — labels the admin console shows", () => {
   it("formatPhone groups Indian mobiles as 98765 43210", () => {
     expect(formatPhone("9876543210")).toBe("98765 43210");
     expect(formatPhone("+91 98765 43210")).toBe("+91 98765 43210"); // not 10 digits → untouched
-    expect(formatPhone(null)).toBe("—");
+    expect(formatPhone(null)).toBe("-");
   });
 
   it("formatDate / timeAgo tolerate bad input", () => {
-    expect(formatDate(null)).toBe("—");
-    expect(formatDate("not a date")).toBe("—");
+    expect(formatDate(null)).toBe("-");
+    expect(formatDate("not a date")).toBe("-");
     const now = Date.parse("2026-10-31T10:00:00Z");
     expect(timeAgo("2026-10-31T09:59:40Z", now)).toBe("just now");
     expect(timeAgo("2026-10-31T09:30:00Z", now)).toBe("30 min ago");

@@ -1,4 +1,4 @@
-// ✅ dotenv MUST be first — before any imports that read process.env
+// ✅ dotenv MUST be first - before any imports that read process.env
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -50,7 +50,7 @@ app.use(
 app.use(compression());
 app.set("trust proxy", 1);
 
-// ── CORS — Permissive in development, strict in production ───────────
+// ── CORS - Permissive in development, strict in production ───────────
 const isDev = process.env.NODE_ENV === "development";
 
 // Always open CORS when not strict production lock (IDX + local + Docker)
@@ -67,7 +67,7 @@ if (openCors) {
       credentials: true,
     })
   );
-  console.log("🌍 CORS: All origins allowed (open mode — IDX friendly)");
+  console.log("🌍 CORS: All origins allowed (open mode, IDX friendly)");
 } else {
   const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:5173")
     .split(",")
@@ -115,7 +115,7 @@ const scanLimiter = rateLimit({
 
 // ── Connect DB ───────────────────────────────────────────────────────
 await connectDB();
-// RESEED_KEY=<new value>: wipe + reload the demo college ONCE per value — the
+// RESEED_KEY=<new value>: wipe + reload the demo college ONCE per value - the
 // way to "run reseed" on hosts without a shell (Render, Railway…). See
 // utils/reseedKey.js. Same value on later boots → nothing happens.
 if (String(process.env.RESEED_KEY || "").trim()) {
@@ -146,7 +146,7 @@ repairLectureTotals().catch((e) => console.warn("[repair] skipped:", e.message))
 // Every route is mounted twice: at the root (legacy paths such as /students)
 // and under /api (same-origin mode). The frontend talks to /api/* on its OWN
 // origin and the dev server (Vite proxy) or nginx (Docker) forwards it here, so
-// the browser never makes a cross-origin request — no CORS, and it works on
+// the browser never makes a cross-origin request - no CORS, and it works on
 // Project IDX / Firebase Studio, Codespaces and Docker on a remote host alike.
 // Routes that already live under /api/… keep working at both /api/report/…
 // and (harmlessly) /api/api/report/….
@@ -210,7 +210,7 @@ app.listen(PORT, HOST, () => {
   console.log("║  UI     : http://127.0.0.1:5173                        ║");
   console.log("║                                                        ║");
   console.log("║  The UI calls /api/* on its own origin; the dev server ║");
-  console.log("║  or nginx forwards it here — no CORS set-up needed.    ║");
+  console.log("║  or nginx forwards it here, no CORS set-up needed.    ║");
   console.log("║  Project IDX / Firebase Studio: open ONLY port 5173.   ║");
   console.log("╚════════════════════════════════════════════════════════╝");
   console.log("");

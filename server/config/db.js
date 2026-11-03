@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 /**
  * Connect with retries so Docker/IDX don't crash if Mongo is still booting.
- * Compose no longer blocks forever on "mongo healthy" — we retry here instead.
+ * Compose no longer blocks forever on "mongo healthy" - we retry here instead.
  */
 const connectDB = async () => {
   const uri = process.env.MONGODB_URI;

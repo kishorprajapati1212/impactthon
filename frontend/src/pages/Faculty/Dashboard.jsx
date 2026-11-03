@@ -15,7 +15,8 @@ import {
   GraduationCap,
   HeartHandshake,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import BrandLogo from "../../components/Brand/BrandLogo.jsx";
+import { useNavigate, Link } from "react-router-dom";
 import toast from "../../utils/notify.js";
 import { logout } from "../../store/authSlice.js";
 import LiveSession from "../../components/Faculty/LiveSession.jsx";
@@ -48,7 +49,7 @@ const FacultyDashboard = () => {
       const res = await api.get("/api/report/faculty/dashboard");
       setStats(res.data?.data || null);
     } catch {
-      /* silent — show zeros */
+      /* silent - show zeros */
     } finally {
       setLoading(false);
     }
@@ -105,9 +106,7 @@ const FacultyDashboard = () => {
       {/* ── Sidebar (desktop) ─────────────────────────────────────── */}
       <aside className="hidden lg:flex fixed inset-y-0 left-0 w-64 flex-col border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 z-30">
         <div className="h-16 flex items-center px-6 border-b border-slate-200 dark:border-slate-800">
-          <span className="text-xl font-black tracking-tight">
-            Attend<span className="text-cyan-500">X</span>
-          </span>
+          <Link to="/" aria-label="AttendX home page" title="Go to the home page"><BrandLogo size="sm" /></Link>
           <span className="ml-2 text-[10px] uppercase tracking-wider text-slate-400 border border-slate-300 dark:border-slate-700 rounded px-1.5 py-0.5">
             Faculty
           </span>
@@ -159,8 +158,8 @@ const FacultyDashboard = () => {
 
       {/* ── Header (mobile + desktop) ─────────────────────────────── */}
       <header className="lg:pl-64 sticky top-0 z-20 surface-nav h-16 flex items-center px-4 sm:px-6">
-        <h1 className="lg:hidden text-xl font-black tracking-tight">
-          Attend<span className="text-cyan-500">X</span>
+        <h1 className="lg:hidden flex items-center">
+          <Link to="/" aria-label="AttendX home page" title="Go to the home page"><BrandLogo size="sm" /></Link>
         </h1>
         {/* Desktop: where am I + who am I, so a teacher always has context */}
         <p className="hidden lg:block text-sm text-slate-600 dark:text-slate-300">
@@ -255,7 +254,7 @@ const FacultyDashboard = () => {
               </button>
             </div>
 
-            {/* My Classes — exactly what this faculty teaches, and to whom */}
+            {/* My Classes - exactly what this faculty teaches, and to whom */}
             <div className="card-2026 p-5">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2"><BookOpen size={17} className="text-cyan-500" /> My Classes</h3>
@@ -268,7 +267,7 @@ const FacultyDashboard = () => {
                   {(stats?.assignments || []).map((a) => (
                     <div key={a.id} className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40">
                       <p className="font-semibold text-sm text-slate-900 dark:text-slate-100">{a.subject || "Subject"} {a.subjectCode ? <span className="text-slate-400 font-normal">({a.subjectCode})</span> : null}</p>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Class {a.classLabel || a.section || "—"} · Semester {a.semester ?? "—"}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Class {a.classLabel || a.section || "-"} · Semester {a.semester ?? "-"}</p>
                       <div className="flex gap-2 mt-3">
                         <button onClick={() => setActiveTab("session")} className="btn-primary text-xs py-2 px-3">Start session</button>
                         <button onClick={() => setActiveTab("history")} className="btn-secondary text-xs py-2 px-3">View history</button>
@@ -299,7 +298,7 @@ const FacultyDashboard = () => {
                     className="mx-auto text-slate-300 dark:text-slate-600 mb-2"
                   />
                   <p className="text-sm text-slate-400">
-                    No sessions yet — start your first live QR session.
+                    No sessions yet. Start your first live QR session.
                   </p>
                 </div>
               ) : (

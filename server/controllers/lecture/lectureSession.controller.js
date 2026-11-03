@@ -42,7 +42,7 @@ async function completeLecture(lecture) {
 /**
  * POST /lecture/start
  * Each faculty may only have ONE active session (their own).
- * Other faculty can always start in parallel — no global lock.
+ * Other faculty can always start in parallel - no global lock.
  */
 export const startLectureSession = asyncHandler(async (req, res) => {
   const v = validateStartLecture(req.body);
@@ -76,7 +76,7 @@ export const startLectureSession = asyncHandler(async (req, res) => {
   if (!assignment && req.user.role !== "ADMIN") {
     return res.status(403).json({
       success: false,
-      message: "You are not assigned to this subject–section. Contact admin.",
+      message: "You are not assigned to this subject and class. Contact admin.",
       code: "NOT_ASSIGNED",
     });
   }
@@ -165,7 +165,7 @@ export const endLectureSession = asyncHandler(async (req, res) => {
     status: "ACTIVE",
   });
 
-  // Already ended (e.g. admin force-end) — treat as success so UI can clear
+  // Already ended (e.g. admin force-end) - treat as success so UI can clear
   if (!lecture) {
     const any = await LectureSession.findById(lectureSessionId);
     if (any && refId(any.facultyId) === refId(facultyId)) {
@@ -276,7 +276,7 @@ export const getFacultyDashboard = asyncHandler(async (req, res) => {
 
 /**
  * POST /admin/lecture/end
- * Force-end one session — always clears ACTIVE so it disappears for everyone
+ * Force-end one session - always clears ACTIVE so it disappears for everyone
  */
 export const adminEndLecture = asyncHandler(async (req, res) => {
   const lectureSessionId =
@@ -312,7 +312,7 @@ export const adminEndLecture = asyncHandler(async (req, res) => {
     });
   }
 
-  // Already ended — still success so admin UI refreshes cleanly
+  // Already ended - still success so admin UI refreshes cleanly
   res.json({
     success: true,
     message: `Lecture already ${lecture.status.toLowerCase()}`,
@@ -377,7 +377,7 @@ export const getActiveLectures = asyncHandler(async (req, res) => {
 });
 
 /* ────────────────────────────────────────────────────────────────────
- * Phase 18 — every lecture (admin) + deleting a lecture
+ * Phase 18 - every lecture (admin) + deleting a lecture
  * ──────────────────────────────────────────────────────────────────── */
 
 const LECTURE_POPULATE = [

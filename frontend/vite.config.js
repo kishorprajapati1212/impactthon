@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react';
  * Dev server notes
  *  • API calls are SAME ORIGIN: the app requests `/api/...` and this server
  *    proxies them to the API (default http://127.0.0.1:3000). That is why there
- *    is no CORS to configure — locally, in Docker (nginx does the same job) and
+ *    is no CORS to configure - locally, in Docker (nginx does the same job) and
  *    on Project IDX / Firebase Studio, where the browser only ever opens the
  *    5173 preview URL.
  *  • `API_PROXY_TARGET=http://127.0.0.1:4000 npm run dev` if the API runs elsewhere.
@@ -25,7 +25,7 @@ export default defineConfig(({ mode }) => {
     '/api': {
       target: apiTarget,
       changeOrigin: true,
-      // keep the /api prefix — the API serves every route under /api as well
+      // keep the /api prefix - the API serves every route under /api as well
     },
   };
 

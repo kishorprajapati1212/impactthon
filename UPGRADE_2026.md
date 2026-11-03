@@ -1,4 +1,4 @@
-# AttendX — 2026 Upgrade Notes
+# AttendX - 2026 Upgrade Notes
 
 A full pass over the codebase to fix the first-scan error, add caching,
 speed up data loading, make lat/long a first-class citizen, modernise the UI
@@ -6,16 +6,16 @@ and make the home page SEO-friendly.
 
 ---
 
-## 1. Fixed — "student first scan gives error even with permission"
+## 1. Fixed - "student first scan gives error even with permission"
 
 **Root cause:** `navigator.geolocation.getCurrentPosition()` with a 6s
-timeout throws when GPS has no fix yet. A *cold* GPS start can take 10–30s,
+timeout throws when GPS has no fix yet. A *cold* GPS start can take 10-30s,
 so the very first scan died with "Location required" even though permission
 was granted.
 
 **Fix (`frontend/src/utils/geolocation.js`, `QRScanner.jsx`):**
 - **Pre-warm** GPS on the student dashboard mount (`prewarmLocation`).
-- **`watchPosition` first-fix** resolution — resolves as soon as *any* fix
+- **`watchPosition` first-fix** resolution - resolves as soon as *any* fix
   arrives instead of failing at a hard timeout.
 - **Warm cache** (in-memory + `sessionStorage`) so later scans are instant
   and tab-switches don't lose the fix.
@@ -23,7 +23,7 @@ was granted.
 - Local QR pre-check (`verifyQRLocally`) rejects dead codes *before*
   spending a GPS fix.
 
-## 2. Fixed — missing caching (frontend + backend)
+## 2. Fixed - missing caching (frontend + backend)
 
 - **Frontend SWR cache** (`utils/api.js`): GET requests deduped & cached by
   TTL; any write busts the cache. Dashboards/history/analytics now feel
@@ -35,7 +35,7 @@ was granted.
 - **Invalidation on write**: lecture start/end/force-end, attendance mark,
   manual mark and repair all invalidate the right cache prefixes.
 
-## 3. Fixed — slow data loading
+## 3. Fixed - slow data loading
 
 - `getFacultyHistory` now batch-loads section rosters **once** (was N+1).
 - Faculty dashboard & student report now run **one bulk finalize** for
@@ -74,8 +74,8 @@ was granted.
 
 - `SessionHistory`/`LiveSession` corrected to always refresh after
   manual-mark / repair (cache invalidation).
-- Server test `qr.test.js` had a broken import path — fixed.
-- QR validity widened to **25s** (was 10–20s) to survive cold GPS + slow
+- Server test `qr.test.js` had a broken import path - fixed.
+- QR validity widened to **25s** (was 10-20s) to survive cold GPS + slow
   network on first scans; tests updated to the new contract.
 
 ## 8. Human-friendly Excel / CSV exports + enrollment navigation
@@ -96,7 +96,7 @@ was granted.
 - **Student side**: apply with reason, type and (for lecture-wise) the day's
   lectures; track status & mentor remark.
 - **Mentor side**: approve/reject from the new **Mentorship** tab; approving
-  credits attendance — the matching `Attendance` rows become `LEAVE` so the
+  credits attendance - the matching `Attendance` rows become `LEAVE` so the
   day does **not** count as absent (`utils/leaveService.js`).
 - `Attendance.status` enum gains `LEAVE`; `finalizeAttendance` reports
   `onLeave`; report denominators exclude `LEAVE` from absentee counts.
@@ -117,26 +117,26 @@ was granted.
   - **mentors → mentees grouped batch-wise**
   - **batches → sections → student counts**
 - Admin dashboard has an **Overview Matrix** tab rendering all four views
-  (accordion), plus summary chips — no deep navigation needed.
+  (accordion), plus summary chips - no deep navigation needed.
 
 ## 13. One-time device-bound login (digital fingerprint)
 
 **Requirement:** store a "digital fingerprint" in a table; once a student logs
-out, the next login must be accepted by their mentor before they can enter —
+out, the next login must be accepted by their mentor before they can enter -
 otherwise they cannot login.
 
-- `StudentSession` model — the table that stores: `deviceId` + `fingerprint` +
+- `StudentSession` model - the table that stores: `deviceId` + `fingerprint` +
   hardware metadata (platform / browser / cores / memory / screen / timezone),
   status (`PENDING / ACTIVE / REJECTED / LOGGED_OUT`), the approving mentor and
   timestamps.
 - Student login creates a **PENDING** session. The API returns `202` with a
   `loginId`; the frontend shows "Waiting for mentor approval" and polls
   `/api/student/approval/status` until accepted (auto-login) or rejected.
-- **Mentor side:** new *Logins* tab in Mentorship — Accept / Reject the device
+- **Mentor side:** new *Logins* tab in Mentorship - Accept / Reject the device
   login. **Admin side:** new *Login Approvals* tab for students without a
   mentor (or oversight).
 - `studentLogout` flips the session to `LOGGED_OUT`, so the next login must be
-  re-approved — exactly the required "logout → mentor re-accepts" loop.
+  re-approved - exactly the required "logout → mentor re-accepts" loop.
 - JWT now carries the `loginId`; `auth.middleware` enforces that a STUDENT
   request must come from the session's **registered device** (`X-Device-Id`
   header, checked against the stored fingerprint).

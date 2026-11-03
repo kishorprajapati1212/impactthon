@@ -27,7 +27,7 @@ const attendances = [
   mark("l1", "st1", "PRESENT"), mark("l2", "st1", "ABSENT"), mark("l3", "st1", "ABSENT"), mark("l4", "st1", "ABSENT"), mark("l5", "st1", "LEAVE"),
   // Ananya: 4 counted, 4 present (one LATE) → 100 %
   mark("l1", "st2", "PRESENT"), mark("l2", "st2", "LATE"), mark("l3", "st2", "PRESENT"), mark("l4", "st2", "PRESENT"),
-  // former student in class B — counted for the class, never listed as at risk
+  // former student in class B - counted for the class, never listed as at risk
   mark("l5", "st3", "ABSENT"),
   // cancelled lecture marks are ignored
   mark("lx", "st1", "ABSENT"), mark("lx", "st2", "ABSENT"),
@@ -37,8 +37,8 @@ const attendances = [
 
 const run = (extra = {}) => summariseAttendance({ attendances, lectures, students, sections, subjects, faculty, since, until: now, prevSince, days: 30, ...extra });
 
-describe("attendance report math — one rule everywhere", () => {
-  it("bands: 75+ good, 60–74 watch, below 60 low, null none", () => {
+describe("attendance report math - one rule everywhere", () => {
+  it("bands: 75+ good, 60-74 watch, below 60 low, null none", () => {
     expect(band(75)).toBe("good"); expect(band(74)).toBe("watch"); expect(band(60)).toBe("watch"); expect(band(59)).toBe("low"); expect(band(null)).toBe("none");
     expect(GOOD).toBe(75); expect(WATCH).toBe(60);
   });

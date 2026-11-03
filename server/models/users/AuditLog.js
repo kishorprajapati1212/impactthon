@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
 /**
- * AuditLog — one row per admin action ("who changed what, when").
+ * AuditLog - one row per admin action ("who changed what, when").
  *
- * Phase 11 (admin console) — ADDITIVE changes only, nothing renamed/removed:
+ * Phase 11 (admin console) - ADDITIVE changes only, nothing renamed/removed:
  *  - entityType enum gained DEPARTMENT / SUBJECT / SECTION so the academic
  *    setup records are auditable too (before, only people + assignments were).
  *  - entityLabel: the record's human name at the time of the action
@@ -14,7 +14,7 @@ import mongoose from "mongoose";
  *    the dashboard shows activity without re-deriving it on every page load.
  * Old rows without these fields still load (defaults are null).
  *
- * Phase 18 — entityType gained LECTURE (additive, nothing renamed). Deleting a
+ * Phase 18 - entityType gained LECTURE (additive, nothing renamed). Deleting a
  * lecture is the most sensitive action in the system (it removes attendance
  * marks), so every deletion must be traceable: who, when, which lecture
  * (entityLabel keeps the topic/subject/class/time after the row is gone) and

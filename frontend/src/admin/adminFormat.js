@@ -1,26 +1,26 @@
 /**
  * Pure formatting helpers for the admin console (unit tested, no React).
  * Every label an admin reads in a table/drawer comes from here so wording
- * is consistent everywhere ("Studying", "Left the college", "2026–30"…).
+ * is consistent everywhere ("Studying", "Left the college", "2026-30"…).
  */
 
 export const idOf = (v) => (v && typeof v === "object" ? String(v._id || v.id || "") : v ? String(v) : "");
 
-export const dash = (v) => (v === null || v === undefined || v === "" ? "—" : v);
+export const dash = (v) => (v === null || v === undefined || v === "" ? "-" : v);
 
 export function batchLabel(section) {
-  if (!section) return "—";
+  if (!section) return "-";
   if (section.batchLabel) return section.batchLabel;
   const { batchYear, batchEndYear } = section;
-  if (!batchYear) return "—";
-  return batchEndYear && batchEndYear > batchYear ? `${batchYear}–${String(batchEndYear).slice(-2)}` : String(batchYear);
+  if (!batchYear) return "-";
+  return batchEndYear && batchEndYear > batchYear ? `${batchYear}-${String(batchEndYear).slice(-2)}` : String(batchYear);
 }
 
-/** "CSE · A" — how a class is referred to across the console. */
+/** "CSE · A" - how a class is referred to across the console. */
 export function classLabel(section, { withSemester = false } = {}) {
-  if (!section || typeof section !== "object") return "—";
+  if (!section || typeof section !== "object") return "-";
   const dept = section.departmentId?.code || section.departmentId?.name || "";
-  const base = [dept, section.name].filter(Boolean).join(" · ") || "—";
+  const base = [dept, section.name].filter(Boolean).join(" · ") || "-";
   return withSemester && section.semester ? `${base} · Sem ${section.semester}` : base;
 }
 
@@ -52,22 +52,22 @@ export function initials(name = "") {
 }
 
 export function formatPhone(p) {
-  if (!p) return "—";
+  if (!p) return "-";
   const s = String(p).replace(/\D/g, "");
   return s.length === 10 ? `${s.slice(0, 5)} ${s.slice(5)}` : String(p);
 }
 
 export function formatDate(d, opts = {}) {
-  if (!d) return "—";
+  if (!d) return "-";
   const date = new Date(d);
-  if (Number.isNaN(date.getTime())) return "—";
+  if (Number.isNaN(date.getTime())) return "-";
   return date.toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric", ...opts });
 }
 
 export function formatDateTime(d) {
-  if (!d) return "—";
+  if (!d) return "-";
   const date = new Date(d);
-  if (Number.isNaN(date.getTime())) return "—";
+  if (Number.isNaN(date.getTime())) return "-";
   return date.toLocaleString(undefined, { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
 }
 

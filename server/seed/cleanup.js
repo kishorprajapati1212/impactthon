@@ -11,7 +11,7 @@ async function cleanup() {
   console.log("\n🧹 AttendX DB Cleanup\n");
   await mongoose.connect(URI);
 
-  // DROP the entire database — removes ALL collections AND indexes
+  // DROP the entire database - removes ALL collections AND indexes
   await mongoose.connection.db.dropDatabase();
   console.log("   ✅ Database dropped completely\n");
 

@@ -3,7 +3,7 @@ import { resolveApiBase, joinApiPath } from "../utils/axios.js";
 
 /**
  * Same-origin API contract: without VITE_API_URL the app calls `/api/...` on
- * its own origin (Vite proxy in dev, nginx in Docker) — no CORS anywhere,
+ * its own origin (Vite proxy in dev, nginx in Docker) - no CORS anywhere,
  * including Project IDX / Firebase Studio previews.
  */
 describe("API base resolution", () => {

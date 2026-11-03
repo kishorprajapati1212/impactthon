@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Menu, X, LogIn, User } from "lucide-react";
 import ThemeToggle from "../UI/ThemeToggle.jsx";
+import BrandLogo from "../Brand/BrandLogo.jsx";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -49,10 +50,8 @@ const Header = () => {
       ].join(" ")}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2" aria-label="AttendX home">
-          <span className="text-2xl font-black tracking-tight text-slate-900 dark:text-slate-50">
-            Attend<span className="text-cyan-500">X</span>
-          </span>
+        <Link to="/" className="flex items-center" aria-label="AttendX home">
+          <BrandLogo size="md" />
         </Link>
 
         <nav className="hidden md:flex items-center gap-8" aria-label="Primary">

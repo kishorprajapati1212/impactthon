@@ -6,7 +6,7 @@ const label = (s) => ({ granted: "Allowed", prompt: "Not asked yet", denied: "Bl
 
 /**
  * Permission gate shown BEFORE the camera opens.
- * New students see exactly what is needed, why, and what to tap — no reload.
+ * New students see exactly what is needed, why, and what to tap - no reload.
  * Camera is tested with getUserMedia (tracks stopped immediately) and
  * location with a real GPS fix, so "Allowed" here means scanning will work.
  */

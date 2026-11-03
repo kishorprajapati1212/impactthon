@@ -2,8 +2,8 @@
  * SEO files for the static host (Netlify, Vercel, nginx…), written into
  * public/ before every `npm run build`:
  *
- *   public/sitemap.xml   — the PUBLIC pages only (home, login)
- *   public/robots.txt    — allow everything public, keep crawlers out of the
+ *   public/sitemap.xml - the PUBLIC pages only (home, login)
+ *   public/robots.txt - allow everything public, keep crawlers out of the
  *                          dashboards and the API, point to the sitemap
  *
  * Why a generator and not two hand-written files: the URLs must be ABSOLUTE
@@ -54,7 +54,7 @@ ${urls}
 }
 
 export function buildRobots(base, privatePrefixes = PRIVATE_PREFIXES) {
-  return `# AttendX — public pages are crawlable; dashboards and the API are not.
+  return `# AttendX - public pages are crawlable; dashboards and the API are not.
 User-agent: *
 Allow: /
 ${privatePrefixes.map((p) => `Disallow: ${p}`).join("\n")}

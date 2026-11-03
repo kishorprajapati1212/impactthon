@@ -33,7 +33,7 @@ function present(sess) {
 }
 
 /**
- * GET /api/device/mentor/pending — mentor's students' login requests.
+ * GET /api/device/mentor/pending - mentor's students' login requests.
  */
 export const getMentorPendingLogins = asyncHandler(async (req, res) => {
   const facultyId = req.profileId;
@@ -63,7 +63,7 @@ export const getMentorPendingLogins = asyncHandler(async (req, res) => {
 });
 
 /**
- * GET /api/device/admin/pending — all pending login requests (admin).
+ * GET /api/device/admin/pending - all pending login requests (admin).
  */
 export const getAdminPendingLogins = asyncHandler(async (req, res) => {
   const list = await StudentSession.find({ status: "PENDING" })
@@ -82,7 +82,7 @@ export const getAdminPendingLogins = asyncHandler(async (req, res) => {
 });
 
 /**
- * POST /api/device/:id/decision — mentor (or admin) accepts/rejects a login.
+ * POST /api/device/:id/decision - mentor (or admin) accepts/rejects a login.
  * Body: { decision: "ACCEPT" | "REJECT", remark? }
  */
 export const decideLogin = asyncHandler(async (req, res) => {
@@ -142,7 +142,7 @@ export const decideLogin = asyncHandler(async (req, res) => {
     success: true,
     message:
       session.status === "ACTIVE"
-        ? "Login approved — the student can now use AttendX on this device."
+        ? "Login approved. The student can now use AttendX on this device."
         : "Login rejected.",
     data: {
       id: session._id,
@@ -154,7 +154,7 @@ export const decideLogin = asyncHandler(async (req, res) => {
 });
 
 /**
- * GET /api/device/mentor/sessions — mentor's students' recent login sessions
+ * GET /api/device/mentor/sessions - mentor's students' recent login sessions
  * (history incl. rejected/active/logged-out), for oversight.
  */
 export const getMentorSessionHistory = asyncHandler(async (req, res) => {

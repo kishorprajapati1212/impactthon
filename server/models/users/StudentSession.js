@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 /**
- * Student login-session — binds an issued JWT to one physical device.
+ * Student login-session - binds an issued JWT to one physical device.
  *
  * Lifecycle:
  *   PENDING     → login submitted; mentor must accept (new device = 1 approval)

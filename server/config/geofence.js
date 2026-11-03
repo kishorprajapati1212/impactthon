@@ -9,10 +9,10 @@
  *   0° = North, 90° = East, 180° = South, 270° = West
  *
  * Per-sector angle ranges (45° each side of cardinal direction):
- *   North: 315°–360° and 0°–45°
- *   East:  45°–135°
- *   South: 135°–225°
- *   West:  225°–315°
+ *   North: 315°-360° and 0°-45°
+ *   East:  45°-135°
+ *   South: 135°-225°
+ *   West:  225°-315°
  */
 
 const GEOFENCE = {

@@ -2,6 +2,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { LogIn, User, Home } from "lucide-react";
 import ThemeToggle from "./ThemeToggle.jsx";
+import BrandLogo from "../Brand/BrandLogo.jsx";
 
 /**
  * Shared top bar for Landing + Login (and any public page).
@@ -26,10 +27,8 @@ const AppNavbar = ({ transparent = false }) => {
       ].join(" ")}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
-          <h1 className="text-2xl font-black tracking-tight text-slate-900 dark:text-slate-50">
-            Attend<span className="text-cyan-400">X</span>
-          </h1>
+        <Link to="/" className="flex items-center" aria-label="AttendX home">
+          <BrandLogo size="md" />
         </Link>
 
         <div className="flex items-center gap-2 sm:gap-3">

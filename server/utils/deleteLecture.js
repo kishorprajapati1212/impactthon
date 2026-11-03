@@ -12,7 +12,7 @@ import { refId } from "./ids.js";
  * Deleting a lecture (Phase 18).
  *
  * Why this exists: a teacher can accidentally start two sessions at once, or
- * start one for the wrong class. Ending it does not help — a COMPLETED lecture
+ * start one for the wrong class. Ending it does not help - a COMPLETED lecture
  * still counts in every percentage (student report, faculty history, admin
  * attendance report, below-75% lists). The only correct fix is to remove the
  * lecture *and everything that points at it*, so the numbers are exactly as
@@ -38,7 +38,7 @@ import { refId } from "./ids.js";
 
 export const PRESENT_STATUSES = ["PRESENT", "LATE"];
 
-/** Marks grouped by status for one lecture — the numbers shown before deleting. */
+/** Marks grouped by status for one lecture - the numbers shown before deleting. */
 export async function countLectureMarks(lectureId) {
   const id = new mongoose.Types.ObjectId(String(lectureId));
   const rows = await Attendance.aggregate([
@@ -65,7 +65,7 @@ export async function countLectureDependents(lectureId) {
 }
 
 /**
- * Who may delete which lecture. Pure — unit tested.
+ * Who may delete which lecture. Pure - unit tested.
  *
  *  - ADMIN   → any lecture, running or finished.
  *  - FACULTY → only their own lecture, and only while it is still running or
@@ -135,7 +135,7 @@ export async function deleteLectureCascade(lecture, { req = null, counts = null 
   const leaves = await LeaveApplication.updateMany({ lectureIds: id }, { $pull: { lectureIds: id } });
   // 3. parent-notification log rows about this lecture
   const notes = await NotificationLog.deleteMany({ lectureId: id });
-  // 4. the lecture itself — last, so a crash above leaves it visible for a retry
+  // 4. the lecture itself - last, so a crash above leaves it visible for a retry
   await LectureSession.deleteOne({ _id: id });
 
   const result = {
@@ -148,7 +148,7 @@ export async function deleteLectureCascade(lecture, { req = null, counts = null 
     notificationsRemoved: notes?.deletedCount ?? 0,
   };
 
-  // 5. audit — who deleted what, with the numbers (never throws)
+  // 5. audit - who deleted what, with the numbers (never throws)
   await recordAudit({
     req,
     entityType: "LECTURE",

@@ -89,7 +89,7 @@ export const deleteDepartment = asyncHandler(async (req, res) => {
 
 /**
  * Permanent delete is refused while classes, subjects, faculty or students
- * still belong to the department — otherwise they would point at nothing.
+ * still belong to the department - otherwise they would point at nothing.
  */
 export const permanentlyDeleteDepartment = asyncHandler(async (req, res) => {
   const dept = await Department.findById(req.params.id);

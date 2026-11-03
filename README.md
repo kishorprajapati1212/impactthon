@@ -1,4 +1,4 @@
-# AttendX — QR Attendance System
+# AttendX - QR Attendance System
 
 ```
 attendx/
@@ -14,7 +14,7 @@ attendx/
 > **No CORS, ever.** The browser only talks to the page's own origin under
 > `/api/…`. In development Vite proxies that to the API, in Docker nginx does.
 > That is why it works unchanged on localhost, Docker on a remote machine,
-> Project IDX / Firebase Studio and GitHub Codespaces — you open **one** URL
+> Project IDX / Firebase Studio and GitHub Codespaces - you open **one** URL
 > (the 5173 one) and never need port 3000 in the browser.
 
 ## Project IDX / Firebase Studio (cloud IDE)
@@ -24,21 +24,21 @@ attendx/
    installs Node 20, starts **MongoDB on 27017**, installs both apps, seeds the
    demo college when the DB is empty and starts the API in the background.
 3. Open the **Web preview** (it is the frontend, Vite). Log in with
-   `admin@attendx.com` / `123456`. Do **not** open port 3000 — the preview
+   `admin@attendx.com` / `123456`. Do **not** open port 3000 - the preview
    reaches the API through `/api/…` on its own origin.
 4. Without rebuilding (or in any other cloud IDE / laptop with a MongoDB):
    ```bash
-   ./dev.sh                  # or: sh dev.sh   — API :3000 + UI :5173 in one terminal
+   ./dev.sh                  # or: sh dev.sh - API :3000 + UI :5173 in one terminal
    FORCE_SEED=true ./dev.sh  # wipe + reload the demo college first
    ```
    `dev.sh` creates `server/.env` from the example, installs dependencies,
    checks MongoDB, seeds if empty and runs both apps.
 
 How to confirm you are on this build: the **login page** footer says
-`AttendX v3.6.4 · built <date>`, the admin sidebar says `Console v3.6.4`, and
-`<your-url>/api/health` returns `"version":"3.6.4"`.
+`AttendX v3.6.5 · built <date>`, the admin sidebar says `Console v3.6.5`, and
+`<your-url>/api/health` returns `"version":"3.6.5"`.
 
-## Start (Docker) — use this on a laptop/server
+## Start (Docker) - use this on a laptop/server
 
 ```bash
 cd attendx
@@ -66,21 +66,92 @@ FRESH=1 ./start.sh    # or:  docker compose build --no-cache && docker compose u
 How to confirm you are on the new build: the admin page has a **white sidebar**
 with *Dashboard · Departments · Subjects · Classes · Who teaches what · Faculty
 · Students · Lectures running now · Login approvals*, and the bottom of the
-sidebar says **Console v3.6.4 · built <date>**. `http://127.0.0.1:5173/version.json`
+sidebar says **Console v3.7.2 · built <date>**. `http://127.0.0.1:5173/version.json`
 shows the same version, and so does the login page footer.
+
+### Build fails with `npm error ... ENOSPC: no space left on device`
+The Docker host's disk is full. Nothing is wrong with the package: every
+`docker compose up --build` leaves build cache and dangling images behind,
+and after many rebuilds (plus the ~750 MB Mongo image) a small disk, such as a
+cloud IDE workspace, runs out. Free it and start again:
+
+```bash
+./clean.sh            # safe: stopped containers, dangling images, build cache, npm cache
+./start.sh
+```
+
+If it is still full: `DEEP=1 ./clean.sh` also removes all unused images (they
+are downloaded again on the next start) and the database volume (the demo
+college is loaded again automatically). `df -h /` and `docker system df` show
+where the space goes; old copies of this project with `node_modules` are the
+usual culprit outside Docker. `start.sh` now checks free space before building
+and prunes dangling images / old build cache on its own when less than 2 GB is
+free. On Project IDX / Firebase Studio you can skip Docker completely with
+`./dev.sh` (uses the workspace's own MongoDB, no images at all).
 
 ### What you should see
 
 Mongo logs are **hidden**. You should see banners like:
 
 ```text
-AttendX API — starting container
+AttendX API - starting container
 OPEN THESE IN BROWSER ...
 AttendX FRONTEND (Nginx) is up
 Local UI : http://127.0.0.1:5173
 ```
 
-If you **only** see mongo JSON — you have an old compose file. Use this package.
+If you **only** see mongo JSON - you have an old compose file. Use this package.
+
+### What's new in 3.7.2
+- **Disk-space protection for Docker builds.** New `./clean.sh` (safe prune;
+  `DEEP=1` for everything), `start.sh` checks free space and prunes dangling
+  images / old build cache before building, and the three Dockerfiles use
+  `npm ci` with the npm cache removed in the same layer, so images and build
+  cache are smaller. Fixes `ENOSPC: no space left on device` during
+  `docker compose up --build` on small disks (cloud IDEs).
+
+### What's new in 3.7.1
+- **Google Search Console verification tag restored.** `frontend/index.html`
+  again carries `<meta name="google-site-verification" content="IzqgkAe2W8AdJsVxSpHdcHXkEOg9q3B4vE13mn-vbR4" />`
+  with a KEEP THIS LINE comment, and `seoFiles.test.js` fails the build if the
+  exact tag is ever missing from `index.html` or `dist/index.html`. See
+  "SEO & Google Search Console" below.
+- **Plain-language pass.** Every em dash / en dash was removed from the UI,
+  the landing page, API messages, seed data and the docs (0 left in the repo),
+  and marketing-style sentences on the home page were rewritten as short,
+  direct ones. The tab title is now `AttendX | QR Code Attendance System` and
+  the login page `Login | AttendX`.
+
+### What's new in 3.7.0
+- **Home page rebuilt from scratch.** The old landing page is gone; the new
+  one has a sticky header with in-page navigation (Features · How it works ·
+  Proxy check · Roles · FAQ), a hero with a **live demo card** (a real QR that
+  rotates every 5 seconds with a countdown ring and a scan feed), a stats
+  strip, a **"proxy tricks vs AttendX" comparison table**, a four-step
+  "how it works" row, a features grid, role cards, an About paragraph, the
+  FAQ and a closing call-to-action. Same colour system as the rest of the app
+  (off-white/white light theme, dark via the toggle, cyan accent), no emojis
+  (lucide icons), responsive down to 360 px.
+- **Anchor/black-space bug fixed.** Clicking *Features* used to scroll an
+  inner wrapper instead of the window, leaving a large empty area under the
+  footer. The page root is no longer a scroll container (decorations are
+  clipped inside their own sections) - a test now guards this.
+- **A way back to the home page from everywhere.** The AttendX logo in the
+  student and faculty dashboards and in the admin console links to `/`;
+  on the home page itself it scrolls back to the top.
+- **Shorter, brand-first tab title:** `AttendX | QR Code Attendance System`
+  (also og:title / twitter:title); the login page is `Login | AttendX`.
+  Meta description, keywords, Open Graph, Twitter and JSON-LD tags in
+  `index.html` are unchanged.
+
+### What's new in 3.6.5
+- **Logo and brand assets** matching the Instagram promotion: the QR-viewfinder
+  mark + "AttendX" wordmark now appear in the landing header, footer, login
+  card (with the tagline "Attendance, made simple."), student/faculty
+  sidebars and the admin console; favicon (SVG + ICO), Apple touch icon,
+  installable web-app manifest with maskable icon, new 1200×630 link-preview
+  image and Organization `logo` structured data. Vector + PNG logo kit in
+  `brand/` (see `brand/BRAND.md`). UI accent stays cyan by decision.
 
 ### What's new in 3.6.4
 - **Keyword-optimised landing page**: title, meta description, hero, section
@@ -104,7 +175,7 @@ If you **only** see mongo JSON — you have an old compose file. Use this packag
 ### What's new in 3.6.1
 - **Zoom you cannot miss** on the student scanner: big − / + buttons and a
   thick slider on the camera itself, 1× 2× 3× Max presets, plus phone-camera
-  gestures — **drag up/down on the preview**, **pinch**, **double-tap**
+  gestures - **drag up/down on the preview**, **pinch**, **double-tap**
   (1× ↔ 2×), mouse wheel and keyboard. Zoomed frames are up-scaled before
   decoding, so a far-away code on a projector actually becomes readable.
 
@@ -115,14 +186,14 @@ If you **only** see mongo JSON — you have an old compose file. Use this packag
   be removed; attendance marks go with it, so every percentage and report
   updates immediately. Written to the audit log.
 - **Student scanner rebuilt** (no third-party camera library): real zoom
-  (hardware when available, digital crop otherwise — the decoder reads the
+  (hardware when available, digital crop otherwise - the decoder reads the
   zoomed frame), pinch, torch, camera switch; the camera and GPS are **always
   released** when you leave the scan screen, switch tabs or lock the phone.
 - Crisper light theme: white cards on a cool canvas, readable accents.
 
 ### What's new in 3.5.0
 - **Same-origin API** (`/api/…` + Vite/nginx proxy): no CORS configuration, no
-  second port to open — fixes the Project IDX "CORS problem" for good.
+  second port to open - fixes the Project IDX "CORS problem" for good.
 - `.idx/dev.nix` + `dev.sh` for cloud IDEs and no-Docker runs; the API seeds
   the demo college itself when `AUTO_SEED=true` and the database is empty.
 - Admin list filters are lenient: a stale/foreign value (e.g. an old build's
@@ -133,7 +204,7 @@ If you **only** see mongo JSON — you have an old compose file. Use this packag
 - Admin **Students** and **Teaching assignments** tables load correctly (URL filter
   collision fixed) and lecture totals self-heal at API start.
 - New admin page **Teaching & mentor map** (who teaches / mentors every class).
-- Off-white light theme with visible borders; no emojis — icons only.
+- Off-white light theme with visible borders; no emojis - icons only.
 - Teacher Excel/CSV: only your own classes, batch in the header and filename.
 - Take-attendance screen: full-width QR timer, start never hangs on GPS.
 - Student scanner: camera zoom (slider + presets) and torch where supported.
@@ -167,20 +238,20 @@ Password for **everyone**: **`123456`**. Every person's email is
 | Role | Email | Who |
 |------|-------|-----|
 | Admin | admin@attendx.com | Main admin (plus 9 office accounts: `principal@`, `registrar@`, `examcell@`, `accounts@`, `library@`, `hostel@`, `placement@`, `transport@`, `itsupport@attendx.com`) |
-| Teacher | sahil@attendx.com | Sahil (CE) — Web Development + Operating Systems in CE · A and CE · B; mentors Nihal, Jeel, Aarav, Khushi (+ 4 in CE · A 2025) |
-| Teacher | jatin@attendx.com | Jatin (CE) — Database Management Systems in CE · A and CE · B, OOP in CE · A 2025; mentors Ritik, Darshit, Dhruv, Mansi |
-| Teacher | meet@attendx.com | Meet (CE) — Computer Networks (CE · A, CE · B), Data Structures (CE · A 2025); mentors all of CE · B |
+| Teacher | sahil@attendx.com | Sahil (CE) - Web Development + Operating Systems in CE · A and CE · B; mentors Nihal, Jeel, Aarav, Khushi (+ 4 in CE · A 2025) |
+| Teacher | jatin@attendx.com | Jatin (CE) - Database Management Systems in CE · A and CE · B, OOP in CE · A 2025; mentors Ritik, Darshit, Dhruv, Mansi |
+| Teacher | meet@attendx.com | Meet (CE) - Computer Networks (CE · A, CE · B), Data Structures (CE · A 2025); mentors all of CE · B |
 | Teacher | priya@ · kiran@ · rohan@ · neha@ · vivek@ · pooja@ · amit@ · sneha@ · rakesh@attendx.com | One teacher per other department (IT, CSE, ME, EE, CIVIL, EC, AIML, CH, Applied Sciences) |
-| Student | nihal@attendx.com | Nihal (CE2024001, CE · A 2024, mentor Sahil) — 100 % |
-| Student | jeel@attendx.com | Jeel (CE2024002, CE · A 2024, mentor Sahil) — 100 % after one approved leave |
-| Student | ritik@attendx.com | Ritik (CE2024003, CE · A 2024, mentor Jatin) — 58 %, listed under "below 75 %" |
-| Student | darshit@attendx.com | Darshit (CE2024004, CE · A 2024, mentor Jatin) — 67 %, one pending leave |
+| Student | nihal@attendx.com | Nihal (CE2024001, CE · A 2024, mentor Sahil) - 100 % |
+| Student | jeel@attendx.com | Jeel (CE2024002, CE · A 2024, mentor Sahil) - 100 % after one approved leave |
+| Student | ritik@attendx.com | Ritik (CE2024003, CE · A 2024, mentor Jatin) - 58 %, listed under "below 75 %" |
+| Student | darshit@attendx.com | Darshit (CE2024004, CE · A 2024, mentor Jatin) - 67 %, one pending leave |
 | Student | yash@ … shreya@attendx.com | CE · B 2024 (same batch, other division), e.g. `yash@`, `riya@`, `harsh@` |
 | Student | dev@ … hetvi@attendx.com | CE · A 2025 (newer batch, semester 3), e.g. `dev@`, `isha@`, `kavya@` |
-| Student | ankit@attendx.com, faizan@attendx.com, … | 4–5 students in every other class (`node seed/seed.js` prints the full list) |
+| Student | ankit@attendx.com, faizan@attendx.com, … | 4-5 students in every other class (`node seed/seed.js` prints the full list) |
 
 A student's first login is **held until the mentor (or any admin) taps
-Accept** on the "Login approvals" screen — that is the device-binding feature,
+Accept** on the "Login approvals" screen - that is the device-binding feature,
 not a bug. Open the mentor's account in a second tab to approve it.
 
 **What the demo college contains** (every table has at least ten rows):
@@ -191,7 +262,7 @@ not a bug. Open the mentor's account in a second tab to approve it.
 | Departments | 10 | CE, IT, CSE, ME, EE, CIVIL, EC, AIML, CH, AS |
 | Classes | 11 | **CE · A 2024** (sem 5), **CE · B 2024** (sem 5, other division), **CE · A 2025** (sem 3, newer batch) + one class per other department |
 | Teachers | 12 | three in CE, one per other department |
-| Students | 58 | 8 in each CE class, 4–5 elsewhere; rolls like `CE2024001`, `CE2024101` (B), `CE2025001` |
+| Students | 58 | 8 in each CE class, 4-5 elsewhere; rolls like `CE2024001`, `CE2024101` (B), `CE2025001` |
 | Subjects | 16 | 6 CE + 10 others, each with a teacher |
 | Teaching assignments | 19 | every class has a teacher, every teacher has a class |
 | Parents | 10 | the CE · A students + two from CE · B (phone alerts) |
@@ -214,13 +285,13 @@ so the API reseeds itself from an environment variable:
 1. Render dashboard → your **API** web service → **Environment**.
 2. Add `RESEED_KEY` = any **new** value, e.g. `2026-11-03a` → **Save changes**
    (Render redeploys automatically; otherwise *Manual Deploy → Deploy latest*).
-3. Watch **Logs** for `RESEED_KEY "2026-11-03a" applied — database wiped and
+3. Watch **Logs** for `RESEED_KEY "2026-11-03a" applied - database wiped and
    the demo college reloaded`. Log in with `admin@attendx.com` / `123456`.
 
 The value is remembered in the database (`seed_meta`), so later restarts and
 deploys with the **same** value change nothing. To reseed again, change the
 value (`…03b`). Remove the variable when you are done. Keep `AUTO_SEED=true`
-as well — it only fills an *empty* database and never wipes.
+as well - it only fills an *empty* database and never wipes.
 
 Paid instance with a Shell tab? `FORCE_SEED=true node seed/seed.js`
 (working directory is the `server` folder, `/app` in the Docker image) does
@@ -243,12 +314,12 @@ WIPE_DATA=1 ./start.sh
 docker compose down -v
 docker compose up --build
 
-# C) accounts and classes only — no past lectures / leaves
+# C) accounts and classes only - no past lectures / leaves
 SEED_HISTORY=false ./reseed.sh
 ```
 
 **`./reseed.sh: Permission denied`?** The execute bit was lost when the
-folder was unzipped/copied. Either run the script through the shell — no
+folder was unzipped/copied. Either run the script through the shell - no
 chmod needed:
 
 ```bash
@@ -269,7 +340,7 @@ machine: `sudo sh reseed.sh`, or add your user to the docker group once
 Windows PowerShell / CMD: the `docker compose …` lines above work as-is
 (`FORCE_SEED` is passed with `-e`, no shell export needed).
 
-After a reseed, **log out and log in again** — a browser session from before
+After a reseed, **log out and log in again** - a browser session from before
 the wipe belongs to an account that no longer exists.
 
 ## Manual (no Docker)
@@ -282,7 +353,7 @@ or by hand:
 # terminal 1
 cd server && cp -n .env.example .env && npm i && npm run seed && npm run dev
 
-# terminal 2  (no .env needed — the UI calls /api on its own origin)
+# terminal 2  (no .env needed - the UI calls /api on its own origin)
 cd frontend && npm i && npm run dev
 ```
 API on another port? `API_PROXY_TARGET=http://127.0.0.1:4000 npm run dev`.
@@ -292,10 +363,10 @@ API on another **domain** (UI on Netlify, API on Render)? Build the UI with
 
 ## Docs
 
-- [PROJECT_CONTEXT.md](./PROJECT_CONTEXT.md) — architecture & product rules  
-- [projectredme.md](./projectredme.md) — what the product does, how to navigate  
-- [MODELS.md](./MODELS.md) — data model and every change made to it (with why)  
-- [context.md](./context.md) — engineering log of every phase  
+- [PROJECT_CONTEXT.md](./PROJECT_CONTEXT.md) - architecture & product rules  
+- [projectredme.md](./projectredme.md) - what the product does, how to navigate  
+- [MODELS.md](./MODELS.md) - data model and every change made to it (with why)  
+- [context.md](./context.md) - engineering log of every phase  
 
 ## Netlify
 
@@ -304,10 +375,40 @@ API on another **domain** (UI on Netlify, API on Render)? Build the UI with
 Use the `/api/*` proxy rule in `netlify.toml` (same origin, no CORS) or set
 `VITE_API_URL` to your API host.
 
+## Brand & logo
+
+The logo is the Instagram identity: a QR-viewfinder mark with an indigo
+scan-line and the "AttendX" wordmark (blue X on white, indigo X on dark).
+`brand/BRAND.md` documents colours, files and rules; `brand/svg` and
+`brand/png` hold ready-to-use logos (profile picture, reel end-card,
+transparent lock-ups). Website icons, the OG image and the manifest are
+generated by `cd frontend && python3 scripts/brand-assets.py` - run it after
+changing anything in `frontend/src/brand.js` so every asset stays in sync.
+
 ## SEO & Google Search Console
 
+**Verification tag (must stay).** The live site is verified in Search Console with the **HTML tag** method. The
+tag lives in `frontend/index.html`, right after the viewport meta:
+
+```html
+<meta name="google-site-verification" content="IzqgkAe2W8AdJsVxSpHdcHXkEOg9q3B4vE13mn-vbR4" />
+```
+
+- Never remove or edit it when changing the head of `index.html`. If it
+  disappears, Search Console marks the property as unverified and sitemap and
+  ranking data stop updating.
+- `npx vitest run src/__tests__/seoFiles.test.js` checks that the exact tag is
+  present (and in `dist/index.html` after `npm run build`).
+- The tag only works once this build is deployed: the Netlify site must be
+  redeployed from this package (the old deployment does not contain it). After
+  deploying, open `view-source:https://attendex12345.netlify.app/` and search
+  for `google-site-verification`, then press **Verify** in Search Console if
+  it asks again.
+- To add another verification method later (Analytics, Tag Manager), put the
+  snippet in the same `<head>` and extend the test so it is guarded too.
+
 **"Sitemap is HTML" / "Sitemap could not be read".** A single-page app answers
-*every* path with `index.html` — so `/home` (which is not a page of this app)
+*every* path with `index.html` - so `/home` (which is not a page of this app)
 and a missing `/sitemap.xml` both returned the landing page, and Google
 rejected it. Since 3.6.3 `npm run build` generates real files into `dist/`:
 
@@ -323,20 +424,20 @@ The canonical, `og:url`, `og:image` and structured-data URLs in `index.html`
 use the same value. Pages behind a login also set `robots: noindex` while open.
 
 **Steps in Search Console after deploying 3.6.3**
-1. Open `https://<your-site>/sitemap.xml` in the browser — you must see XML.
+1. Open `https://<your-site>/sitemap.xml` in the browser - you must see XML.
 2. Sitemaps → delete the `/home` entry → add `sitemap.xml` → Submit.
    Status should become *Success*, Discovered pages 2.
 3. URL Inspection → `https://<your-site>/` → **Request indexing**.
 4. Settings → Crawl stats / Pages: within days the home page appears for the
    query `AttendX` (brand); generic queries ("QR attendance system") need
-   content, time and links — see below.
+   content, time and links - see below.
 
 **What actually moves ranking** (beyond the files above): a custom domain
 (`attendx.yourcollege.edu` beats `attendex12345.netlify.app`), the landing
 page text (already keyword-rich, keep it updated), fast loading (static Netlify
 + cached assets), links from the college website / social pages / GitHub
 README to the site, and a Google Business / LinkedIn page that links back.
-Dashboards are intentionally not indexed — only the landing page and login
+Dashboards are intentionally not indexed - only the landing page and login
 should rank. Keyword plan, where each keyword sits on the page and the weekly
 Search Console routine: **`SEO_KEYWORDS.md`**.
 

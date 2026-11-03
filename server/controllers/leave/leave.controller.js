@@ -20,7 +20,7 @@ function bustCaches() {
 }
 
 /**
- * GET /api/leave/my — student's own applications (newest first).
+ * GET /api/leave/my - student's own applications (newest first).
  */
 export const getMyLeaves = asyncHandler(async (req, res) => {
   const studentId = req.profileId;
@@ -38,7 +38,7 @@ export const getMyLeaves = asyncHandler(async (req, res) => {
 });
 
 /**
- * GET /api/leave/new-options — the lectures a student can pick from for a
+ * GET /api/leave/new-options - the lectures a student can pick from for a
  * LECTURE-type application on a given date (their section's lectures).
  */
 export const getLeaveOptions = asyncHandler(async (req, res) => {
@@ -72,7 +72,7 @@ export const getLeaveOptions = asyncHandler(async (req, res) => {
 });
 
 /**
- * POST /api/leave/apply — student submits a leave application.
+ * POST /api/leave/apply - student submits a leave application.
  * Body: { type, date, reason, halfWhich?, lectureIds? }
  */
 export const applyLeave = asyncHandler(async (req, res) => {
@@ -130,13 +130,13 @@ export const applyLeave = asyncHandler(async (req, res) => {
     message:
       mentorId
         ? "Leave application submitted to your mentor."
-        : "Leave application submitted (no mentor assigned yet — admin will review).",
+        : "Leave application submitted (no mentor assigned yet, an admin will review).",
     data: leave,
   });
 });
 
 /**
- * GET /api/leave/mentor/pending — faculty mentor: their mentees' applications.
+ * GET /api/leave/mentor/pending - faculty mentor: their mentees' applications.
  */
 export const getMentorLeaves = asyncHandler(async (req, res) => {
   const facultyId = req.profileId;
@@ -154,7 +154,7 @@ export const getMentorLeaves = asyncHandler(async (req, res) => {
 });
 
 /**
- * GET /api/leave/mentor/mentees — faculty mentor: their mentee list.
+ * GET /api/leave/mentor/mentees - faculty mentor: their mentee list.
  */
 export const getMyMentees = asyncHandler(async (req, res) => {
   const facultyId = req.profileId;
@@ -174,7 +174,7 @@ export const getMyMentees = asyncHandler(async (req, res) => {
 });
 
 /**
- * POST /api/leave/:id/decision — mentor approves/rejects.
+ * POST /api/leave/:id/decision - mentor approves/rejects.
  * Body: { decision: "APPROVED"|"REJECTED", remark? }
  */
 export const decideLeave = asyncHandler(async (req, res) => {
@@ -213,7 +213,7 @@ export const decideLeave = asyncHandler(async (req, res) => {
     success: true,
     message:
       decision === "APPROVED"
-        ? "Leave approved — attendance for that day is credited."
+        ? "Leave approved. Attendance for that day is credited."
         : "Leave rejected.",
     data: leave,
   });
@@ -322,7 +322,7 @@ export const getMenteeDetail = asyncHandler(async (req, res) => {
 });
 
 /**
- * GET /api/leave/mentor/former-mentees — students this faculty mentored in the
+ * GET /api/leave/mentor/former-mentees - students this faculty mentored in the
  * past (mentor changed, course completed, transferred or left). Their full
  * record stays openable through the normal mentee-detail endpoint.
  */

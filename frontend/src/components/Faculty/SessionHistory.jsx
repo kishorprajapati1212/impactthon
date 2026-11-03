@@ -175,7 +175,7 @@ const SessionHistory = () => {
     }
   };
 
-  /** Quiet repair — only when teacher asks; not needed every open */
+  /** Quiet repair - only when teacher asks; not needed every open */
   const repairRoster = async (lectureId) => {
     try {
       const res = await api.post(
@@ -233,7 +233,7 @@ const SessionHistory = () => {
         </button>
       </div>
 
-      {/* Filters — simple teacher language */}
+      {/* Filters - simple teacher language */}
       <div className="glass-card p-4 space-y-3">
         <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
           Find your class
@@ -345,7 +345,7 @@ const SessionHistory = () => {
                         <span className="text-cyan-400 font-semibold">
                           {s.subjectCode || s.subject}
                         </span>
-                        {" · "}{s.classLabel || `Class ${s.section || "—"}`}
+                        {" · "}{s.classLabel || `Class ${s.section || "-"}`}
                         {s.semester != null ? ` · Sem ${s.semester}` : ""}
                       </p>
                       {date && (
@@ -407,7 +407,7 @@ const SessionHistory = () => {
                       type="button"
                       onClick={() => setDeleting(s)}
                       aria-label={`Delete lecture ${s.topic || ""}`}
-                      title={s.status !== "ACTIVE" && present > 0 ? "Has recorded attendance — an admin must delete it" : "Delete this lecture and its marks"}
+                      title={s.status !== "ACTIVE" && present > 0 ? "Has recorded attendance, so an admin must delete it" : "Delete this lecture and its marks"}
                       className="text-xs py-2 px-3 flex items-center gap-1 rounded-xl border border-rose-300 text-rose-700 hover:bg-rose-50 dark:border-rose-500/40 dark:text-rose-300 dark:hover:bg-rose-500/10 ml-auto"
                     >
                       <Trash2 size={14} /> Delete
@@ -494,7 +494,7 @@ const SessionHistory = () => {
                           </div>
                         )}
 
-                        {/* Manual mark for late / fix — faculty only */}
+                        {/* Manual mark for late / fix - faculty only */}
                         <div>
                           <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2 flex items-center gap-1.5">
                             <UserCheck size={13} /> Mark late / correct
@@ -564,13 +564,13 @@ const SessionHistory = () => {
                                 st.status !== "LATE"
                             ).length === 0 && (
                               <p className="text-center text-sm text-slate-400 py-3">
-                                Everyone present — nothing to correct.
+                                Everyone is present. Nothing to correct.
                               </p>
                             )}
                           </div>
                         </div>
 
-                        {/* Advanced: sync — explained, not primary */}
+                        {/* Advanced: sync - explained, not primary */}
                         {s.status === "COMPLETED" && (
                           <button
                             type="button"

@@ -234,7 +234,7 @@ export const sendTestNotification = asyncHandler(async (req, res) => {
  * ── Internal: notify parents after attendance mark ───────────────────
  *
  * Called by the attendance controller after a successful mark.
- * Runs asynchronously and never throws — notification failure
+ * Runs asynchronously and never throws - notification failure
  * must not block the attendance marking flow.
  */
 export const notifyParentsOnAttendance = async ({
@@ -304,7 +304,7 @@ export const notifyParentsOnAttendance = async ({
       await parent.save();
     }
   } catch (err) {
-    // Non-blocking — log but never throw
+    // Non-blocking - log but never throw
     console.error(
       "[ParentNotification] Failed to notify parents:",
       err.message

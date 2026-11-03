@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import toast from "../../utils/notify.js";
 import { ArrowLeft, UserPlus, GraduationCap, UserCog, Shield } from "lucide-react";
+import BrandLogo from "../../components/Brand/BrandLogo.jsx";
 import api from "../../utils/api.js";
 import getFriendlyError from "../../utils/friendlyError.js";
 
@@ -92,6 +93,7 @@ const Register = () => {
         </Link>
 
         <div className="glass-card p-8 shadow-2xl">
+          <div className="mb-5 flex justify-center"><BrandLogo size="sm" /></div>
           <h1 className="text-3xl font-black mb-6 text-center text-slate-900 dark:text-slate-50">Create Account</h1>
 
           {/* Role selector */}

@@ -52,7 +52,7 @@ export function classSlug(section) {
   return slug || "class";
 }
 
-/** "Web Development (CE501)" — subject display used next to a class label. */
+/** "Web Development (CE501)" - subject display used next to a class label. */
 export function subjectLabel(subject) {
   if (!subject) return "Subject";
   const name = subject.subjectName || "Subject";

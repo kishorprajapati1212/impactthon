@@ -1,8 +1,8 @@
 /**
- * ── Geolocation helper — fixes the "first scan fails even with permission" bug ──
+ * ── Geolocation helper - fixes the "first scan fails even with permission" bug ──
  *
  * Browsers reject `getCurrentPosition` when GPS has no fix yet (a cold start
- * can take 10–30s). Using `watchPosition` lets us resolve with the *first*
+ * can take 10-30s). Using `watchPosition` lets us resolve with the *first*
  * fix as soon as it arrives (much faster), and keeps a warm cache so the
  * NEXT scan is instant. We also fall back to the last known position when
  * the cached fix is still fresh.
@@ -154,7 +154,7 @@ export function watchLocationPermission(onChange) {
  * @param {object}  opts
  * @param {boolean} opts.allowCached  reuse a fresh fix from this tab (default true)
  * @param {number}  opts.timeoutMs    hard cap for the whole call (default 18 s).
- *        Pass a small value (e.g. 8000) where the UI must not hang — the call
+ *        Pass a small value (e.g. 8000) where the UI must not hang - the call
  *        resolves with the best fix seen so far, or null, never later than this.
  * @param {AbortSignal} [opts.signal] abort when the screen that asked is left:
  *        the GPS watch is cleared at once and the call resolves with the best
@@ -179,7 +179,7 @@ export async function getLocationFast({ allowCached = true, timeoutMs = 18_000, 
   const oneShotMs = Math.min(6_000, Math.max(800, Math.round(cap * 0.3)));
   const watchMs = Math.max(500, cap - oneShotMs);
 
-  // 3) watchPosition — resolves on FIRST fix (the key cold-start fix)
+  // 3) watchPosition - resolves on FIRST fix (the key cold-start fix)
   return new Promise((resolve) => {
     let settled = false;
     let best = null;
@@ -223,7 +223,7 @@ export async function getLocationFast({ allowCached = true, timeoutMs = 18_000, 
       { enableHighAccuracy: true, timeout: cap, maximumAge: 0 }
     );
 
-    // Hard timeout — resolve with the best fix seen so far
+    // Hard timeout - resolve with the best fix seen so far
     const timer = setTimeout(() => {
       if (best) return finish(best);
       // Final one-shot attempt before giving up (some browsers only resolve here)
@@ -249,7 +249,7 @@ export async function getLocationFast({ allowCached = true, timeoutMs = 18_000, 
   });
 }
 
-/** Human <small> — clears warm caches (call after a successful fresh fix). */
+/** Human <small> - clears warm caches (call after a successful fresh fix). */
 export const clearLocationCache = () => {
   cache = null;
   try {

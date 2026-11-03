@@ -114,7 +114,7 @@ export async function finalizeLecturesBulk(lectureIds = []) {
   }
 
   // Refresh totalMarked for these lectures.
-  // NOTE: aggregation pipelines are NOT cast by Mongoose — the ids must be real
+  // NOTE: aggregation pipelines are NOT cast by Mongoose - the ids must be real
   // ObjectIds here, otherwise nothing matches and every lecture is reset to 0.
   if (idList.length) {
     const agg = await Attendance.aggregate([
@@ -276,7 +276,7 @@ export async function finalizeLectureAbsentees(lectureId, { notify = true } = {}
       await Attendance.insertMany(ops, { ordered: false });
       absentCreated = ops.length;
     } catch (err) {
-      // duplicate key races — ignore
+      // duplicate key races - ignore
       if (err?.code !== 11000) {
         for (const doc of ops) {
           try {

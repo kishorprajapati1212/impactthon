@@ -4,7 +4,7 @@ import { AlertCircle } from "lucide-react";
 import { Drawer, Button, Field, inputCls, selectCls, textareaCls } from "./ui.jsx";
 
 /**
- * RecordForm — a slide-over form generated from an entity's field config.
+ * RecordForm - a slide-over form generated from an entity's field config.
  *
  * field: { key, label, type, required, placeholder, help, options, min, max,
  *          pattern, createOnly, editOnly, readOnlyOnEdit, span, validate, step }

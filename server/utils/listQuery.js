@@ -1,5 +1,5 @@
 /**
- * Shared helpers for admin list endpoints (pure functions — unit tested).
+ * Shared helpers for admin list endpoints (pure functions - unit tested).
  *
  * Why: the admin console needs server-side pagination, safe sorting and
  * consistent "showInactive" handling across departments / subjects /

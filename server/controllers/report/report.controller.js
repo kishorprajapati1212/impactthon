@@ -52,7 +52,7 @@ export const getStudentAttendanceReport = asyncHandler(async (req, res) => {
         .lean();
 
       // Batch-repair completed lectures for this section (single bulk op
-      // instead of one query per lecture — big speedup on first load).
+      // instead of one query per lecture - big speedup on first load).
       const completedIds = lectures
         .filter((l) => l.status === "COMPLETED")
         .map((l) => l._id);
@@ -143,7 +143,7 @@ export const getStudentAttendanceReport = asyncHandler(async (req, res) => {
         batchYear: student.sectionId?.batchYear || null,
         department: student.departmentId?.name || student.sectionId?.departmentId?.name || null,
         departmentCode: deptDoc?.code || null,
-        // "CE · A · 2024" — the unambiguous class name shown everywhere else
+        // "CE · A · 2024" - the unambiguous class name shown everywhere else
         classLabel: sectionForLabel ? classLabel(sectionForLabel) : null,
         rollNumber: student.rollNumber,
         mentor: student.mentorId ? { name: student.mentorId.userId?.name || null, email: student.mentorId.userId?.email || null, employeeId: student.mentorId.employeeId } : null,
@@ -330,7 +330,7 @@ export const getFacultyHistoryFilters = asyncHandler(async (req, res) => {
       subjectMap.set(String(s._id), s);
     });
 
-    // One entry per class the teacher actually teaches (own assignments only —
+    // One entry per class the teacher actually teaches (own assignments only -
     // the export endpoints re-check this server-side, see computeClassMatrix).
     // Labels carry department + batch so "CE · A · 2024" and "CE · A · 2025"
     // can never be confused in the picker or in the downloaded file name.
@@ -435,7 +435,7 @@ export const getFacultyHistory = asyncHandler(async (req, res) => {
       .sort({ startTime: -1 })
       .lean();
 
-    // Attach roster size for UI — one bulk query, not N queries
+    // Attach roster size for UI - one bulk query, not N queries
     const rosters = await getSectionRostersBulk(refreshed.map((l) => l.sectionId));
 
     const out = refreshed.map((l) => {
@@ -1028,7 +1028,7 @@ export const getAdminOverviewMatrix = asyncHandler(async (req, res) => {
         const mentees = menteesByMentor.get(fid);
         const byBatch = new Map();
         for (const m of mentees) {
-          const b = `Batch ${m.sectionId?.batchYear ?? "—"}${m.sectionId?.semester ? ` · Sem ${m.sectionId.semester}` : ""}`;
+          const b = `Batch ${m.sectionId?.batchYear ?? "-"}${m.sectionId?.semester ? ` · Sem ${m.sectionId.semester}` : ""}`;
           if (!byBatch.has(b)) byBatch.set(b, []);
           byBatch.get(b).push({
             id: m._id,
@@ -1193,10 +1193,10 @@ async function computeClassMatrix(facultyId, reqUser, { subjectId, sectionId, fr
 function exportTitleRows({ subject, section, teacherName, from, to, lectures }) {
   const period = from || to ? `${from || "start"} to ${to || "today"}` : "Full semester";
   return [
-    [`AttendX attendance sheet — ${subjectLabel(subject)}`],
+    [`AttendX attendance sheet: ${subjectLabel(subject)}`],
     [`Class: ${classLabelLong(section)}${section?.departmentId?.name ? ` (${section.departmentId.name})` : ""}`],
-    [`Batch: ${section?.batchYear ?? "—"} · Division: ${section?.name || "—"} · Semester: ${section?.semester ?? "—"}`],
-    [`Teacher: ${teacherName || "—"}`],
+    [`Batch: ${section?.batchYear ?? "-"} · Division: ${section?.name || "-"} · Semester: ${section?.semester ?? "-"}`],
+    [`Teacher: ${teacherName || "-"}`],
     [`Period: ${period} · Lectures: ${lectures.length} · Generated: ${new Date().toISOString().slice(0, 16).replace("T", " ")} UTC`],
     ["P = present, L = late, A = absent, LV = on leave, E = excused"],
     [],
@@ -1311,10 +1311,10 @@ export const exportFacultyDateRangeCsv = asyncHandler(async (req, res) => {
 
 /**
  * GET /api/report/faculty/attendance-sheet.xlsx
- * Real Excel workbook (.xlsx) — human-readable, two sheets:
- *  1. "Attendance Register" — Student | Enrollment No | per-date P/A/L/LV/E
+ * Real Excel workbook (.xlsx) - human-readable, two sheets:
+ *  1. "Attendance Register" - Student | Enrollment No | per-date P/A/L/LV/E
  *     + Present / Late / Absent / On Leave / Total / %
- *  2. "Summary" — one row per student with totals and percentage
+ *  2. "Summary" - one row per student with totals and percentage
  */
 export const exportFacultyDateRangeXlsx = asyncHandler(async (req, res) => {
   const facultyId = req.profileId;

@@ -1,12 +1,12 @@
 /**
  * Numbers behind the admin "Attendance report" page.
  *
- * Pure function: give it plain arrays, get plain numbers back — no Mongo
+ * Pure function: give it plain arrays, get plain numbers back - no Mongo
  * here, so it is unit-tested without a database. ONE rule is used
  * everywhere (and written on the page itself):
  *
  *   attendance % = (PRESENT + LATE) ÷ (all marks except LEAVE / EXCUSED)
- *   75 % and above = good · 60–74 % = watch · below 60 % = low
+ *   75 % and above = good · 60-74 % = watch · below 60 % = low
  *
  * A lecture belongs to the period if it STARTED inside it; its attendance
  * rows follow the lecture (so a late manual correction does not move a
@@ -84,7 +84,7 @@ export function summariseAttendance({ attendances = [], lectures = [], students 
   const secById = new Map(sections.map((s) => [id(s), s]));
   const subjById = new Map(subjects.map((s) => [id(s), s]));
   const facById = new Map(faculty.map((f) => [id(f), f]));
-  // "CE · A · 2024" — the batch year keeps two divisions with the same name apart (CE · A of 2024 vs CE · A of 2025)
+  // "CE · A · 2024" - the batch year keeps two divisions with the same name apart (CE · A of 2024 vs CE · A of 2025)
   const classLabel = (sec) => { if (!sec) return "Unknown class"; const code = sec.departmentId?.code || sec.departmentId?.name; return [code, sec.name, sec.batchYear].filter(Boolean).join(" · ") || "Class"; };
   const personName = (x) => x?.userId?.name || x?.name || x?.employeeId || "Unknown";
 

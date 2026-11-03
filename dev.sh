@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# AttendX — run WITHOUT Docker (laptop, Project IDX / Firebase Studio, Codespaces)
+# AttendX - run WITHOUT Docker (laptop, Project IDX / Firebase Studio, Codespaces)
 #
 #   ./dev.sh            → installs deps if needed, seeds the demo college when the
 #                         DB is empty, starts the API (3000) and the UI (5173)
@@ -42,7 +42,7 @@ if ! (cd server && MONGODB_URI="$MONGO_URI" node -e '
 MongoDB is not reachable at: $MONGO_URI
   • Laptop:  start MongoDB (brew services start mongodb-community / sudo systemctl start mongod)
              or run only the database in Docker:  docker run -d -p 27017:27017 --name attendx-mongo mongo:7
-  • IDX / Firebase Studio: .idx/dev.nix already enables MongoDB — run "Firebase Studio: Rebuild environment"
+  • IDX / Firebase Studio: .idx/dev.nix already enables MongoDB - run "Firebase Studio: Rebuild environment"
   • Atlas:   put your mongodb+srv:// URL into server/.env (MONGODB_URI=…)
 MSG
   exit 1

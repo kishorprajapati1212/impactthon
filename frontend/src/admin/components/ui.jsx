@@ -3,7 +3,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { X, AlertTriangle, Loader2, Inbox, MoreHorizontal } from "lucide-react";
 
 /* ─────────────────────────────────────────────────────────────────────────
-   Admin UI kit — small, consistent primitives. Buttons are a REAL size
+   Admin UI kit: small, consistent primitives. Buttons are a REAL size
    (36 px tall, text + icon) so every action is readable and tappable.
    ───────────────────────────────────────────────────────────────────── */
 
@@ -30,7 +30,7 @@ export function Button({ variant = "outline", size = "md", icon: Icon, children,
 }
 
 /**
- * MenuButton — "More ⋯" dropdown for secondary row actions. The menu is
+ * MenuButton - "More ⋯" dropdown for secondary row actions. The menu is
  * portalled to <body> and positioned from the trigger's rect, so it is never
  * clipped by a scrolling table container.
  * items: [{ label, icon?, onClick, tone?: "danger", hint? }]
@@ -226,7 +226,7 @@ export function KV({ label, value, mono = false }) {
   return (
     <div className="flex items-start justify-between gap-4 py-2">
       <dt className="shrink-0 text-[13px] text-slate-500">{label}</dt>
-      <dd className={`min-w-0 text-right text-sm font-medium text-slate-900 dark:text-slate-100 ${mono ? "font-mono text-[13px]" : ""}`}>{value === null || value === undefined || value === "" ? <span className="text-slate-400">—</span> : value}</dd>
+      <dd className={`min-w-0 text-right text-sm font-medium text-slate-900 dark:text-slate-100 ${mono ? "font-mono text-[13px]" : ""}`}>{value === null || value === undefined || value === "" ? <span className="text-slate-400">-</span> : value}</dd>
     </div>
   );
 }

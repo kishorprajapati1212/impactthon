@@ -1,8 +1,8 @@
 /**
- * Demo college data for the seeder — plain constants, no database code.
+ * Demo college data for the seeder - plain constants, no database code.
  *
  * Every person logs in with  <firstname>@attendx.com  and the password 123456.
- * The four students the user asked for — Nihal, Jeel, Ritik, Darshit — sit
+ * The four students the user asked for - Nihal, Jeel, Ritik, Darshit - sit
  * together in class CE · A (2024 batch); Sahil and Jatin are their teachers
  * and mentors. Everything else exists so that EVERY table has at least ten
  * realistic rows (10 admins, 10 departments, 11 classes, 12 teachers,
@@ -78,7 +78,7 @@ export const SUBJECTS = [
   { code: "CE502", name: "Database Management Systems", dept: "CE", credits: 4, semester: 5, topics: ["ER diagrams", "SQL joins", "Normalisation", "Transactions & ACID", "Indexing"] },
   { code: "CE503", name: "Operating Systems", dept: "CE", credits: 3, semester: 5, topics: ["Processes & threads", "CPU scheduling", "Deadlocks", "Memory paging"] },
   { code: "CE504", name: "Computer Networks", dept: "CE", credits: 3, semester: 5, topics: ["OSI model & TCP/IP", "IP addressing & subnetting", "Routing basics", "HTTP & DNS"] },
-  { code: "CE301", name: "Data Structures", dept: "CE", credits: 4, semester: 3, topics: ["Arrays & linked lists", "Stacks & queues", "Binary trees", "Hash tables", "Graphs — BFS & DFS"] },
+  { code: "CE301", name: "Data Structures", dept: "CE", credits: 4, semester: 3, topics: ["Arrays & linked lists", "Stacks & queues", "Binary trees", "Hash tables", "Graphs - BFS & DFS"] },
   { code: "CE302", name: "Object-Oriented Programming", dept: "CE", credits: 4, semester: 3, topics: ["Classes & objects", "Inheritance", "Polymorphism", "Interfaces & generics"] },
   { code: "IT501", name: "Software Engineering", dept: "IT", credits: 3, semester: 5, topics: ["SDLC models", "Requirements engineering", "Agile & Scrum", "Testing strategies"] },
   { code: "IT502", name: "Cloud Computing", dept: "IT", credits: 3, semester: 5, topics: ["Cloud service models", "Virtualisation", "Containers & Docker", "Serverless"] },
@@ -154,7 +154,7 @@ export const CE_A_LECTURES = [
   { subject: "CE501", topic: "REST APIs with Express", daysAgo: 1, hour: 9, present: [N, J, D] },
 ];
 // One cancelled lecture (never counted) and one lecture running RIGHT NOW
-export const CANCELLED_LECTURE = { subject: "CE502", cls: "CE-A-2024", topic: "Indexing — cancelled (faculty meeting)", daysAgo: 3, hour: 10 };
+export const CANCELLED_LECTURE = { subject: "CE502", cls: "CE-A-2024", topic: "Indexing (cancelled: faculty meeting)", daysAgo: 3, hour: 10 };
 export const LIVE_LECTURE = { subject: "CE504", cls: "CE-B-2024", topic: "HTTP & DNS", minutesAgo: 12, presentCount: 5 };
 
 // Generated lectures for every other assignment: one per topic, spread over the last three weeks
@@ -162,7 +162,7 @@ export const GENERATED_DAYS = [19, 16, 13, 10, 7, 4];
 
 // ── Leave applications (12) ──────────────────────────────────────────
 export const LEAVES = [
-  { student: "Jeel", type: "FULL", daysAgo: 6, reason: "Fever — advised rest by the doctor", status: "APPROVED", remark: "Get well soon" },
+  { student: "Jeel", type: "FULL", daysAgo: 6, reason: "Fever, doctor advised rest", status: "APPROVED", remark: "Get well soon" },
   { student: "Darshit", type: "FULL", daysAgo: -2, reason: "Family function out of town", status: "PENDING" },
   { student: "Aarav", type: "HALF", halfWhich: "FIRST", daysAgo: 3, reason: "Medical check-up in the morning", status: "APPROVED", remark: "Okay" },
   { student: "Dhruv", type: "LECTURE", daysAgo: 1, reason: "Overslept", status: "REJECTED", remark: "Not a valid reason" },
@@ -187,7 +187,7 @@ export const DEVICE_LOGINS = [
   { student: "Faizan", status: "ACTIVE", device: "Android · Samsung Internet", platform: "Android", browser: "Samsung Internet 26", screen: "412x915", minutesAgo: 360 },
   { student: "Darshit", status: "LOGGED_OUT", device: "Android · Chrome", platform: "Android", browser: "Chrome 130", screen: "412x915", minutesAgo: 1440 },
   { student: "Dhruv", status: "LOGGED_OUT", device: "Windows · Chrome", platform: "Windows", browser: "Chrome 130", screen: "1366x768", minutesAgo: 2000 },
-  { student: "Harsh", status: "REJECTED", device: "Android · Chrome", platform: "Android", browser: "Chrome 118", screen: "360x800", minutesAgo: 2880, remark: "Unknown device — come to my office" },
+  { student: "Harsh", status: "REJECTED", device: "Android · Chrome", platform: "Android", browser: "Chrome 118", screen: "360x800", minutesAgo: 2880, remark: "Unknown device - come to my office" },
 ];
 
 // ── Parents (10): the eight CE · A students + two from CE · B ────────

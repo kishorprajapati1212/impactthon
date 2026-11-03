@@ -1,4 +1,4 @@
-# AttendX — public pages are crawlable; dashboards and the API are not.
+# AttendX - public pages are crawlable; dashboards and the API are not.
 User-agent: *
 Allow: /
 Disallow: /admin

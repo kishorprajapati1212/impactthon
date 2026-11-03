@@ -1,5 +1,5 @@
 /**
- * Central error handler — users only ever see a short, human message.
+ * Central error handler - users only ever see a short, human message.
  * Raw Mongoose / Mongo / JWT / library details are logged on the server
  * (without stack in the HTTP response) and never sent to the client.
  * Every error also carries a stable `code` the UI can switch on.
@@ -57,7 +57,7 @@ const errorHandler = (err, req, res, next) => { // eslint-disable-line no-unused
     statusCode = 400; code = "BAD_REQUEST";
     message = "The request could not be read. Please try again.";
   } else if (statusCode < 500 && err.message) {
-    // Controllers deliberately set 4xx messages — those are already human.
+    // Controllers deliberately set 4xx messages - those are already human.
     // Still cap length so a library string can never flood the UI.
     message = String(err.message).slice(0, 180);
   }

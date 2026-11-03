@@ -67,7 +67,7 @@ const QRScanner = ({ onBack }) => {
     setCoordsText("");
 
     try {
-      // Cheap local sanity check first — don't spend a GPS fix on a dead QR
+      // Cheap local sanity check first - don't spend a GPS fix on a dead QR
       const local = verifyQRLocally(rawText);
       if (!local.valid) {
         setPhase("error");
@@ -82,7 +82,7 @@ const QRScanner = ({ onBack }) => {
       if (!location) {
         setPhase("error");
         setMessage(
-          "We couldn't get a GPS fix yet. Make sure Location/GPS is ON and set to High accuracy, then tap Try Again. Your permission is already granted — it usually just needs a few seconds of clear sky."
+          "We couldn't get a GPS fix yet. Make sure Location/GPS is ON and set to High accuracy, then tap Try Again. Your permission is already granted. It usually just needs a few seconds of clear sky."
         );
         return;
       }
@@ -125,7 +125,7 @@ const QRScanner = ({ onBack }) => {
   };
 
   // Zoom gestures on the preview: pinch, one-finger drag up/down, double-tap,
-  // wheel and keyboard — the same moves as the phone's own camera app.
+  // wheel and keyboard - the same moves as the phone's own camera app.
   const gestures = useZoomGestures({ enabled: status === "running", zoom, setZoom });
 
   // "Far away? drag up / pinch" hint: shown when the camera opens, gone after
@@ -260,7 +260,7 @@ const QRScanner = ({ onBack }) => {
             style={{ transform: `scale(${zoom.digital})`, transformOrigin: "center", transition: gestures.dragging ? "none" : "transform 120ms ease-out" }}
           />
 
-          {/* Scan frame — the centre square is exactly what gets decoded */}
+          {/* Scan frame - the centre square is exactly what gets decoded */}
           {running && (
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden="true">
               <div className="relative h-[62%] w-[62%]">
@@ -318,13 +318,13 @@ const QRScanner = ({ onBack }) => {
             </div>
           )}
 
-          {/* Zoom bar — on the camera itself, like a phone camera app */}
+          {/* Zoom bar - on the camera itself, like a phone camera app */}
           {cameraOpen && (
             <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/85 via-slate-950/50 to-transparent px-3 pb-3 pt-10">
               <div className="mb-2 flex items-center justify-center" aria-live="polite">
                 <span className="rounded-full bg-white px-3 py-1 text-sm font-bold tabular-nums text-slate-900 shadow">{zoom.value.toFixed(1)}×</span>
               </div>
-              {/* only the controls themselves swallow the pointer — dragging anywhere else on the preview zooms */}
+              {/* only the controls themselves swallow the pointer - dragging anywhere else on the preview zooms */}
               <div className="pointer-events-auto flex items-center gap-3" onPointerDown={(e) => e.stopPropagation()}>
                 <button
                   type="button"
@@ -398,11 +398,11 @@ const QRScanner = ({ onBack }) => {
       <div className="card-2026 p-4 flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400">
         <MapPin size={16} className="text-cyan-500 shrink-0 mt-0.5" />
         <span>
-          Point the camera at the QR code on your teacher's screen and keep it inside the frame. Far from the screen? <strong className="font-semibold text-slate-800 dark:text-slate-200">Drag up on the camera, pinch, or tap +</strong> — zooming makes the code easier to read, not just bigger. Double-tap jumps between 1× and 2×. Your location is checked so only students in the room are marked present.
+          Point the camera at the QR code on your teacher's screen and keep it inside the frame. Far from the screen? <strong className="font-semibold text-slate-800 dark:text-slate-200">Drag up on the camera, pinch, or tap +</strong>. Zooming makes the code easier to read, not just bigger. Double-tap jumps between 1× and 2×. Your location is checked so only students in the room are marked present.
         </span>
       </div>
 
-      <p className="text-center text-slate-500 text-xs">The code changes every 5 seconds — scan the one on screen now.</p>
+      <p className="text-center text-slate-500 text-xs">The code changes every 5 seconds. Scan the one on screen now.</p>
     </div>
   );
 };

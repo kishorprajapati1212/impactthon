@@ -3,7 +3,7 @@ import { Pill } from "./components/ui.jsx";
 import { batchLabel, classLabel, dash, formatPhone, lifecycleOf, mentorName, personName, semesterOptions, statusOf, formatDate } from "./adminFormat.js";
 
 /* ──────────────────────────────────────────────────────────────────────────
-   ENTITY CONFIG — one object per record type the admin manages.
+   ENTITY CONFIG: one object per record type the admin manages.
    Every column / field below maps to a REAL model field (see MODELS.md →
    "Admin console ↔ model field map"). Nothing here invents data.
    ────────────────────────────────────────────────────────────────────────── */
@@ -34,7 +34,7 @@ export const ENTITIES = {
   /* ── Departments ─────────────────────────────────────────────────── */
   departments: {
     key: "departments", singular: "Department", plural: "Departments", icon: Building2,
-    description: "Academic departments such as Computer Science or Mechanical. Everything else — subjects, classes, faculty, students — belongs to a department.",
+    description: "Academic departments such as Computer Science or Mechanical. Everything else (subjects, classes, faculty, students) belongs to a department.",
     api: { list: "/departments", create: "/department/create", update: (id) => `/department/${id}`, deactivate: (id) => `/department/${id}`, permanent: (id) => `/department/${id}/permanent` },
     listParams: { withCounts: 1 }, clientPaginated: true,
     searchPlaceholder: "Search by name or code…", searchKeys: (i) => [i.name, i.code, i.description],
@@ -50,9 +50,9 @@ export const ENTITIES = {
     ],
     fields: () => [
       { key: "name", label: "Department name", type: "text", required: true, placeholder: "e.g. Computer Science & Engineering", span: 2 },
-      { key: "code", label: "Short code", type: "text", required: true, placeholder: "e.g. CSE", help: "2–10 letters/digits. Saved in capitals.", pattern: { value: /^[A-Za-z0-9]{2,10}$/, message: "2–10 letters or digits, no spaces" } },
+      { key: "code", label: "Short code", type: "text", required: true, placeholder: "e.g. CSE", help: "2-10 letters/digits. Saved in capitals.", pattern: { value: /^[A-Za-z0-9]{2,10}$/, message: "2-10 letters or digits, no spaces" } },
       { key: "isActive", label: "Status", type: "toggle", editOnly: true, toggleLabel: "Active (visible in all dropdowns)" },
-      { key: "description", label: "Description", type: "textarea", placeholder: "Optional — what this department offers", help: "Shown under the name in this table." },
+      { key: "description", label: "Description", type: "textarea", placeholder: "Optional. What this department offers", help: "Shown under the name in this table." },
     ],
     toForm: (i) => ({ name: i.name, code: i.code, description: i.description || "", isActive: i.isActive !== false }),
     toPayload: (v) => ({ name: str(v.name), code: str(v.code)?.toUpperCase(), description: str(v.description) || null, ...(v.isActive !== undefined ? { isActive: !!v.isActive } : {}) }),
@@ -82,7 +82,7 @@ export const ENTITIES = {
     ],
     fields: (ctx) => [
       { key: "subjectName", label: "Subject name", type: "text", required: true, placeholder: "e.g. Data Structures", span: 2 },
-      { key: "subjectCode", label: "Subject code", type: "text", required: true, placeholder: "e.g. CS201", help: "Unique, 2–15 letters/digits.", pattern: { value: /^[A-Za-z0-9]{2,15}$/, message: "2–15 letters or digits" } },
+      { key: "subjectCode", label: "Subject code", type: "text", required: true, placeholder: "e.g. CS201", help: "Unique, 2-15 letters/digits.", pattern: { value: /^[A-Za-z0-9]{2,15}$/, message: "2-15 letters or digits" } },
       { key: "departmentId", label: "Department", type: "select", options: () => deptOptions(ctx), placeholder: "Select department" },
       { key: "semester", label: "Semester", type: "select", required: true, options: semesterOptions.map((o) => ({ value: String(o.value), label: o.label })), default: "1" },
       { key: "credits", label: "Credits", type: "number", required: true, min: 1, max: 15, default: "3" },
@@ -96,7 +96,7 @@ export const ENTITIES = {
   /* ── Classes (Section model) ─────────────────────────────────────── */
   classes: {
     key: "classes", singular: "Class", plural: "Classes", icon: Users,
-    description: "A class (section) is the group of students who sit together — e.g. CSE · A, Semester 1, Batch 2026–30. Students and teaching assignments attach to a class.",
+    description: "A class (section) is the group of students who sit together, for example CSE · A, Semester 1, Batch 2026-30. Students and teaching assignments attach to a class.",
     api: { list: "/sections", create: "/section/create", update: (id) => `/section/${id}`, deactivate: (id) => `/section/${id}`, permanent: (id) => `/section/${id}/permanent` },
     clientPaginated: true,
     searchPlaceholder: "Search by class, department or batch…", searchKeys: (i) => [i.name, i.departmentId?.name, i.departmentId?.code, batchLabel(i), `sem ${i.semester}`],
@@ -114,10 +114,10 @@ export const ENTITIES = {
     ],
     fields: (ctx) => [
       { key: "departmentId", label: "Department", type: "select", required: true, options: () => deptOptions(ctx), placeholder: "Select department", span: 2 },
-      { key: "name", label: "Class name", type: "text", required: true, placeholder: "e.g. A", help: "Just the class letter/name — the department is shown with it automatically.", pattern: { value: /^[A-Za-z0-9][A-Za-z0-9\s-]{0,49}$/, message: "Letters, digits, spaces or hyphen" } },
+      { key: "name", label: "Class name", type: "text", required: true, placeholder: "e.g. A", help: "Just the class letter or name. The department is shown with it automatically.", pattern: { value: /^[A-Za-z0-9][A-Za-z0-9\s-]{0,49}$/, message: "Letters, digits, spaces or hyphen" } },
       { key: "semester", label: "Current semester", type: "select", required: true, options: semesterOptions.map((o) => ({ value: String(o.value), label: o.label })), default: "1" },
       { key: "batchYear", label: "Batch start year", type: "number", required: true, min: 2000, max: thisYear + 10, default: String(thisYear), help: "Year the batch joined." },
-      { key: "batchEndYear", label: "Batch end year", type: "number", min: 2001, max: thisYear + 16, placeholder: `e.g. ${thisYear + 4}`, help: "Optional — expected graduation year." },
+      { key: "batchEndYear", label: "Batch end year", type: "number", min: 2001, max: thisYear + 16, placeholder: `e.g. ${thisYear + 4}`, help: "Optional. Expected graduation year." },
       { key: "isActive", label: "Status", type: "toggle", editOnly: true, toggleLabel: "Active (students can be added)" },
     ],
     toForm: (i) => ({ departmentId: refId(i.departmentId), name: i.name, semester: String(i.semester || 1), batchYear: String(i.batchYear || thisYear), batchEndYear: i.batchEndYear ? String(i.batchEndYear) : "", isActive: i.isActive !== false }),
@@ -144,7 +144,7 @@ export const ENTITIES = {
     ],
     fields: (ctx) => [
       { key: "name", label: "Full name", type: "text", required: true, placeholder: "e.g. Dr. Priya Sharma", pattern: { value: /^[A-Za-z][A-Za-z\s.'-]{1,99}$/, message: "Letters, spaces and dots only" } },
-      { key: "employeeId", label: "Employee ID", type: "text", required: true, readOnlyOnEdit: true, placeholder: "e.g. FAC007", pattern: { value: /^[A-Za-z0-9-]{2,30}$/, message: "2–30 letters/digits" } },
+      { key: "employeeId", label: "Employee ID", type: "text", required: true, readOnlyOnEdit: true, placeholder: "e.g. FAC007", pattern: { value: /^[A-Za-z0-9-]{2,30}$/, message: "2-30 letters/digits" } },
       { key: "email", label: "Email (login)", type: "email", required: true, placeholder: "name@college.edu", pattern: EMAIL },
       { key: "password", label: "Temporary password", type: "password", required: true, createOnly: true, minLength: 6, help: "Share it with the teacher; they can change it later." },
       { key: "departmentId", label: "Department", type: "select", options: () => deptOptions(ctx), placeholder: "Select department" },
@@ -162,7 +162,7 @@ export const ENTITIES = {
   /* ── Students ────────────────────────────────────────────────────── */
   students: {
     key: "students", singular: "Student", plural: "Students", icon: GraduationCap,
-    description: "Every student, the class they sit in, their mentor and how to contact them or their parent. Use “Student status” when someone completes the course or leaves — nothing is deleted.",
+    description: "Every student, the class they sit in, their mentor and how to contact them or their parent. Use “Student status” when someone completes the course or leaves. Nothing is deleted.",
     api: { list: "/students", create: "/student/create", update: (id) => `/student/${id}`, deactivate: (id) => `/student/${id}`, permanent: (id) => `/student/${id}/permanent`, lifecycle: (id) => `/student/${id}/lifecycle` },
     serverSearch: true,
     searchPlaceholder: "Search by name, roll number, email or phone…",
@@ -181,14 +181,14 @@ export const ENTITIES = {
       { key: "phone", label: "Contact", className: "whitespace-nowrap", render: (i) => (
           <div className="text-[13px] leading-5 tabular-nums">
             <p>{i.phone ? formatPhone(i.phone) : <span className="text-slate-400">No phone</span>}</p>
-            <p className="text-xs text-slate-500">Parent: {i.parentPhone ? formatPhone(i.parentPhone) : "—"}</p>
+            <p className="text-xs text-slate-500">Parent: {i.parentPhone ? formatPhone(i.parentPhone) : "-"}</p>
           </div>
         ) },
       { key: "status", label: "Status", className: "whitespace-nowrap", render: (i) => { const l = lifecycleOf(i); return <Pill tone={l.tone} dot>{l.label}</Pill>; } },
     ],
     fields: (ctx) => [
       { key: "name", label: "Full name", type: "text", required: true, placeholder: "e.g. Rahul Verma", pattern: { value: /^[A-Za-z][A-Za-z\s.'-]{1,99}$/, message: "Letters, spaces and dots only" } },
-      { key: "rollNumber", label: "Roll number", type: "text", required: true, placeholder: "e.g. CSE2026001", help: "Unique. Saved in capitals.", pattern: { value: /^[A-Za-z0-9/-]{3,30}$/, message: "3–30 letters/digits" } },
+      { key: "rollNumber", label: "Roll number", type: "text", required: true, placeholder: "e.g. CSE2026001", help: "Unique. Saved in capitals.", pattern: { value: /^[A-Za-z0-9/-]{3,30}$/, message: "3-30 letters/digits" } },
       { key: "email", label: "Email (login)", type: "email", required: true, placeholder: "roll@college.edu", pattern: EMAIL },
       { key: "password", label: "Temporary password", type: "password", required: true, createOnly: true, minLength: 6, help: "Share it with the student." },
       { key: "departmentId", label: "Department", type: "select", options: () => deptOptions(ctx), placeholder: "Select department" },
@@ -208,7 +208,7 @@ export const ENTITIES = {
   /* ── Teaching assignments (FacultySubjectSection model) ──────────── */
   teaching: {
     key: "teaching", singular: "Teaching assignment", plural: "Who teaches what", pluralNoun: "teaching assignments", icon: Link2,
-    description: "Connect a teacher to a subject for one class. A teacher can only start a lecture (and students can only be marked present) for the subject–class pairs listed here.",
+    description: "Connect a teacher to a subject for one class. A teacher can only start a lecture (and students can only be marked present) for the subject and class pairs listed here.",
     api: { list: "/assignments", create: "/faculty-subject-section", update: (id) => `/assignment/${id}`, deactivate: (id) => `/assignment/${id}`, permanent: (id) => `/assignment/${id}/permanent` },
     clientPaginated: true, showInactiveParam: "showInactive",
     searchPlaceholder: "Search by teacher, subject or class…", searchKeys: (i) => [i.facultyId?.userId?.name, i.facultyId?.employeeId, i.subjectId?.subjectName, i.subjectId?.subjectCode, i.sectionId?.name, i.sectionId?.departmentId?.code, i.sectionId?.departmentId?.name],
@@ -220,9 +220,9 @@ export const ENTITIES = {
     sort: [{ field: "academicYear", label: "Academic year" }, { field: "semester", label: "Semester" }, { field: "createdAt", label: "Newest" }],
     columns: [
       { key: "faculty", label: "Teacher", primary: true, render: (i) => <Title main={i.facultyId?.userId?.name || i.facultyId?.employeeId || "Unknown"} sub={i.facultyId?.employeeId} /> },
-      { key: "subject", label: "Teaches", render: (i) => <Title main={i.subjectId?.subjectName || "—"} sub={i.subjectId?.subjectCode} /> },
+      { key: "subject", label: "Teaches", render: (i) => <Title main={i.subjectId?.subjectName || "-"} sub={i.subjectId?.subjectCode} /> },
       { key: "class", label: "To class", render: (i) => <Title main={classLabel(i.sectionId)} sub={i.sectionId ? `Batch ${batchLabel(i.sectionId)}` : ""} /> },
-      { key: "term", label: "Term", sortField: "academicYear", render: (i) => `${i.academicYear || "—"} · Sem ${dash(i.semester)}` },
+      { key: "term", label: "Term", sortField: "academicYear", render: (i) => `${i.academicYear || "-"} · Sem ${dash(i.semester)}` },
       { key: "status", label: "Status", render: (i) => <StatusCell item={i} /> },
     ],
     fields: (ctx) => [

@@ -46,7 +46,7 @@ afterEach(() => {
 
 const flush = () => act(() => new Promise((r) => setTimeout(r, 0)));
 
-describe("useQrCamera — the camera is released when the scan screen is left", () => {
+describe("useQrCamera - the camera is released when the scan screen is left", () => {
   it("stops a stream that arrives after unmount (navigated away while the camera was still opening)", async () => {
     const track = makeTrack();
     let resolveStream;
@@ -121,8 +121,8 @@ describe("useQrCamera — the camera is released when the scan screen is left", 
   });
 });
 
-describe("zoom — always available, hardware first, digital on top", () => {
-  it("offers 1×–4× digital zoom when the camera has no zoom at all (iPhones, laptops)", async () => {
+describe("zoom - always available, hardware first, digital on top", () => {
+  it("offers 1×-4× digital zoom when the camera has no zoom at all (iPhones, laptops)", async () => {
     const track = makeTrack({});
     Object.defineProperty(navigator, "mediaDevices", { configurable: true, value: { getUserMedia: vi.fn(async () => makeStream(track)), enumerateDevices: async () => [] } });
     render(<Probe />);

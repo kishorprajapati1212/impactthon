@@ -6,7 +6,7 @@
  *  - tested hardware signals (cores / memory / touch / screen) otherwise
  *
  * The server stores this in the students` login-sessions table and ONLY the
- * registered device may use the session — so lending your logged-in phone to a
+ * registered device may use the session - so lending your logged-in phone to a
  * friend does not let them mark attendance with your account.
  */
 
@@ -63,7 +63,7 @@ function saveStored(obj) {
   try {
     localStorage.setItem(KEY, JSON.stringify(obj));
   } catch {
-    /* ignore — fallback recomputes each visit */
+    /* ignore - fallback recomputes each visit */
   }
 }
 

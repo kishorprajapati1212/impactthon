@@ -11,6 +11,7 @@ import api from "../../utils/api.js";
 import { login } from "../../store/authSlice.js";
 import AppNavbar from "../../components/UI/AppNavbar.jsx";
 import AppHelmet from "../../components/SEO/AppHelmet.jsx";
+import BrandLogo from "../../components/Brand/BrandLogo.jsx";
 import { getDeviceProfile, isFirstLoginHere, rememberDevice } from "../../utils/device.js";
 
 /* global __APP_VERSION__, __BUILD_TIME__ */
@@ -191,7 +192,7 @@ const Login = () => {
   if (sentForApproval && pendingLoginId) {
     return (
       <div className="min-h-screen bg-white dark:bg-dark-900 flex flex-col relative overflow-hidden transition-colors">
-        <AppHelmet title="Login · AttendX QR Attendance System" description="Sign in to AttendX — the QR code + GPS attendance system for colleges and schools. Student, faculty and admin login." />
+        <AppHelmet title="Login | AttendX" description="Sign in to AttendX, the QR code and GPS attendance system for colleges and schools. Student, faculty and admin login." />
         <AppNavbar />
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/5 dark:bg-blue-600/10 blur-[120px] rounded-full pointer-events-none" />
         <div className="flex-1 flex items-center justify-center p-4 relative z-10">
@@ -223,7 +224,7 @@ const Login = () => {
               </p>
               <p className="flex items-center gap-2">
                 <Clock size={13} className="text-cyan-500 shrink-0" />
-                If your mentor is not available, ask them later — the approval
+                If your mentor is not available, ask them later. The approval
                 stays open.
               </p>
             </div>
@@ -246,7 +247,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-dark-900 flex flex-col relative overflow-hidden transition-colors">
-      <AppHelmet title="Login · AttendX QR Attendance System" description="Sign in to AttendX — the QR code + GPS attendance system for colleges and schools. Student, faculty and admin login." />
+      <AppHelmet title="Login | AttendX" description="Sign in to AttendX, the QR code and GPS attendance system for colleges and schools. Student, faculty and admin login." />
       <AppNavbar />
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/5 dark:bg-blue-600/10 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/5 dark:bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none" />
@@ -254,11 +255,8 @@ const Login = () => {
       <div className="flex-1 flex items-center justify-center p-4 pt-24 relative z-10">
         <div className="w-full max-w-md">
           <div className="glass-card p-8 shadow-2xl">
-            <div className="text-center mb-8">
-              <h1 className="text-4xl font-black tracking-tight mb-2 text-slate-900 dark:text-slate-50">
-                Attend<span className="text-cyan-400">X</span>
-              </h1>
-              <p className="text-slate-400">Smart Attendance Management</p>
+            <div className="mb-8">
+              <BrandLogo as="h1" size="lg" stacked tagline />
             </div>
 
             <div className="mb-6">
@@ -401,7 +399,7 @@ const Login = () => {
               <Smartphone size={16} className="text-cyan-500 shrink-0 mt-0.5" />
               <span>
                 {isFirstLoginHere(emailValue)
-                  ? "First time on this device — your mentor will approve before you can use the app."
+                  ? "First time on this device. Your mentor will approve before you can use the app."
                   : "This device is known, but after every logout your mentor must re-approve your login."}
               </span>
             </div>

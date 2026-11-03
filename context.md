@@ -1,4 +1,4 @@
-# context.md — AttendX working context (update this after EVERY change)
+# context.md - AttendX working context (update this after EVERY change)
 
 > Rule for future work: read this file first, then MODELS.md. **Do not rename any
 > model, collection, route prefix, or Docker service.** Work one priority at a time.
@@ -11,21 +11,21 @@
 | P1 | Map always renders + session-end roster/map for every ended session | ✅ Done (Phase 3) |
 | P1 | Mentor sees full mentee profile (attendance %, subjects, recent, leaves) | ✅ Done (Phase 4) |
 | P2 | Student clarity: "My Class & Mentor" + subject teachers | ✅ Done (Phase 5, student side) |
-| P2 | Admin UI professional redesign (responsive) | ✅ Done (Phase 11 — sidebar + tables, replaces 6/8/10) |
+| P2 | Admin UI professional redesign (responsive) | ✅ Done (Phase 11 - sidebar + tables, replaces 6/8/10) |
 | P2 | Faculty clarity: my classes at a glance (reuse assignments) | ✅ Done (Phase 6) |
 
 ## Phase log
-### Phase 1 — Human errors (P0)
+### Phase 1 - Human errors (P0)
 - `server/middleware/errorHandler.js` rewritten: stable `code`, short message,
   **no stack / Mongo / Mongoose text in any response** (also in development).
   Duplicate key → 409 `ALREADY_EXISTS` with per-field human text; unknown 500 →
   generic message; real error logged server-side only.
-- `frontend/src/utils/friendlyError.js` (new): `getFriendlyError(err, fallback)` —
+- `frontend/src/utils/friendlyError.js` (new): `getFriendlyError(err, fallback)` -
   maps codes/status to one short sentence, caps trusted server text at 160 chars,
   rejects mongo/stack-looking strings. Wired into QRScanner, LiveSession, Mentorship, Admin.
 - Test: `server/__tests__/errorHandler.test.js`.
 
-### Phase 2 — Permission gate (P0)
+### Phase 2 - Permission gate (P0)
 - New `frontend/src/components/Student/PermissionGate.jsx`: shown **before** the
   scanner starts. Explains camera + location, live status (Allowed / Not asked /
   Blocked), one-tap Allow buttons (real `getUserMedia` test + real GPS fix),
@@ -34,7 +34,7 @@
   raw html5-qrcode strings replaced by short messages; `ALREADY_MARKED` treated
   as a friendly success state.
 
-### Phase 3 — Map + session end (P1)
+### Phase 3 - Map + session end (P1)
 - Root cause: Leaflet was loaded from unpkg CDN at runtime and failures were
   swallowed (`catch(()=>{})`), and markers drawn before map init never redrew.
 - Fix: `leaflet` is now a bundled npm dependency (`AttendanceMap.jsx` imports it +
@@ -43,9 +43,9 @@
   session (no-GPS case shows an explanation instead of nothing) and shows an
   explicit "result could not be loaded → see History" card instead of a blank.
 - QR timing unchanged on purpose: QR rotates 5s, server accepts 25s age +
-  30s attendance-window grace — last-second scans keep working.
+  30s attendance-window grace - last-second scans keep working.
 
-### Phase 4 — Mentor mentee detail (P1)
+### Phase 4 - Mentor mentee detail (P1)
 - New `GET /api/leave/mentor/mentees/:studentId/detail` (FACULTY mentor or ADMIN
   only; 403 for other faculty). Returns profile, section/department/mentor,
   overall %, present/absent/late/leave/excused, subject-wise breakdown,
@@ -53,7 +53,7 @@
 - `Mentorship.jsx`: mentee rows are now tappable → detail panel with stats,
   subject bars, recent lectures, leaves.
 
-### Phase 5 — Student clarity (P2, student side)
+### Phase 5 - Student clarity (P2, student side)
 - `GET /api/report/student/my-attendance` now additively returns `myClass`:
   section, semester, batch, department, roll number, mentor (name/email) and
   subject→teacher list from `FacultySubjectSection`. No fields removed.
@@ -62,7 +62,7 @@
 ## Architecture (unchanged)
 - Docker Compose: `mongo` (27017), `redis` (6379), `server` (3000), `frontend`
   (Nginx 5173→80), optional `seeder` profile. Start: `./start.sh` or
-  `docker compose up --build` — same as before, nothing renamed.
+  `docker compose up --build` - same as before, nothing renamed.
 - Backend: Express 5 + Mongoose 9, JWT, roles ADMIN/FACULTY/STUDENT.
 - Models (DO NOT RENAME): User, Student, Faculty, Admin, Parent, StudentSession,
   Department, Section, Subject, FacultySubjectSection, LectureSession,
@@ -71,7 +71,7 @@
   FacultySubjectSection = faculty×subject×section assignment,
   Attendance = one row per (LectureSession, Student) with GPS proof.
 
-### Phase 6 — Admin UI + faculty clarity (P2, final)
+### Phase 6 - Admin UI + faculty clarity (P2, final)
 - `frontend/src/pages/Admin/Dashboard.jsx` redesigned (no API/model changes):
   grouped desktop sidebar (Home / Academics / People / Live) with icons and
   the signed-in admin, sticky header showing the current section, horizontal
@@ -87,7 +87,7 @@
   Start-session / View-history shortcuts; empty state tells faculty to
   contact admin.
 
-### Phase 7 — Custom notification system (replaces the library)
+### Phase 7 - Custom notification system (replaces the library)
 - The previous library-based message display (`react-toastify`) is REMOVED
   completely: zero imports, zero CSS, package uninstalled from
   `frontend/package.json`.
@@ -102,7 +102,7 @@
   the screen with a huge raw message again.
 - Tests: `frontend/src/__tests__/notify.test.js` (5 tests).
 
-### Phase 8 — Admin console rebuilt (visibly new) + operations insight — *superseded by Phase 11; files below were deleted*
+### Phase 8 - Admin console rebuilt (visibly new) + operations insight - *superseded by Phase 11; files below were deleted*
 - The Admin dashboard is now a different product surface, not a restyle:
   dark navy sidebar (visible from tablet width), command-centre hero on
   Overview, and two NEW components:
@@ -110,7 +110,7 @@
   `frontend/src/components/Admin/AdminDataTable.jsx`.
 - AdminOverview (from existing list APIs only): "Needs your attention"
   (students without mentor/section, unassigned subjects, empty sections,
-  waiting login approvals, live lectures — each with a jump-to-fix action),
+  waiting login approvals, live lectures - each with a jump-to-fix action),
   "Institution setup" checklist with % complete in the correct working
   order, and a "Find a person" search across students/faculty showing
   section + mentor.
@@ -118,7 +118,7 @@
   mentor/status/actions columns) with cards retained on mobile, plus the
   search/sort/refresh toolbar. No API, route or model was changed.
 
-### Phase 9 — Human navigation, mentor connections & student lifecycle
+### Phase 9 - Human navigation, mentor connections & student lifecycle
 - Plain-language navigation (labels only; ids/routes/models unchanged):
   Admin: Command centre / Classes / Who teaches what / Students & mentors /
   Lectures running now / College attendance overview / Reports & trends,
@@ -130,17 +130,17 @@
   Student.mentorId remains the current-mentor pointer; history rows are
   written on student create, mentor change, and lifecycle change, with a
   lazy backfill for pre-existing mentees. No existing model was renamed or
-  restructured — Student gained only lifecycleStatus/leftAt/leavingNote.
+  restructured - Student gained only lifecycleStatus/leftAt/leavingNote.
 - `POST /student/:id/lifecycle` (admin): Completed/Left/Transferred/
   Suspended/Studying. Nothing is deleted; login is disabled, mentorship is
   closed with a reason, and the student moves to the mentor's new
   "Former students" tab (`GET /api/leave/mentor/former-mentees`), where the
   full detail (attendance %, subjects, recent lectures, leaves, mentor
-  history timeline) stays openable — including by past mentors.
+  history timeline) stays openable - including by past mentors.
 - Admin Students list has a "Student status" action (graduation-cap icon)
   for this; former students show "Left the college · records kept".
 
-### Phase 10 — Professional Admin dashboard redesign — *superseded by Phase 11*
+### Phase 10 - Professional Admin dashboard redesign - *superseded by Phase 11*
 - Admin surface rebuilt again as a light, professional console (this
   supersedes the Phase 6/8 styling): white 276px sidebar with indigo
   active states and a proper logo block, breadcrumb + date top bar,
@@ -153,8 +153,8 @@
 - Data tables, toolbar, modals and all Phase 9 labels/lifecycle behaviour
   are unchanged underneath. New `.admin-primary` button style in index.css.
 
-### Phase 11 — Admin console rebuilt from the real use case (P2, replaces Phases 6/8/10 admin UI)
-**Step 1 — who uses the admin screen and for what (written before coding).**
+### Phase 11 - Admin console rebuilt from the real use case (P2, replaces Phases 6/8/10 admin UI)
+**Step 1 - who uses the admin screen and for what (written before coding).**
 The admin is a college office person, not a developer. Their work falls in
 three rhythms:
 1. *Set-up (once a semester, in this order)*: Departments → Subjects → Classes
@@ -175,14 +175,14 @@ look-up questions (contact numbers, class, mentor, attendance, history);
 a dashboard that lists what is blocking attendance; dangerous actions
 confirmed in-app with plain words; nothing shown that the model lacks.
 
-**Step 2 — model ↔ UI audit.** See `MODELS.md` §11 (full field map). Key
+**Step 2 - model ↔ UI audit.** See `MODELS.md` §11 (full field map). Key
 findings: student/faculty **phone numbers existed but were never shown**;
 "description" was offered for subjects/classes that have no such field;
 `AssignFaculty` hard-coded `semester: 1`; student search matched only roll
 numbers; no pagination; `Section.totalStudents` drifted; permanent delete
 had no integrity guard; AuditLog could not record setup entities.
 
-**Step 3 — backend (all additive, old callers unaffected).**
+**Step 3 - backend (all additive, old callers unaffected).**
 - `GET /students` → paginated `{total,page,pages,limit,data}`, `search`
   across name/email/roll/phone, filters `section/department/semester/
   mentor(=none)/lifecycle/showInactive`, whitelisted `sortBy/order`,
@@ -200,26 +200,26 @@ had no integrity guard; AuditLog could not record setup entities.
   (`utils/sectionCounts.js`); validators relaxed to accept real names.
 - New tests: `server/__tests__/adminConsole.test.js` (50/50 total).
 
-**Step 4 — frontend (`frontend/src/admin/`, new; old pages deleted).**
-- `AdminConsole.jsx` — shell: dark sidebar (slide-over on phones), breadcrumb,
+**Step 4 - frontend (`frontend/src/admin/`, new; old pages deleted).**
+- `AdminConsole.jsx` - shell: dark sidebar (slide-over on phones), breadcrumb,
   global "find a student or teacher", theme toggle, log out; pages are
   deep-linkable via `/admin?section=…` (`&new=1` opens the create form;
   old URLs `/students`, `/create-*`, `/assign-faculty` redirect there).
-- `entities.jsx` — one config per record type (columns, filters, sort,
-  form fields, payload mapping, API paths). `nav.js` — grouped sidebar.
-- `components/` — `DataTable` (desktop table ≥lg with **sticky action
+- `entities.jsx` - one config per record type (columns, filters, sort,
+  form fields, payload mapping, API paths). `nav.js` - grouped sidebar.
+- `components/` - `DataTable` (desktop table ≥lg with **sticky action
   column**, stacked cards below), `FilterBar`, `Pagination`, `RecordForm`
   (react-hook-form drawer, create/edit, inline validation), `RecordDetail`
   (related records + attendance + audit history), `ui.jsx` (Button, Pill,
   Drawer/ConfirmDialog rendered through portals, MenuButton, Stat…).
-- `pages/` — `ResourcePage` (generic list → Edit / Delete / ⋯ View details ·
+- `pages/` - `ResourcePage` (generic list → Edit / Delete / ⋯ View details ·
   Student status · Deactivate/Reactivate), `OverviewPage` (KPIs, "Needs your
   attention" with Fix links, setup checklist, live lectures, recent
   activity), `LivePages` (Lectures running now with End lecture / End all;
   Login approvals with Approve / Reject; auto-refresh), reports reuse
   `OverviewMatrix` + `AnalyticsCharts`.
 - Visual QA was done with headless Chromium screenshots of the built app
-  against mocked API data (desktop 1440/1280, phone 390, dark mode) — not by
+  against mocked API data (desktop 1440/1280, phone 390, dark mode) - not by
   running a server.
 - Tests: `adminFormat.test.js`, `adminEntities.test.jsx` (every form field
   must exist on the model; phone columns present), `adminConsole.test.jsx`
@@ -227,7 +227,7 @@ had no integrity guard; AuditLog could not record setup entities.
   lifecycle → `POST /student/:id/lifecycle`, delete → 409 message shown,
   deactivate path, detail drawer). 48/48 frontend, build OK.
 
-### Phase 12 — White / off-white theme + "why do I still see the old UI" hardening
+### Phase 12 - White / off-white theme + "why do I still see the old UI" hardening
 - User screenshot showed the ORIGINAL dark dashboard (pre-Phase 6) although
   the ZIP contained the new console → a stale Docker image / old folder.
   Hardening: `start.sh` now runs `compose down` + `up --build --force-recreate`
@@ -242,13 +242,13 @@ had no integrity guard; AuditLog could not record setup entities.
   canvas `#f6f7f9`, white panels; dark variants kept behind the toggle.
 - Verified with headless-Chromium screenshots (admin desktop/phone, login).
 
-### Phase 13 — Dashboard and Attendance report made plain (user: "AI slop", "not understandable")
+### Phase 13 - Dashboard and Attendance report made plain (user: "AI slop", "not understandable")
 - Problem: the dashboard was a greeting + icon KPI tiles + setup-% panels; the
   "Trends & analytics" page was four Chart.js charts (daily present/absent,
   dept/subject/faculty) that a new admin could not read. Both rewritten.
 - **Dashboard** (`frontend/src/admin/pages/OverviewPage.jsx`) is now a list of
   sentences, each with ONE button: *What to do* (missing setup steps in
-  order — departments → subjects → classes → faculty → students — then
+  order - departments → subjects → classes → faculty → students - then
   problems that block attendance: subjects/classes without a teacher,
   students without a class or mentor, empty classes, logins waiting;
   "Nothing to do" when clean), *Right now* (lectures running, logins
@@ -259,8 +259,8 @@ had no integrity guard; AuditLog could not record setup entities.
 - **Attendance report** (`frontend/src/admin/pages/ReportPage.jsx`, replaces
   `components/Admin/AnalyticsCharts.jsx`, deleted; `chart.js` +
   `react-chartjs-2` uninstalled). Period buttons 7/30/90/all. The rule is
-  written on the page — **75 %+ good · 60–74 watch · < 60 low; leave and
-  excused not counted** — and used for every colour. Content: overall %
+  written on the page - **75 %+ good · 60-74 watch · < 60 low; leave and
+  excused not counted** - and used for every colour. Content: overall %
   with previous-period comparison, week-by-week bars, then tables lowest
   first: Classes (click → that class's students), Students below 75 %
   (≥ 3 lectures, active only, with mentor; "Open" → Students page searched
@@ -284,7 +284,7 @@ had no integrity guard; AuditLog could not record setup entities.
   deep link, old-URL alias, report rule/tables/period/empty/open). Build OK;
   desktop + 390 px screenshots verified (no horizontal overflow).
 
-### Phase 14 — Home page fixes (same design) + fresh demo data (Nihal, Jeel, Ritik, Darshit · Sahil, Jatin)
+### Phase 14 - Home page fixes (same design) + fresh demo data (Nihal, Jeel, Ritik, Darshit · Sahil, Jatin)
 - **Home page bugs fixed, design untouched** (`frontend/src/components/Home/*`,
   `pages/Home/LandingPage.jsx`, `index.css`, `routes/AppRoutes.jsx`):
   - Mobile menu was see-through (translucent `surface-nav` over the hero
@@ -305,7 +305,7 @@ had no integrity guard; AuditLog could not record setup entities.
 - **Seed rewritten** (`server/seed/seed.js`): deletes EVERY collection
   (now including MentorStudentHistory) and loads: Admin `admin@attendx.com`;
   teachers Sahil (`sahil@`) and Jatin (`jatin@`); students Nihal, Jeel,
-  Ritik, Darshit (`<name>@attendx.com`, rolls CE2024001–004); password
+  Ritik, Darshit (`<name>@attendx.com`, rolls CE2024001-004); password
   `123456` for all; 1 department CE, 1 class CE · A sem 5, 3 subjects
   (Sahil: Web Dev + OS, Jatin: DBMS), mentors Sahil→Nihal, Jeel and
   Jatin→Ritik, Darshit (with MentorStudentHistory rows); 9 past lectures +
@@ -322,7 +322,7 @@ had no integrity guard; AuditLog could not record setup entities.
 - Tests: server 62/62, frontend 58/58 (new `landingPage.test.jsx`), build OK,
   desktop/phone/dark screenshots of the home page verified.
 
-### Phase 15 — Bigger demo college: two more CE classes, more teachers, ≥ 10 rows in every table
+### Phase 15 - Bigger demo college: two more CE classes, more teachers, ≥ 10 rows in every table
 - **Why:** the user asked for "two classes with a different batch and a
   different division, extra teachers, and around at least 10 entries in every
   table/model" so that every admin screen, filter and report has real data.
@@ -330,9 +330,9 @@ had no integrity guard; AuditLog could not record setup entities.
   tested); `server/seed/seed.js` only writes them. Same switches as before
   (`FORCE_SEED`, `SEED_HISTORY=false`, skip when the DB has data).
 - **What it loads now:** 10 admins (`admin@` + office accounts), 10
-  departments, 11 classes — **CE · A 2024** (Nihal, Jeel, Ritik, Darshit + 4),
+  departments, 11 classes - **CE · A 2024** (Nihal, Jeel, Ritik, Darshit + 4),
   **CE · B 2024** (same batch, other division, mentor Meet), **CE · A 2025**
-  (newer batch, semester 3) and one class per other department — 12 teachers
+  (newer batch, semester 3) and one class per other department - 12 teachers
   (Sahil, Jatin, Meet in CE + one per department), 16 subjects, 19 teaching
   assignments (every class has a teacher, every teacher a class), 58 students
   (`<firstname>@attendx.com`, unique first names), 10 parents, 61 mentor-history
@@ -344,7 +344,7 @@ had no integrity guard; AuditLog could not record setup entities.
   log reads like real admin work.
 - **Deterministic:** everyone outside the four named students gets attendance
   from a fixed hash (`markFor(studentIndex, lectureIndex)`) around a "usual"
-  percentage (58–94 %), so every machine shows identical numbers. The named
+  percentage (58-94 %), so every machine shows identical numbers. The named
   four keep exact, documented figures: Nihal 100 %, Jeel 100 % (one approved
   leave), Darshit 67 %, Ritik 58 % (the CE · A list grew from 9 to 12
   lectures because Meet now teaches Computer Networks there).
@@ -354,14 +354,14 @@ had no integrity guard; AuditLog could not record setup entities.
   controller selects `batchYear`. Unit test added.
 - Docs: README "Demo logins" table + "What the demo college contains" table,
   `projectredme.md`, `PROJECT_CONTEXT.md`, `MODELS.md` credentials, `start.sh`
-  hints (student logins wait for the mentor's Accept — device binding).
+  hints (student logins wait for the mentor's Accept - device binding).
   Frontend version → 3.3.0.
 - Verified against a real in-memory MongoDB: fresh seed, skip-when-not-empty,
   `FORCE_SEED`, `SEED_HISTORY=false`; every collection ≥ 10 rows; all 90
   passwords are `123456`; admin/teacher/student logins through the real
   controllers; attendance summary across 11 classes (overall 78 %).
 
-### Phase 15.1 — `./reseed.sh: Permission denied`
+### Phase 15.1 - `./reseed.sh: Permission denied`
 - **Cause:** the execute bit of `reseed.sh`/`start.sh` was lost (sandbox file
   restore) and the ZIP shipped them as `rw-r--r--`. Docker-side scripts were
   never affected (`Dockerfile`s run `chmod +x`).
@@ -373,9 +373,9 @@ had no integrity guard; AuditLog could not record setup entities.
   Headers of both scripts, `start.sh` hints and README say the always-working
   alternative: `sh reseed.sh` / `sh start.sh` (no chmod needed).
 
-### Phase 16 — Wrong admin tables, "too white" theme, Excel batch, QR screen, student camera zoom (v3.4.0)
+### Phase 16 - Wrong admin tables, "too white" theme, Excel batch, QR screen, student camera zoom (v3.4.0)
 User's list: (1) admin "Teaching assignments" and "Students" pages showed wrong/empty
-data; (2) light theme still too white, no emojis — icon library only; (3) Excel sheets
+data; (2) light theme still too white, no emojis - icon library only; (3) Excel sheets
 must show the batch and be limited to the teacher's own classes; (4) QR screen
 progress bar not full width + "Start session" hangs without location permission;
 (5) student scanner needs camera zoom + text overlap on phones; (6) anything else found.
@@ -384,23 +384,23 @@ progress bar not full width + "Start session" hangs without location permission;
 never a preview) screenshotted every role on desktop/phone/dark before and after.
 Two real bugs were only visible against the real API, not the old mock harness.
 
-1. **Admin tables empty — root cause: URL key collision.** The admin shell used
+1. **Admin tables empty - root cause: URL key collision.** The admin shell used
    `?section=<page>` to pick the page, and entity lists also accept a `section`
    filter (class id). Opening Students sent `GET /students?section=students` →
    400 `INVALID_ID` → empty table; Teaching assignments the same. Fix: shell keys
    (`NAV_KEYS`) are never read as filters, and the class filter deep-links as
    `?class=` (`FILTER_URL_KEYS` in `admin/nav.js`, used by `AdminConsole.go()`).
    New `adminNav.test.js`; `adminConsole.test.jsx` extended.
-2. **Wrong numbers — root cause: Mongoose does not cast `aggregate()` pipelines.**
+2. **Wrong numbers - root cause: Mongoose does not cast `aggregate()` pipelines.**
    String ids inside `$match: { $in: [...] }` match nothing. `finalizeLecturesBulk`
    therefore wrote `totalMarked: 0` on every ended lecture and `recountSections`
    zeroed `Section.totalStudents`. Fix: `utils/ids.js → toObjectIds()` used in every
    aggregate `$in`; new `utils/repairLectureTotals.js` runs once at API start
    (idempotent, logs only when it changes something) so existing databases heal
-   themselves — it corrected 34 lectures in the test DB. Rule recorded in
+   themselves - it corrected 34 lectures in the test DB. Rule recorded in
    `PROJECT_CONTEXT.md`: never put raw string ids into an aggregate.
 3. **Admin dashboard reads like a real college.** New "Teaching & mentor map" page
-   (`admin/pages/TeachingMapPage.jsx`, replaces the old OverviewMatrix) — one row per
+   (`admin/pages/TeachingMapPage.jsx`, replaces the old OverviewMatrix) - one row per
    class with teachers per subject and mentors; audit lines say "mentor"/"class"
    instead of `mentorId`/`sectionId` (`describeAudit` + `humaniseSummary` for older
    rows). Students table shows the full class (`CE · A · 2024`) because the student
@@ -448,7 +448,7 @@ Teaching & mentor map, dashboard audit wording, live/ended session headers, star
 form location row, QR plate-width bar, Excel/CSV headers + filename, faculty home
 "My Classes", mentorship labels, student home/leave on 390 px, dark mode.
 
-### Phase 17 — "Still broken on Project IDX": same-origin API, no CORS (v3.5.0)
+### Phase 17 - "Still broken on Project IDX": same-origin API, no CORS (v3.5.0)
 **Report.** After 3.4.0 the user (working in Project IDX / Firebase Studio) still saw
 "That record could not be found" with empty *Who teaches what* / *Students* tables,
 CORS errors, and the QR countdown bar not filling its card.
@@ -458,7 +458,7 @@ lives at `https://5173-<ws>.cloudworkstations.dev` and `axios.js` rewrote the ho
 to `https://3000-<ws>…`. Every call therefore depended on (a) CORS headers,
 (b) the workstation's per-port auth cookie, (c) the user having opened port 3000
 first. Any of those failing surfaces as a CORS error or a 404 that the error
-mapper translated into "record could not be found" — the same words as the real
+mapper translated into "record could not be found" - the same words as the real
 `INVALID_ID` bug fixed in 3.4.0, so it looked like nothing had changed.
 
 **Fix (structural).**
@@ -489,17 +489,17 @@ API calls, all same-origin, all 2xx; admin tables 19 / 58 rows; live QR bar
 proxy OK; nginx config `nginx -t` OK; fresh empty DB auto-seeded by the API.
 Tests: server 75/75, frontend 78/78, build OK.
 
-### Phase 18 — Camera/GPS leak, real zoom, lecture deletion, non-dull light palette (v3.6.0)
+### Phase 18 - Camera/GPS leak, real zoom, lecture deletion, non-dull light palette (v3.6.0)
 **Report.** (a) The student scanner's zoom was "not visible / forgotten"; (b) MAJOR:
 after opening the scanner and navigating elsewhere the camera light and GPS kept
 running; (c) there was no way to delete a lecture started by mistake (teacher
-starts two at once) — and deletion must keep every presence count correct;
+starts two at once) - and deletion must keep every presence count correct;
 (d) light mode still looked dull.
 
 **Why (a) and (b) happened.** `html5-qrcode` owned the camera. Its `start()` is
 asynchronous and cannot be cancelled: leaving the tab during start-up left the
 stream open forever, and a CSS `transform: scale()` on its preview changed only
-what the student saw — the decoder still read the un-zoomed frame, so zoom "did
+what the student saw - the decoder still read the un-zoomed frame, so zoom "did
 nothing" even though the slider existed in 3.4.0.
 
 **Fix.**
@@ -510,7 +510,7 @@ nothing" even though the slider existed in 3.4.0.
    native `BarcodeDetector` when present, `jsQR` otherwise. Hardware zoom
    (`track.applyConstraints({ advanced:[{zoom}] })`) is used when the camera
    offers it; otherwise the same control is a **digital zoom** (crop + CSS
-   scale) up to 4× — so zoom now really makes the code easier to read. Slider,
+   scale) up to 4× - so zoom now really makes the code easier to read. Slider,
    −/+ buttons, 1×/2×/3×/Max presets, pinch gesture, torch, camera switch.
 2. **Lifecycle guarantee.** Every start is tagged with a session id; any stream
    that resolves after the session was cancelled is stopped immediately. The
@@ -521,7 +521,7 @@ nothing" even though the slider existed in 3.4.0.
    a real browser: after a successful scan, after switching tabs and when the
    tab is hidden, **every** camera track is `ended` and started GPS watches =
    cleared GPS watches.
-3. **Lecture deletion — one server routine, one dialog.**
+3. **Lecture deletion - one server routine, one dialog.**
    `server/utils/deleteLecture.js` → `previewLectureDeletion()` (what would go)
    and `deleteLectureCascade()` which, in order: deletes the lecture's
    `Attendance` marks → `$pull`s the lecture id from `LeaveApplication.lectureIds`
@@ -530,11 +530,11 @@ nothing" even though the slider existed in 3.4.0.
    `invalidateAll()` server caches. Nothing else references lectures (verified
    by grep; `MODELS.md` §13). Because every percentage, rate and report in the
    system is computed from `Attendance` rows at request time (none is stored),
-   deleting the rows is what keeps presence counts correct everywhere — the
+   deleting the rows is what keeps presence counts correct everywhere - the
    live check showed the admin attendance summary going 79→78 lectures,
    472→464 counted, 367→362 present after deleting an 8-mark lecture.
    **Policy:** admin may delete any lecture; a teacher may delete *their own*
-   lecture only while it is running or while nobody is marked present — once
+   lecture only while it is running or while nobody is marked present - once
    presence exists, "Ask an admin to delete it" (`DELETE_NEEDS_ADMIN`).
    Routes: `GET /lecture/:id/delete-preview`, `DELETE /lecture/:id`,
    `GET /admin/lectures` (filters: status/teacher/class/subject/date/search).
@@ -549,8 +549,8 @@ nothing" even though the slider existed in 3.4.0.
    404 and returns to the start screen; the student scanning its QR gets
    "lecture not found".
 4. **Palette** (`tailwind.config.js` + `index.css`): white cards on a cool
-   `#f3f5f9` canvas with real borders (`#d9e0ea`), darker text scale, and —
-   the actual cause of the dullness — the pale `*-400` accent utilities that
+   `#f3f5f9` canvas with real borders (`#d9e0ea`), darker text scale, and -
+   the actual cause of the dullness - the pale `*-400` accent utilities that
    were designed for dark backgrounds are darkened to `*-600` in light mode by
    a CSS layer (`.on-dark` opts out, used on the camera view). Dark mode is
    unchanged.
@@ -565,7 +565,7 @@ allowed on their own running one; cascade removed 8 marks / 1 leave link / 9
 notifications; audit sentence visible on the admin dashboard. Tests: server
 83/83, frontend 92/92, build OK.
 
-### Phase 18.1 — "You forgot the zoom": zoom made unmissable + drag / pinch gestures (v3.6.1)
+### Phase 18.1 - "You forgot the zoom": zoom made unmissable + drag / pinch gestures (v3.6.1)
 **Report.** The user could not find the zoom on the student scanner and asked
 for a "drag and zoom" control for students far from the screen.
 
@@ -574,7 +574,7 @@ slider, only after the camera reached `running`; the pinch used React's
 `onTouchMove`, which React registers as passive, so it worked only thanks to
 `touch-action: none`. A far-away code was also still hard to read when zoomed,
 because the digital crop was decoded at its native pixel size (a 270 px crop
-stayed 270 px — ~2 px per module).
+stayed 270 px - ~2 px per module).
 
 **Fix.**
 1. **Zoom lives on the camera** (`QRScanner.jsx`): a bottom bar over the
@@ -601,7 +601,7 @@ stayed 270 px — ~2 px per module).
    scanner in "Opening camera…").
 
 **Verified** in the private browser harness with a *1080p* fake camera showing
-a 110 px code (≈2.2 px/module — a projector from the back row): not decoded
+a 110 px code (≈2.2 px/module - a projector from the back row): not decoded
 at 1× after 4 s; CDP touch pinch ×1.4 → 1.4×; double-tap → 1×; one-finger drag
 up → zoom climbs and the code **decodes mid-drag at ≈1.7×** → "Marked
 Present!" → roster PRESENT; slider/+/− sit inside the preview box; hint shows
@@ -609,7 +609,7 @@ then disappears. Tests: frontend 99/99 (7 new gesture tests), server 83/83,
 build OK. The original repository commit had no zoom code at all; nothing
 from it was removed.
 
-### Phase 18.2 — "How do I run reseed on Render?" (v3.6.2)
+### Phase 18.2 - "How do I run reseed on Render?" (v3.6.2)
 `reseed.sh` needs Docker Compose; Render has none and its free instance type
 has no Shell. Added `RESEED_KEY` (`server/utils/reseedKey.js`, wired in
 `index.js` before `AUTO_SEED`): on boot the API compares the variable with the
@@ -618,7 +618,7 @@ model, so the seeder's wipe leaves it alone). New value → `seedDatabase({force
 true})` + remember; same value → nothing, so redeploys/restarts never lose
 data. README section "Reseed on Render". Tests: server 87/87 (4 new).
 
-### Phase 18.3 — SEO: "Sitemap is HTML" on the Netlify site (v3.6.3)
+### Phase 18.3 - SEO: "Sitemap is HTML" on the Netlify site (v3.6.3)
 The user submitted `/home` as the sitemap of `attendex12345.netlify.app`. The
 SPA fallback answers every path with `index.html`, so `/home` and `/sitemap.xml`
 were HTML. Added `frontend/scripts/seo.mjs` (runs first in `npm run build`):
@@ -626,17 +626,17 @@ writes `public/sitemap.xml` (absolute URLs, public pages `/` and `/login`) and
 `public/robots.txt` (disallow dashboards + `/api/`, Sitemap line); domain from
 `SITE_URL` → Netlify `URL` → default. `vite.config.js` plugin replaces
 `__SITE_URL__` in `index.html` (canonical, og:url, og:image, JSON-LD url) with
-the same value (a `%…%` placeholder breaks Vite's URI decoding — don't).
+the same value (a `%…%` placeholder breaks Vite's URI decoding - don't).
 `public/og-image.png` 1200×630 generated with Pillow. `ProtectedRoute` sets
 `robots: noindex` while a private page is mounted (`useNoIndex`).
 `netlify.toml`: content-type/cache headers for the SEO files, `no-cache` for
 index.html, commented `/api/*` proxy template. README "SEO & Google Search
 Console" with the exact Search Console steps. Tests: frontend 102/102 (3 new).
 
-### Phase 18.4 — Keywords on the page + keyword plan (v3.6.4)
+### Phase 18.4 - Keywords on the page + keyword plan (v3.6.4)
 User asked for ranking keywords on the site, a list "to add in Search
 Console", and title/meta aligned to them. Search Console has no keyword input
-(explained in `SEO_KEYWORDS.md` §1 — use Performance → Queries filters).
+(explained in `SEO_KEYWORDS.md` §1 - use Performance → Queries filters).
 Page work (text only, design unchanged): `<title>` "QR Code Attendance System
 for Colleges & Schools | AttendX" (58 chars), meta description 159 chars,
 hero eyebrow + H1 "QR attendance without proxies, paper or queues", keyworded
@@ -646,11 +646,83 @@ Organization + WebSite JSON-LD, SoftwareApplication keywords/audience, Login
 page `AppHelmet`. `SEO_KEYWORDS.md` = primary/secondary/long-tail table with
 intent and location, weekly GSC routine, article ideas. Build + 102 tests OK.
 
-## Status: all requested items are implemented (Phases 1–18)
+### Phase 18.5 - Logo + brand assets from the Instagram promotion (v3.6.5)
+User is promoting on Instagram (@kishorprajapati514: profile picture, 8 reels,
+3 carousels) and asked for the same logo on the site. All 12 posts were
+reviewed; colours/geometry measured from the profile picture (frame 90,
+stroke 11, overshoot 10, scan-line 47×9; navy #11172f, indigo #5a65f1, royal
+blue #0b4ff8, ink #0a1248). Decisions (asked): keep the cyan UI accent, logo
+only in brand colours; tagline "Attendance, made simple."; no Instagram link
+yet (placeholder `BRAND.social.instagram`).
+Code: `src/brand.js`, `components/Brand/{BrandMark,BrandLogo}.jsx`, Tailwind
+`brand-*` colours; lock-up replaces the text logo in Header, Footer (with
+tagline), AppNavbar, Login (stacked h1 + tagline), Register, Faculty/Student
+sidebars + mobile headers, admin sidebar tile. `index.html`: favicon.svg/.ico,
+apple-touch-icon, site.webmanifest (maskable icon → installable), theme-color
+navy, Organization `logo` ImageObject + `slogan`. `scripts/brand-assets.py`
+generates all icons, og-image.png and the `brand/` kit (SVG with outlined
+Inter wordmark via fontTools; PNG profile 1080, end-card 1080×1920,
+transparent lock-ups, 1024 icon). Tests: `brand.test.jsx` (8). Verified in
+headless Chromium (light/dark, desktop/mobile, admin/faculty/student shells).
+
+### Phase 19 - Home page rebuilt from scratch (v3.7.0)
+User: clicking *Features* worked but left a lot of black space under the
+footer, there was no way back to the home page from the app, and the page
+"does not look good" - rebuild it with a unique design. Decisions (asked):
+same colour combination as the rest of the app (off-white/white light, dark
+via toggle, cyan accent), short brand-first tab title, keep every SEO tag in
+`index.html`, add a professional "proxy tricks vs AttendX" table.
+Root cause of the black space: the old root had `overflow-hidden` with
+absolutely positioned blobs overflowing it, which turns the root into a
+programmatic scroll container - anchor jumps scrolled the wrapper, not the
+window (`scrollY` stayed 0, footer bottom 3914 vs document height 4879).
+Code: `src/content/landing.js` (all copy: NAV_LINKS, STATS, DEMO_EVENTS,
+PROXY_TRICKS, STEPS, FEATURES, ROLES, FAQS - FAQS equals the FAQPage JSON-LD),
+`src/components/Landing/{ui,SiteHeader,LiveDemo,Hero,ProxyCheck,HowItWorks,
+Features,Roles,Faq,Closing}.jsx`, `pages/Home/LandingPage.jsx`; old
+`components/Home/*` deleted. Root is `min-h-screen` with no overflow rule;
+decorations live inside `relative overflow-hidden` sections. Sticky header
+with scroll-spy, mobile menu (`aria-expanded`, Escape, scroll lock), logo →
+`/` and scroll-to-top. Live demo: one real `react-qr-code` rotating every 5 s
+with a countdown ring and feed. Dashboard logos (student, faculty, admin)
+link to `/`. Titles: `AttendX | QR Code Attendance System`, `Login | AttendX`.
+Tests: `landingPage.test.jsx` (10 - includes "root is not a scroll container"
+and "FAQS === FAQPage JSON-LD"). Verified in headless Chromium: after clicking
+*Features* `window.scrollY > 0` and footer bottom === `document.scrollHeight`
+(light/dark, 1280 & 390); no console errors.
+
+### Phase 19.1 - Search Console tag restored + plain-language pass (v3.7.1)
+User: the Google Search Console verification tag they had added to
+`index.html` was gone after the home-page rebuild (tracking stopped), and the
+site read like AI text (em dashes, marketing phrasing). Neither the original
+repo nor the live Netlify build contained the tag, so it was taken from the
+user: `IzqgkAe2W8AdJsVxSpHdcHXkEOg9q3B4vE13mn-vbR4`. It now sits after the
+viewport meta with a KEEP THIS LINE comment and is guarded by
+`seoFiles.test.js` (index.html and dist/index.html). README has a "Google
+Search Console" section. **Standing rule: never touch that line; every change
+to `index.html` must be a targeted edit, never a rewrite.**
+Plain-language pass: all em/en dashes removed from the repo (UI strings, API
+messages, seed data, comments, docs); placeholders for empty values are "-";
+ranges use "-"; landing copy rewritten in short direct sentences; title
+`AttendX | QR Code Attendance System`, login `Login | AttendX`.
+
+### Phase 19.2 - Docker build out of disk space (v3.7.2)
+User: `docker compose up --build` failed in `npm install` with
+`ENOSPC: no space left on device` (IDX-style workspace). Not a code bug: the
+host disk was full of build cache / dangling images after ~25 rebuilds plus
+the Mongo image. Shipped: `clean.sh` (safe prune; `DEEP=1` = all unused
+images + db volume), `start.sh` pre-flight free-space check (<2 GB → prune
+dangling images + `builder prune --keep-storage 1GB`), Dockerfiles
+(`server`, `server/Dockerfile.seed`, `frontend`) switched to `npm ci` with
+`npm cache clean --force` in the same layer (lockfiles verified in sync),
+`.dockerignore` extended (coverage, dist-e2e, .vite, brand fonts). README
+troubleshooting section added.
+
+## Status: all requested items are implemented (Phases 1-19.2)
 Next work is only user acceptance testing with Docker:
 `docker compose up --build` (frontend rebuild picks up bundled Leaflet).
 
 ## Verification (no live server was exposed, per request)
 - `cd server && npm test` · `cd frontend && npm test && npm run build`
-- Phases 16–18 additionally used a private Playwright harness against the real API on
+- Phases 16-18 additionally used a private Playwright harness against the real API on
   127.0.0.1 (stopped afterwards); screenshots were inspected, not shipped.

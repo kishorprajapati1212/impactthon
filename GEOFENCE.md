@@ -1,6 +1,6 @@
-# AttendX — Geofence System v2.1
+# AttendX - Geofence System v2.1
 
-## Single Config — 2 Files Only
+## Single Config - 2 Files Only
 
 All geofence defaults live in exactly 2 files (must match):
 
@@ -24,7 +24,7 @@ Every lecture automatically gets directional bounds:
              (student seating)
 ```
 
-Faculty does nothing — geofence is automatic. Admin sets campus-wide defaults.
+Faculty does nothing - geofence is automatic. Admin sets campus-wide defaults.
 
 ## Default Bounds
 | Direction | Default | Meaning |
@@ -39,13 +39,13 @@ Faculty does nothing — geofence is automatic. Admin sets campus-wide defaults.
 ```
 server/config/geofence.js  <-- CHANGE HERE
        |
-       +-- lectureSession.controller.js (line 37) — stores bounds on lecture start
+       +-- lectureSession.controller.js (line 37) - stores bounds on lecture start
        |
-       +-- attendance.controller.js (line 105) — checks bounds on student scan
+       +-- attendance.controller.js (line 105) - checks bounds on student scan
 
 frontend/src/utils/geofence.js  <-- CHANGE HERE (match server)
        |
-       +-- LiveSession.jsx (line 231) — draws yellow box on map
+       +-- LiveSession.jsx (line 231) - draws yellow box on map
 ```
 
 ## Direction Reference
@@ -57,7 +57,7 @@ frontend/src/utils/geofence.js  <-- CHANGE HERE (match server)
 | West | 270° | 225°-315° |
 
 ## For Future Developers
-1. Change values in the 2 config files only — controllers read from config, not hardcoded
+1. Change values in the 2 config files only - controllers read from config, not hardcoded
 2. System ALWAYS enforces directional bounds (no circular fallback)
 3. GPS accuracy up to 150m is auto-compensated
-4. No faculty UI for geofence — fully automatic
+4. No faculty UI for geofence - fully automatic

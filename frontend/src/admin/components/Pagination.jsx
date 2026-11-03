@@ -7,7 +7,7 @@ export default function Pagination({ page, pages, total, limit, onPage, onLimit 
   const to = Math.min(page * limit, total);
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 text-[13px] text-slate-600 dark:text-slate-300">
-      <p className="whitespace-nowrap">Showing <b className="font-semibold text-slate-900 dark:text-white">{from}–{to}</b> of <b className="font-semibold text-slate-900 dark:text-white">{total}</b></p>
+      <p className="whitespace-nowrap">Showing <b className="font-semibold text-slate-900 dark:text-white">{from}-{to}</b> of <b className="font-semibold text-slate-900 dark:text-white">{total}</b></p>
       <div className="flex items-center gap-2">
         {onLimit && (
           <select value={limit} onChange={(e) => onLimit(Number(e.target.value))} className={selectCls + " h-8 w-auto text-xs"} aria-label="Rows per page">

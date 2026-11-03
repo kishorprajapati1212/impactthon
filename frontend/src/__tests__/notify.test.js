@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { cleanMessage } from "../utils/notify.js";
 
-describe("custom notify — messages are always short & human", () => {
+describe("custom notify - messages are always short & human", () => {
   it("strips HTML and collapses whitespace", () => {
     expect(cleanMessage("<b>Saved</b>   \n successfully")).toBe("Saved successfully");
   });

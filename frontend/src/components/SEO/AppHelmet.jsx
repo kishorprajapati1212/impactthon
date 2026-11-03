@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 /**
- * Tiny SEO helper — sets the document title & meta description on the
+ * Tiny SEO helper - sets the document title & meta description on the
  * client side when a page mounts (like react-helmet, dependency-free).
  * The server-rendered <head> in index.html carries the primary tags.
  */

@@ -43,7 +43,7 @@ export const getAllSections = asyncHandler(async (req, res) => {
   const counts = await studentCountsBySection(sections.map((s) => s._id));
   for (const s of sections) {
     s.studentCount = counts.get(String(s._id)) || 0;
-    // lean() skips virtuals — rebuild batchLabel ("2026-30") so clients keep working.
+    // lean() skips virtuals - rebuild batchLabel ("2026-30") so clients keep working.
     s.batchLabel = s.batchEndYear && s.batchEndYear > s.batchYear ? `${s.batchYear}-${String(s.batchEndYear).slice(-2)}` : String(s.batchYear);
   }
   res.json({ success: true, count: sections.length, total: sections.length, data: sections });

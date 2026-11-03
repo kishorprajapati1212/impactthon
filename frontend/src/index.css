@@ -162,7 +162,7 @@
 .notify-progress { animation-name: notify-shrink; animation-timing-function: linear; animation-fill-mode: forwards; }
 
 
-/* Fullscreen QR projection — pure white, no dull overlays */
+/* Fullscreen QR projection - pure white, no dull overlays */
 html.qr-project-mode,
 html.qr-project-mode body {
   background: #ffffff !important;
@@ -178,7 +178,7 @@ html.qr-project-mode main {
   max-width: none !important;
 }
 
-/* Admin console — right-hand drawers (RecordForm / RecordDetail) */
+/* Admin console - right-hand drawers (RecordForm / RecordDetail) */
 @keyframes drawer-in { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .animate-\[drawer-in_\.22s_ease-out\] { animation: none; } }
 
@@ -215,3 +215,26 @@ html.qr-project-mode main {
 }
 .zoom-range:active::-webkit-slider-thumb { cursor: grabbing; transform: scale(1.08); }
 .zoom-range:focus-visible { box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.6); }
+
+/* ── Landing page helpers (v3.7) ─────────────────────────────────────── */
+@keyframes lp-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+.lp-rise { animation: lp-rise 0.5s ease-out both; }
+.lp-grid {
+  background-image: radial-gradient(circle, rgba(100, 116, 139, 0.22) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse at 50% 0%, #000 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 0%, #000 30%, transparent 75%);
+}
+.lp-grid-dark {
+  background-image: radial-gradient(circle, rgba(148, 163, 184, 0.25) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(ellipse at 50% 50%, #000 20%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, #000 20%, transparent 75%);
+}
+.text-balance { text-wrap: balance; }
+@media (prefers-reduced-motion: reduce) {
+  .lp-rise { animation: none; }
+}

@@ -86,7 +86,7 @@ describe('verifyQRLocally', () => {
     expect(result.valid).toBe(false);
   });
 
-  it('accepts QR at boundary (24s old — cold-GPS grace)', () => {
+  it('accepts QR at boundary (24s old - cold-GPS grace)', () => {
     const ts = Date.now() - 24_000;
     const payload = btoa(JSON.stringify({ token, lectureSessionId: lectureId, ts }));
     const qr = payload.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
@@ -95,6 +95,6 @@ describe('verifyQRLocally', () => {
 
   it('rejects garbled input', () => {
     expect(verifyQRLocally('!!!not-valid-base64!!!').valid).toBe(false);
-    expect(verifyQRLocally('YWJj').valid).toBe(false); // "abc" — decodes but missing fields
+    expect(verifyQRLocally('YWJj').valid).toBe(false); // "abc" - decodes but missing fields
   });
 });

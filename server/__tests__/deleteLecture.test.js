@@ -4,8 +4,8 @@ import mongoose from "mongoose";
 /**
  * Deleting a lecture is the most sensitive action in AttendX: it removes
  * attendance marks. These tests pin down (1) who may do it, (2) the exact
- * cascade — every collection that references a lecture is cleaned, children
- * first, lecture last — and (3) that the deletion is audited with counts.
+ * cascade - every collection that references a lecture is cleaned, children
+ * first, lecture last - and (3) that the deletion is audited with counts.
  */
 
 const calls = [];
@@ -36,7 +36,7 @@ const lecture = {
 
 beforeEach(() => { calls.length = 0; });
 
-describe("lectureDeletePolicy — who may delete which lecture", () => {
+describe("lectureDeletePolicy - who may delete which lecture", () => {
   it("admin may delete any lecture, running or finished, with or without presence", () => {
     expect(lectureDeletePolicy({ role: "ADMIN", lecture, presentCount: 40 }).allowed).toBe(true);
     expect(lectureDeletePolicy({ role: "ADMIN", lecture: { ...lecture, status: "ACTIVE" }, presentCount: 0 }).allowed).toBe(true);
@@ -77,7 +77,7 @@ describe("audit label and result sentence", () => {
   });
 });
 
-describe("deleteLectureCascade — every table that references the lecture is cleaned, in order", () => {
+describe("deleteLectureCascade - every table that references the lecture is cleaned, in order", () => {
   it("deletes marks, pulls the id from leave applications, removes notification rows, then the lecture, then audits", async () => {
     const counts = { PRESENT: 5, LATE: 0, ABSENT: 2, EXCUSED: 0, LEAVE: 0, total: 7, present: 5, notPresent: 2 };
     const req = { user: { _id: new mongoose.Types.ObjectId(), role: "ADMIN" } };

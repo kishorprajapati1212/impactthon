@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 /**
- * One attendance row per (lecture, student) — enforced unique.
+ * One attendance row per (lecture, student) - enforced unique.
  * `location` is the GPS proof: latitude, longitude and the reported
  * accuracy (in meters). Keeping accuracy makes maps & audit honest.
  */

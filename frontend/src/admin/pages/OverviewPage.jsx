@@ -9,7 +9,7 @@ const total = (r) => (r.status === "fulfilled" ? r.value?.data?.total ?? r.value
 const one = (n, singular, plural) => `${n} ${n === 1 ? singular : plural}`;
 
 /**
- * Dashboard — written for an admin who has never used the system:
+ * Dashboard - written for an admin who has never used the system:
  * plain sentences, one button per line, nothing decorative.
  *   1. What to do (setup steps that are missing + problems that block attendance)
  *   2. Right now (lectures running, logins waiting)
@@ -96,7 +96,7 @@ export default function OverviewPage({ go }) {
         <ul className="divide-y divide-slate-100 dark:divide-slate-800">
           <li className="flex flex-wrap items-center gap-x-4 gap-y-2 px-5 py-3.5">
             <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${snap.live.length ? "bg-emerald-500" : "bg-slate-300"}`} />
-            <p className="min-w-0 flex-1 basis-64 text-sm text-slate-900 dark:text-white">{snap.live.length ? <><b>{one(snap.live.length, "lecture is", "lectures are")}</b> running now{snap.live.length <= 3 && <span className="text-slate-500"> — {snap.live.map((l) => `${l.faculty} · ${l.subject} · ${l.classLabel || `Class ${l.section}`}`).join("; ")}</span>}.</> : "No lecture is running at the moment."}</p>
+            <p className="min-w-0 flex-1 basis-64 text-sm text-slate-900 dark:text-white">{snap.live.length ? <><b>{one(snap.live.length, "lecture is", "lectures are")}</b> running now{snap.live.length <= 3 && <span className="text-slate-500">: {snap.live.map((l) => `${l.faculty} · ${l.subject} · ${l.classLabel || `Class ${l.section}`}`).join("; ")}</span>}.</> : "No lecture is running at the moment."}</p>
             <Button variant="outline" onClick={() => go("live")}>See lectures</Button>
           </li>
           <li className="flex flex-wrap items-center gap-x-4 gap-y-2 px-5 py-3.5">

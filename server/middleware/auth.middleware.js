@@ -15,7 +15,7 @@ const protect = asyncHandler(async (req, res, next) => {
   if (!token) {
     return res.status(401).json({
       success: false,
-      message: "Not authorized — no token provided. Please login.",
+      message: "Not authorized, no token provided. Please login.",
     });
   }
 
@@ -65,7 +65,7 @@ const protect = asyncHandler(async (req, res, next) => {
         success: false,
         code: "AUTH_DEVICE_REQUIRED",
         message:
-          "This device is not trusted for the student account. Please login again from your own phone — each login must be approved by your mentor.",
+          "This device is not trusted for the student account. Please login again from your own phone. Each login must be approved by your mentor.",
       });
     }
 
@@ -78,7 +78,7 @@ const protect = asyncHandler(async (req, res, next) => {
         success: false,
         code: "AUTH_RELOGIN_REQUIRED",
         message:
-          "Please login again — your account now uses device-bound login.",
+          "Please login again. Your account now uses device-bound login.",
       });
     }
 
@@ -115,7 +115,7 @@ const protect = asyncHandler(async (req, res, next) => {
         success: false,
         code: "AUTH_LOGGED_OUT",
         message:
-          "You are logged out. Login again — your mentor will confirm the device.",
+          "You are logged out. Login again and your mentor will confirm the device.",
       });
     }
 
@@ -125,7 +125,7 @@ const protect = asyncHandler(async (req, res, next) => {
         success: false,
         code: "AUTH_DEVICE_MISMATCH",
         message:
-          "This device was not used to login. Attendance and data are tied to your own phone — please login from your registered device.",
+          "This device was not used to login. Attendance and data are tied to your own phone. Please login from your registered device.",
       });
     }
 

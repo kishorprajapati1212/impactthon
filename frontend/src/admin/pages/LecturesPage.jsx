@@ -14,7 +14,7 @@ import DeleteLectureDialog from "../../components/UI/DeleteLectureDialog.jsx";
  * Admin → Lectures: every attendance session, running or finished.
  *
  * Why this page exists (Phase 18): a teacher who starts two sessions at once,
- * or one for the wrong class, could end it but never remove it — and a
+ * or one for the wrong class, could end it but never remove it - and a
  * finished lecture keeps counting in every percentage. From here an admin can
  * find the lecture (teacher / class / subject / date / status) and delete it;
  * the dialog shows exactly how many marks go with it.
@@ -109,7 +109,7 @@ export default function LecturesPage({ ctx, initialFilters = {} }) {
       render: (l) => (
         <div className="whitespace-nowrap">
           <p className="font-medium text-slate-900 dark:text-slate-100">{formatDateTime(l.startTime)}</p>
-          <p className="text-xs text-slate-500">{l.status === "ACTIVE" ? `running ${l.durationMin} min` : l.durationMin != null ? `${l.durationMin} min` : "—"}</p>
+          <p className="text-xs text-slate-500">{l.status === "ACTIVE" ? `running ${l.durationMin} min` : l.durationMin != null ? `${l.durationMin} min` : "-"}</p>
         </div>
       ),
     },
@@ -128,8 +128,8 @@ export default function LecturesPage({ ctx, initialFilters = {} }) {
         </div>
       ),
     },
-    { key: "faculty", label: "Teacher", render: (l) => l.faculty || "—" },
-    { key: "class", label: "Class", className: "whitespace-nowrap", render: (l) => l.classLabel || l.section || "—" },
+    { key: "faculty", label: "Teacher", render: (l) => l.faculty || "-" },
+    { key: "class", label: "Class", className: "whitespace-nowrap", render: (l) => l.classLabel || l.section || "-" },
     { key: "status", label: "Status", sortField: "status", render: (l) => <Pill tone={STATUS[l.status]?.tone || "slate"} dot>{STATUS[l.status]?.label || l.status}</Pill> },
     {
       key: "present",
@@ -139,7 +139,7 @@ export default function LecturesPage({ ctx, initialFilters = {} }) {
       render: (l) => (
         <span className="tabular-nums">
           <b>{l.presentCount || 0}</b>
-          <span className="text-slate-400"> / {l.rosterSize ?? "—"}</span>
+          <span className="text-slate-400"> / {l.rosterSize ?? "-"}</span>
           {l.rosterSize ? <span className="ml-1 text-xs text-slate-500">({l.attendanceRate}%)</span> : null}
         </span>
       ),
@@ -157,7 +157,7 @@ export default function LecturesPage({ ctx, initialFilters = {} }) {
           <div>
             <h1 className="text-xl font-semibold tracking-tight text-slate-900 dark:text-white">Lectures</h1>
             <p className="mt-0.5 max-w-2xl text-[13px] text-slate-500">
-              Every attendance session, running or finished. Delete one that was started by mistake — its marks are removed and every percentage updates.
+              Every attendance session, running or finished. Delete one that was started by mistake. Its marks are removed and every percentage updates.
             </p>
           </div>
         </div>

@@ -3,7 +3,7 @@ import axios from "axios";
 /**
  * Where the browser sends API calls.
  *
- *  Default — SAME ORIGIN, path prefix `/api`:
+ *  Default - SAME ORIGIN, path prefix `/api`:
  *    the page at https://host/… calls https://host/api/students and the
  *    server that served the page forwards it to the API:
  *      • `npm run dev` / `vite preview` → Vite proxy (vite.config.js)
@@ -12,7 +12,7 @@ import axios from "axios";
  *    cloud IDE's per-port auth proxy (Project IDX / Firebase Studio, Codespaces)
  *    to block.
  *
- *  Override — `VITE_API_URL=https://api.example.com` at build time when the API
+ *  Override - `VITE_API_URL=https://api.example.com` at build time when the API
  *    is deliberately hosted somewhere else (then the API must allow that origin).
  */
 export function resolveApiBase() {

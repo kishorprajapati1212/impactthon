@@ -1,7 +1,7 @@
 /**
  * ── Centralized Input Validation ───────────────────────────────────────
  * Every controller uses these validators before touching the database.
- * All rules are exported as pure functions — easy to test and reuse.
+ * All rules are exported as pure functions - easy to test and reuse.
  */
 
 // ── Generic helpers ────────────────────────────────────────────────────
@@ -25,7 +25,7 @@ export const isNonEmptyStr = (v, min = 1, max = 200) =>
 export const isName = (v) =>
   isNonEmptyStr(v, 2, 100) && PERSON_NAME_RE.test(v.trim());
 
-/** Department / subject titles — letters, digits and common punctuation. */
+/** Department / subject titles - letters, digits and common punctuation. */
 export const isTitle = (v) =>
   isNonEmptyStr(v, 2, 200) && TITLE_RE.test(v.trim());
 

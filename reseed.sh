@@ -40,4 +40,4 @@ fi
 
 echo "Deleting ALL data and loading the demo college…"
 docker compose exec -e FORCE_SEED=true -e SEED_HISTORY="${SEED_HISTORY:-true}" server node seed/seed.js
-echo "Done. Log out and log in again — old browser sessions belong to deleted accounts."
+echo "Done. Log out and log in again - old browser sessions belong to deleted accounts."

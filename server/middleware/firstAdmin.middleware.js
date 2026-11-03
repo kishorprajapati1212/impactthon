@@ -4,7 +4,7 @@ import protect from "./auth.middleware.js";
 import authorizeRoles from "./role.middleware.js";
 
 /**
- * POST /admin/create used to be open to the internet — anyone could make
+ * POST /admin/create used to be open to the internet - anyone could make
  * themselves an admin from the public "Create account" page.
  *
  * Rule now: the very first admin can be created without logging in

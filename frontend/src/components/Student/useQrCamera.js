@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createQrDecoder } from "../../utils/qrDecoder.js";
 
 /**
- * useQrCamera — the student scanner's camera, owned end to end (Phase 18).
+ * useQrCamera - the student scanner's camera, owned end to end (Phase 18).
  *
  * Guarantees:
  *  • The camera is released the moment the scanner is no longer wanted:
@@ -12,8 +12,8 @@ import { createQrDecoder } from "../../utils/qrDecoder.js";
  *    user already left is stopped immediately instead of leaking a live
  *    camera (the "camera light stays on" bug).
  *  • Zoom always exists. Hardware zoom is used when the camera exposes it
- *    (most Android phones); on top of that — or instead of it (iPhones,
- *    laptops) — a digital zoom crops the centre of each frame *before*
+ *    (most Android phones); on top of that - or instead of it (iPhones,
+ *    laptops) - a digital zoom crops the centre of each frame *before*
  *    decoding, so zooming really does help read a small code on a
  *    projector, not just enlarge the preview.
  *  • Decoding uses the native BarcodeDetector when available, else jsQR.
@@ -140,7 +140,7 @@ export default function useQrCamera({ active = false, onDecode, fps = 10, decode
 
   // Hardware zoom is pushed to the camera "latest value wins": a pinch or a
   // drag produces dozens of values per second and applyConstraints is slow on
-  // many phones — queueing every one of them would make the zoom lag behind
+  // many phones - queueing every one of them would make the zoom lag behind
   // the finger. The digital part (crop + CSS scale) is applied instantly.
   const hwPendingRef = useRef(null);
   const hwBusyRef = useRef(false);
@@ -155,7 +155,7 @@ export default function useQrCamera({ active = false, onDecode, fps = 10, decode
         try {
           await track.applyConstraints({ advanced: [{ zoom: v }] });
         } catch {
-          /* the camera refused the value — the digital part still applies */
+          /* the camera refused the value - the digital part still applies */
         }
       }
     } finally {
@@ -264,7 +264,7 @@ export default function useQrCamera({ active = false, onDecode, fps = 10, decode
         stream = await navigator.mediaDevices.getUserMedia({ audio: false, video });
       } catch (e) {
         if (deviceRef.current && (e?.name === "OverconstrainedError" || e?.name === "NotFoundError")) {
-          deviceRef.current = null; // the remembered camera is gone — fall back to the default
+          deviceRef.current = null; // the remembered camera is gone - fall back to the default
           stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: { ideal: "environment" } } });
         } else throw e;
       }
@@ -289,11 +289,11 @@ export default function useQrCamera({ active = false, onDecode, fps = 10, decode
       try {
         await el.play();
       } catch {
-        /* autoplay policies — the stream still renders once the user interacts */
+        /* autoplay policies - the stream still renders once the user interacts */
       }
       if (session.cancelled) return;
 
-      // Hardware controls (zoom / torch) — only what this track really supports.
+      // Hardware controls (zoom / torch) - only what this track really supports.
       let caps = null;
       try {
         caps = session.track?.getCapabilities?.() || null;
@@ -302,7 +302,7 @@ export default function useQrCamera({ active = false, onDecode, fps = 10, decode
       }
       hwRef.current = hardwareZoomRange(caps);
       setTorch({ supported: !!caps?.torch, on: false });
-      // Continuous autofocus where the camera offers it — a code on a far
+      // Continuous autofocus where the camera offers it - a code on a far
       // projector needs refocusing after every zoom change.
       if (Array.isArray(caps?.focusMode) && caps.focusMode.includes("continuous")) {
         session.track.applyConstraints({ advanced: [{ focusMode: "continuous" }] }).catch(() => {});

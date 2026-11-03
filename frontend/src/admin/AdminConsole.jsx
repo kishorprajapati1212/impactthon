@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Menu, X, LogOut, Search, ChevronRight, GraduationCap, UserCog } from "lucide-react";
+import BrandMark from "../components/Brand/BrandMark.jsx";
 import { logout } from "../store/authSlice.js";
 import api, { clearApiCache } from "../utils/api.js";
 import ThemeToggle from "../components/UI/ThemeToggle.jsx";
@@ -22,7 +23,7 @@ const BUILD_TIME = typeof __BUILD_TIME__ !== "undefined" ? __BUILD_TIME__ : "";
 const buildLabel = () => { const d = BUILD_TIME ? new Date(BUILD_TIME) : null; return `v${APP_VERSION}${d && !Number.isNaN(d.getTime()) ? " · built " + d.toLocaleDateString(undefined, { day: "numeric", month: "short" }) : ""}`; };
 
 /**
- * AdminConsole — the admin application shell.
+ * AdminConsole - the admin application shell.
  *   • fixed dark sidebar (slide-over on mobile) with plain-language sections
  *   • top bar: breadcrumb, global people search, theme, account / log out
  *   • content: one page per ?section= (deep-linkable, back button works)
@@ -90,8 +91,10 @@ export default function AdminConsole() {
   const Sidebar = (
     <div className="flex h-full flex-col border-r border-slate-200 bg-white text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
       <div className="flex h-16 items-center gap-3 border-b border-slate-200 px-5 dark:border-slate-800">
-        <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-600 text-base font-black text-white shadow-sm">A</span>
-        <div className="min-w-0"><p className="text-[15px] font-semibold leading-tight text-slate-900 dark:text-white">AttendX</p><p className="text-[11px] uppercase tracking-wider text-slate-400">Admin console</p></div>
+        <Link to="/" aria-label="AttendX home page" title="Go to the home page" className="flex min-w-0 items-center gap-3 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500">
+          <BrandMark tone="tile" size={36} className="rounded-lg shadow-sm" />
+          <span className="min-w-0"><span className="block text-[15px] font-semibold leading-tight text-slate-900 dark:text-white">AttendX</span><span className="block text-[11px] uppercase tracking-wider text-slate-400">Admin console</span></span>
+        </Link>
         <button type="button" onClick={() => setMenuOpen(false)} className="ml-auto rounded-md p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-white/10 dark:hover:text-white lg:hidden" aria-label="Close menu"><X size={18} /></button>
       </div>
       <nav className="flex-1 overflow-y-auto px-3 py-4" aria-label="Admin sections">

@@ -5,8 +5,13 @@ WORKDIR /app
 
 RUN apk add --no-cache wget curl
 
+# Dependencies first (cached layer). npm ci = exact versions from the lockfile,
+# and the npm cache is removed in the SAME layer so the image and the Docker
+# build cache stay small ("no space left on device" happened on small disks).
 COPY package.json package-lock.json* ./
-RUN npm install --omit=dev --no-audit --no-fund
+RUN if [ -f package-lock.json ]; then npm ci --omit=dev --no-audit --no-fund; \
+    else npm install --omit=dev --no-audit --no-fund; fi \
+    && npm cache clean --force
 
 COPY . .
 RUN chmod +x /app/entrypoint.sh

@@ -1,12 +1,16 @@
-# AttendX Frontend — multi-stage
+# AttendX Frontend - multi-stage
 FROM node:20-alpine AS builder
 WORKDIR /app
 # Empty = same-origin mode: the browser calls /api/* on this nginx, which
 # proxies to the API container (see nginx.conf). Set only for a remote API.
 ARG VITE_API_URL=
 ENV VITE_API_URL=$VITE_API_URL
+# npm ci (exact lockfile versions) + npm cache removed in the same layer, so the
+# build cache stays small on machines with little disk space.
 COPY package.json package-lock.json* ./
-RUN npm install --no-audit --no-fund
+RUN if [ -f package-lock.json ]; then npm ci --no-audit --no-fund; \
+    else npm install --no-audit --no-fund; fi \
+    && npm cache clean --force
 COPY . .
 RUN npm run build
 

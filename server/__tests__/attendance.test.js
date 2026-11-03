@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 
 /**
- * Attendance Controller — Unit Tests
+ * Attendance Controller - Unit Tests
  *
  * These test the haversine distance calculation (geofence logic)
  * and the attendance marking flow validation rules.
@@ -16,7 +16,7 @@ function haversineDistance(lat1, lon1, lat2, lon2) {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-describe('Geofence — Haversine Distance', () => {
+describe('Geofence - Haversine Distance', () => {
   // SKPIMCS, KSV (Ahmedabad) approximate coordinates
   const classroom = { lat: 23.0225, lon: 72.5714 };
 

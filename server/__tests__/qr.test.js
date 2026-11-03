@@ -81,7 +81,7 @@ describe('QR Generation & Verification', () => {
     });
 
     it('accepts QR within valid window (near boundary)', () => {
-      // 24 seconds old — should still be valid (within 25s window)
+      // 24 seconds old - should still be valid (within 25s window)
       const nearBoundary = Date.now() - 24_000;
       const payload = JSON.stringify({ token: sessionToken, lectureSessionId, ts: nearBoundary });
       const qr = btoa(payload).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');

@@ -1,5 +1,5 @@
 /**
- * AttendX — database seeder (a complete, readable demo college)
+ * AttendX - database seeder (a complete, readable demo college)
  *
  *   node seed/seed.js                    → seeds only if the database is empty
  *   FORCE_SEED=true node seed/seed.js    → WIPES every collection, then seeds
@@ -72,7 +72,7 @@ export async function seed() {
   const withHistory = !["false", "0", "no"].includes(String(process.env.SEED_HISTORY).toLowerCase());
   const result = await seedDatabase({ force, withHistory });
   if (!result.seeded) {
-    console.log(`ℹ️  Database already has data (${result.existingUsers} users) — nothing changed.`);
+    console.log(`ℹ️  Database already has data (${result.existingUsers} users). Nothing changed.`);
     console.log("   To wipe everything and load the demo college:  FORCE_SEED=true node seed/seed.js");
   }
   printCredentials();
@@ -82,7 +82,7 @@ export async function seed() {
 
 /**
  * Seed on an ALREADY OPEN mongoose connection. Used by the CLI above and by the
- * API itself when AUTO_SEED=true (then only if the database is empty — the API
+ * API itself when AUTO_SEED=true (then only if the database is empty - the API
  * never wipes data). Returns { seeded, existingUsers }.
  */
 export async function seedDatabase({ force = false, withHistory = true } = {}) {
@@ -90,7 +90,7 @@ export async function seedDatabase({ force = false, withHistory = true } = {}) {
   if (existingUsers > 0 && !force) return { seeded: false, existingUsers };
 
   // ── Wipe every collection (indexes are kept) ──────────────────────
-  console.log(force ? "🧹 FORCE_SEED — deleting ALL existing data…" : "🧹 Empty database — loading demo college…");
+  console.log(force ? "🧹 FORCE_SEED: deleting ALL existing data…" : "🧹 Empty database: loading demo college…");
   const models = [User, Admin, Faculty, Student, Parent, Department, Section, Subject, FacultySubjectSection, MentorStudentHistory,
     LectureSession, Attendance, LeaveApplication, StudentSession, NotificationLog, AuditLog];
   for (const M of models) await M.deleteMany({});
@@ -103,7 +103,7 @@ export async function seedDatabase({ force = false, withHistory = true } = {}) {
   for (const a of ADMINS) {
     const user = await User.create({ name: a.name, email: a.email, password: pw, role: "ADMIN" });
     await Admin.create({ userId: user._id, employeeId: a.employeeId, phone: a.phone });
-    if (!adminUser) adminUser = user; // admin@attendx.com — the account that "did" the seeded audit entries
+    if (!adminUser) adminUser = user; // admin@attendx.com - the account that "did" the seeded audit entries
   }
 
   // ── Departments, classes, subjects ────────────────────────────────
@@ -176,7 +176,7 @@ export async function seedDatabase({ force = false, withHistory = true } = {}) {
   const counts = { lectures: 0, marks: 0, leaves: 0, logins: 0, notifications: 0, audit: 0 };
   if (withHistory) {
     // ── Lectures + attendance ───────────────────────────────────────
-    const lectures = []; // { doc, cls, subject, start, end } — COMPLETED ones only
+    const lectures = []; // { doc, cls, subject, start, end } - COMPLETED ones only
     let lectureNo = 0;
     /**
      * Create one lecture and mark every student of the class.
@@ -213,7 +213,7 @@ export async function seedDatabase({ force = false, withHistory = true } = {}) {
       return doc;
     };
 
-    // Class CE · A (2024): hand-written lectures — Nihal, Jeel, Ritik, Darshit follow the list, their classmates the generator
+    // Class CE · A (2024): hand-written lectures - Nihal, Jeel, Ritik, Darshit follow the list, their classmates the generator
     for (const l of CE_A_LECTURES) {
       await createLecture({ cls: "CE-A-2024", subject: l.subject, topic: l.topic, start: dayAt(l.daysAgo, l.hour), presentRolls: l.present, onlyRolls: NAMED_ROLLS });
     }
@@ -328,7 +328,7 @@ export async function seedDatabase({ force = false, withHistory = true } = {}) {
 
   console.log(
     `✅ Seeded: ${ADMINS.length} admins · ${TEACHERS.length} teachers · ${STUDENTS.length} students · ${PARENTS.length} parents · ${DEPARTMENTS.length} departments · ${CLASSES.length} classes · ${SUBJECTS.length} subjects · ${ASSIGNMENTS.length} teaching assignments` +
-    (withHistory ? ` · ${counts.lectures} lectures · ${counts.marks} attendance marks · ${counts.leaves} leave applications · ${counts.logins} device logins · ${counts.notifications} parent notifications · ${counts.audit} audit entries` : " · (no history — SEED_HISTORY=false)"),
+    (withHistory ? ` · ${counts.lectures} lectures · ${counts.marks} attendance marks · ${counts.leaves} leave applications · ${counts.logins} device logins · ${counts.notifications} parent notifications · ${counts.audit} audit entries` : " · (no history - SEED_HISTORY=false)"),
   );
   return { seeded: true, existingUsers };
 }
@@ -339,8 +339,8 @@ function printCredentials() {
   console.log(`  Admin    ${ADMIN.email.padEnd(24)} (+ ${ADMINS.length - 1} office accounts: ${ADMINS.slice(1).map((a) => a.email.split("@")[0] + "@").join(" ")})`);
   for (const t of TEACHERS) console.log(`  Teacher  ${t.email.padEnd(24)} ${t.name.padEnd(8)} ${t.dept}`);
   for (const s of STUDENTS.filter((x) => x.cls === "CE-A-2024")) console.log(`  Student  ${s.email.padEnd(24)} ${s.name.padEnd(8)} CE · A 2024  (${s.rollNumber}, mentor ${mentorName(s.mentor)})`);
-  console.log(`  …and ${STUDENTS.length - 8} more students — every student is <firstname>@attendx.com, e.g. yash@ (CE · B 2024), dev@ (CE · A 2025), ankit@ (IT · A 2024)`);
-  console.log("  Student logins need the mentor's (or an admin's) one-tap approval — open the mentor's account in another tab.");
+  console.log(`  …and ${STUDENTS.length - 8} more students. Every student is <firstname>@attendx.com, e.g. yash@ (CE · B 2024), dev@ (CE · A 2025), ankit@ (IT · A 2024)`);
+  console.log("  Student logins need the mentor's (or an admin's) one-tap approval. Open the mentor's account in another tab.");
   console.log("  UI: http://127.0.0.1:5173   API: http://127.0.0.1:3000/health");
   console.log("──────────────────────────────────────────────────────────────────────\n");
 }

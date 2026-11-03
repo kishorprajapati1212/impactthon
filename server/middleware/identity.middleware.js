@@ -18,7 +18,7 @@ const getProfileId = asyncHandler(async (req, res, next) => {
       profile = await Admin.findOne({ userId: req.user._id });
       break;
     case "FACULTY":
-      // Include inactive profiles too — they still exist, just can't login
+      // Include inactive profiles too - they still exist, just can't login
       profile = await Faculty.findOne({ userId: req.user._id });
       break;
     case "STUDENT":

@@ -71,7 +71,7 @@ function renderAt(url) {
 
 beforeEach(() => { Object.values(calls).forEach((a) => a.splice(0)); window.scrollTo = () => {}; });
 
-describe("Admin console — shell", () => {
+describe("Admin console - shell", () => {
   it("renders the sidebar groups in plain language and the dashboard by default", async () => {
     renderAt("/admin");
     const nav = screen.getByLabelText("Admin sections");
@@ -131,7 +131,7 @@ describe("Admin console — shell", () => {
   });
 });
 
-describe("Admin console — Students table", () => {
+describe("Admin console - Students table", () => {
   it("shows the student's phone numbers, class, mentor and full-size labelled action buttons", async () => {
     renderAt("/admin?section=students");
     expect((await screen.findAllByText("Rahul Verma")).length).toBeGreaterThan(0);
@@ -192,7 +192,7 @@ describe("Admin console — Students table", () => {
   });
 });
 
-describe("Admin console — delete safety", () => {
+describe("Admin console - delete safety", () => {
   it("Delete asks for confirmation and shows the server's friendly refusal when the record is in use", async () => {
     renderAt("/admin?section=departments");
     expect((await screen.findAllByText("Software, systems and AI")).length).toBeGreaterThan(0);
@@ -216,7 +216,7 @@ describe("Admin console — delete safety", () => {
   });
 });
 
-describe("Admin console — record detail", () => {
+describe("Admin console - record detail", () => {
   it("clicking a student row opens the detail drawer with attendance from the mentee-detail endpoint", async () => {
     renderAt("/admin?section=students");
     fireEvent.click((await screen.findAllByText("Rahul Verma"))[0]);
@@ -227,7 +227,7 @@ describe("Admin console — record detail", () => {
   });
 });
 
-describe("Admin console — Attendance report", () => {
+describe("Admin console - Attendance report", () => {
   it("explains the rule, shows one overall number and lowest-first tables with lectures counted", async () => {
     renderAt("/admin?section=attendance-report");
     expect((await screen.findAllByText("71%")).length).toBeGreaterThan(1); // overall + per class/subject/teacher

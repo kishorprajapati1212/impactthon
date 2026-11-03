@@ -11,7 +11,7 @@ function fakeMeta(initial = null) {
   };
 }
 
-describe("RESEED_KEY — reseed from a PaaS dashboard, safely", () => {
+describe("RESEED_KEY - reseed from a PaaS dashboard, safely", () => {
   it("does nothing when the variable is unset or blank", async () => {
     const seed = vi.fn();
     expect(await applyReseedKey({ key: undefined, meta: fakeMeta(), seedDatabase: seed })).toEqual({ applied: false, reason: "unset" });

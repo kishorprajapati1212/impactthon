@@ -28,7 +28,7 @@ export const buildQRString = (sessionToken, lectureSessionId, serverTimeOffset =
     lectureSessionId: String(lectureSessionId),
     ts: Date.now() - Number(serverTimeOffset || 0),
   };
-  // Standard base64url (no padding) — same as server verify
+  // Standard base64url (no padding) - same as server verify
   const json = JSON.stringify(payload);
   if (typeof btoa === "function") {
     return btoa(json).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
@@ -48,7 +48,7 @@ export const buildQRString = (sessionToken, lectureSessionId, serverTimeOffset =
  */
 export const verifyQRLocally = (qrString) => {
   if (!qrString || typeof qrString !== "string" || qrString.trim().length < 10) {
-    return { valid: false, message: "This QR looks incomplete — hold steady and fill the frame." };
+    return { valid: false, message: "This QR looks incomplete. Hold steady and fill the frame." };
   }
   const payload = decodeBase64Url(qrString.trim());
   if (!payload || !payload.token || !payload.lectureSessionId || payload.ts == null) {
@@ -56,17 +56,17 @@ export const verifyQRLocally = (qrString) => {
   }
   const ts = Number(payload.ts);
   if (!Number.isFinite(ts)) {
-    return { valid: false, message: "QR timestamp is invalid — ask faculty to show a fresh code." };
+    return { valid: false, message: "QR timestamp is invalid. Ask faculty to show a fresh code." };
   }
   const age = Date.now() - ts;
   if (age > MAX_AGE_MS) {
     return {
       valid: false,
-      message: `QR expired (${Math.round(age / 1000)}s old). Scan the newest code — it refreshes every 5 seconds.`,
+      message: `QR expired (${Math.round(age / 1000)}s old). Scan the newest code. It refreshes every 5 seconds.`,
     };
   }
   if (age < -FUTURE_SKEW_MS) {
-    return { valid: false, message: "Your phone clock appears ahead — enable automatic date & time." };
+    return { valid: false, message: "Your phone clock appears ahead. Enable automatic date and time." };
   }
   return { valid: true, data: payload };
 };

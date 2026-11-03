@@ -4,7 +4,7 @@ import "@testing-library/jest-dom/vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 
 /**
- * Deleting a lecture (Phase 18) — the dialog must never let anyone delete
+ * Deleting a lecture (Phase 18) - the dialog must never let anyone delete
  * blindly: it shows the server's numbers, requires an acknowledgement, and
  * respects the server's policy answer.
  */
@@ -33,7 +33,7 @@ describe("DeleteLectureDialog", () => {
     render(<DeleteLectureDialog open lectureId="l1" onClose={() => {}} onDeleted={onDeleted} />);
     await waitFor(() => expect(screen.getByText(/What will happen/)).toBeInTheDocument());
     expect(calls.get).toEqual(["/lecture/l1/delete-preview"]);
-    expect(screen.getByText(/8 attendance marks will be removed — 5 present, 3 absent\/leave/)).toBeInTheDocument();
+    expect(screen.getByText(/8 attendance marks will be removed: 5 present, 3 absent\/leave/)).toBeInTheDocument();
     expect(screen.getByText(/1 leave application will stop referring/)).toBeInTheDocument();
     expect(screen.getByText(/9 parent notification records/)).toBeInTheDocument();
     expect(screen.getAllByText(/cannot be undone/i).length).toBeGreaterThan(0);
@@ -70,7 +70,7 @@ describe("DeleteLectureDialog", () => {
   });
 });
 
-describe("admin navigation — Lectures page", () => {
+describe("admin navigation - Lectures page", () => {
   it("has a 'Lectures' page under Happening now that accepts deep-link filters without touching ?section=", () => {
     const item = NAV_ITEMS.find((i) => i.section === "lectures");
     expect(item).toBeTruthy();

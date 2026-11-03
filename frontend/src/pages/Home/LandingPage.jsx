@@ -1,85 +1,64 @@
-import Header from "../../components/Home/Header";
-import HeroSection from "../../components/Home/HeroSection";
-import FeaturesSection from "../../components/Home/FeaturesSection";
-import HowItWorksSection from "../../components/Home/HowItWorksSection";
-import RolesSection from "../../components/Home/RolesSection";
-import FAQSection from "../../components/Home/FAQSection";
-import CTA from "../../components/Home/CTA";
-import Footer from "../../components/Home/Footer";
-import AppHelmet from "../../components/SEO/AppHelmet";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import AppHelmet from "../../components/SEO/AppHelmet";
+import SiteHeader from "../../components/Landing/SiteHeader.jsx";
+import Hero from "../../components/Landing/Hero.jsx";
+import ProxyCheck from "../../components/Landing/ProxyCheck.jsx";
+import HowItWorks from "../../components/Landing/HowItWorks.jsx";
+import Features from "../../components/Landing/Features.jsx";
+import Roles from "../../components/Landing/Roles.jsx";
+import Faq from "../../components/Landing/Faq.jsx";
+import { StatsStrip, About, CtaBand, SiteFooter } from "../../components/Landing/Closing.jsx";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../../content/landing.js";
 
 /**
- * SEO-friendly marketing homepage.
- * - Semantic landmark structure (header/nav/main/section/footer)
- * - Keyword-rich, human-readable copy in every section
- * - Structured FAQ + SoftwareApplication schema (see index.html)
+ * Home page (v3.7 rebuild).
+ *
+ * Layout rules that keep anchor navigation correct:
+ *  - the page root is NOT a scroll container (no overflow-hidden here), every
+ *    decorative blob is clipped inside its own section, so "#features" scrolls
+ *    the window and nothing is left dangling under the footer;
+ *  - sections carry scroll-mt-24 for the sticky header;
+ *  - the header is sticky, not fixed, so it never covers anchor targets.
  */
 const LandingPage = () => {
-  // /#faq style links: the browser scrolls before React has rendered, so do it ourselves
+  // /#faq style deep links: scroll after React has rendered the target
   const { hash } = useLocation();
   useEffect(() => {
-    if (!hash) return;
-    const id = window.requestAnimationFrame(() => document.getElementById(hash.slice(1))?.scrollIntoView({ block: "start" }));
+    if (!hash) return undefined;
+    const id = window.requestAnimationFrame(() =>
+      document.getElementById(hash.slice(1))?.scrollIntoView({ block: "start" }),
+    );
     return () => window.cancelAnimationFrame(id);
   }, [hash]);
 
   return (
-  <div className="relative min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden transition-colors">
-    {/* Document-level SEO */}
-    <AppHelmet
-      title="QR Code Attendance System for Colleges & Schools | AttendX"
-      description="Free QR code attendance system for colleges & schools. Rotating QR + GPS geofence stops proxy attendance; admin, faculty and student dashboards; Excel reports."
-    />
+    <div className="min-h-screen bg-slate-50 text-slate-900 transition-colors dark:bg-slate-950 dark:text-slate-100">
+      <AppHelmet title={SITE_TITLE} description={SITE_DESCRIPTION} />
 
-    {/* Skip link for accessibility (also helps crawlers) */}
-    <a
-      href="#main-content"
-      className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-cyan-500 focus:text-white focus:rounded-lg"
-    >
-      Skip to main content
-    </a>
-
-    {/* Ambient background */}
-    <div className="pointer-events-none absolute top-[-20%] left-[-10%] w-[640px] h-[640px] bg-blue-600/5 dark:bg-blue-600/10 blur-[140px] rounded-full" />
-    <div className="pointer-events-none absolute bottom-[-20%] right-[-10%] w-[640px] h-[640px] bg-cyan-500/5 dark:bg-cyan-500/10 blur-[140px] rounded-full" />
-
-    <Header />
-
-    <main id="main-content">
-      <HeroSection />
-
-      {/* SEO-readable intro (visible, concise prose) */}
-      <section
-        aria-label="About AttendX attendance software"
-        className="max-w-4xl mx-auto px-4 sm:px-6 pb-8"
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-cyan-500 focus:px-4 focus:py-2 focus:text-white"
       >
-        <h2 className="sr-only">About AttendX college QR attendance system</h2>
-        <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed text-center">
-          <strong className="text-slate-800 dark:text-slate-200">AttendX</strong>{" "}
-          is a free <strong>QR code attendance system</strong> and{" "}
-          <strong>student attendance management system</strong> built for{" "}
-          <strong>colleges</strong>, <strong>universities</strong>,{" "}
-          <strong>schools</strong> and coaching institutes in India and beyond.
-          Teachers start a live lecture with a rotating secure QR, students scan
-          it with <strong>GPS geofence</strong> verification that stops{" "}
-          <strong>proxy attendance</strong>, mentors see every student they
-          guide, and admins track every department with a plain attendance
-          report and <strong>Excel attendance sheets</strong>. No biometric
-          scanners, no RFID cards, no app install, no extra hardware.
-        </p>
-      </section>
+        Skip to main content
+      </a>
 
-      <FeaturesSection />
-      <HowItWorksSection />
-      <RolesSection />
-      <FAQSection />
-      <CTA />
-    </main>
+      <SiteHeader />
 
-    <Footer />
-  </div>
+      <main id="main-content">
+        <Hero />
+        <StatsStrip />
+        <ProxyCheck />
+        <HowItWorks />
+        <Features />
+        <Roles />
+        <About />
+        <Faq />
+        <CtaBand />
+      </main>
+
+      <SiteFooter />
+    </div>
   );
 };
 

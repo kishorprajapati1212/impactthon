@@ -12,7 +12,8 @@ import {
   Clock,
   CalendarClock,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import BrandLogo from "../../components/Brand/BrandLogo.jsx";
+import { useNavigate, Link } from "react-router-dom";
 import toast from "../../utils/notify.js";
 import { logout } from "../../store/authSlice.js";
 import QRScanner from "../../components/Student/QRScanner.jsx";
@@ -70,7 +71,7 @@ const StudentDashboard = () => {
 
   useEffect(() => {
     fetchAttendance();
-    // Warm the GPS fix right after login so the first scan never fails —
+    // Warm the GPS fix right after login so the first scan never fails -
     // and stop asking the moment the student leaves this page.
     const gpsWarm = new AbortController();
     prewarmLocation({ signal: gpsWarm.signal });
@@ -82,7 +83,7 @@ const StudentDashboard = () => {
     // the mentor's approval again (device-bound one-time login).
     api.post("/student/logout", {}).catch(() => {});
     dispatch(logout());
-    toast.info("Logged out — next login needs your mentor's approval");
+    toast.info("Logged out. Your next login needs your mentor's approval");
     navigate("/login");
   };
 
@@ -164,17 +165,17 @@ const StudentDashboard = () => {
             </div>
           </div>
 
-          {/* My class, mentor & teachers — so a student always knows where they belong */}
+          {/* My class, mentor & teachers - so a student always knows where they belong */}
           {attendance.myClass && (
             <div className="card-2026 p-5">
               <h3 className="font-bold mb-3 text-slate-900 dark:text-slate-100">My Class &amp; Mentor</h3>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
                 {[
-                  { l: "Class", v: attendance.myClass.classLabel || attendance.myClass.section || "—", wide: true },
-                  { l: "Roll number", v: attendance.myClass.rollNumber || "—", wide: true },
-                  { l: "Semester", v: attendance.myClass.semester ?? "—" },
-                  { l: "Batch", v: attendance.myClass.batchYear || "—" },
-                  { l: "Department", v: attendance.myClass.department || "—", span: true },
+                  { l: "Class", v: attendance.myClass.classLabel || attendance.myClass.section || "-", wide: true },
+                  { l: "Roll number", v: attendance.myClass.rollNumber || "-", wide: true },
+                  { l: "Semester", v: attendance.myClass.semester ?? "-" },
+                  { l: "Batch", v: attendance.myClass.batchYear || "-" },
+                  { l: "Department", v: attendance.myClass.department || "-", span: true },
                 ].map((x, i) => (
                   <div key={i} className={`p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 min-w-0 ${x.span ? "col-span-2" : ""}`}>
                     <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">{x.l}</p>
@@ -185,7 +186,7 @@ const StudentDashboard = () => {
               <p className="text-sm text-slate-600 dark:text-slate-300">
                 Mentor: {attendance.myClass.mentor
                   ? <b>{attendance.myClass.mentor.name}</b>
-                  : <span className="text-slate-400">Not assigned yet — please contact the admin.</span>}
+                  : <span className="text-slate-400">Not assigned yet. Please contact the admin.</span>}
                 {attendance.myClass.mentor?.email ? <span className="text-slate-400"> · {attendance.myClass.mentor.email}</span> : null}
               </p>
               {(attendance.myClass.teachers || []).length > 0 && (
@@ -271,7 +272,7 @@ const StudentDashboard = () => {
                       className="flex justify-between text-xs p-2.5 rounded-lg bg-rose-500/5"
                     >
                       <span className="text-slate-700 dark:text-slate-300">
-                        {d.subject} — {d.topic}
+                        {d.subject}: {d.topic}
                       </span>
                       <span className="text-slate-400 shrink-0 ml-2">
                         {d.date ? new Date(d.date).toLocaleDateString() : ""}
@@ -350,7 +351,7 @@ const StudentDashboard = () => {
         Lecture history
       </h2>
       <p className="text-xs text-slate-400">
-        Every class for your section — present and absent.
+        Every class for your section, present and absent.
       </p>
       {details.length === 0 ? (
         <div className="card-2026 p-8 text-center text-slate-400">
@@ -412,9 +413,7 @@ const StudentDashboard = () => {
       {/* ── Sidebar (desktop) ─────────────────────────────────────── */}
       <aside className="hidden lg:flex fixed inset-y-0 left-0 w-64 flex-col border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 z-30">
         <div className="h-16 flex items-center px-6 border-b border-slate-200 dark:border-slate-800">
-          <span className="text-xl font-black tracking-tight">
-            Attend<span className="text-cyan-500">X</span>
-          </span>
+          <Link to="/" aria-label="AttendX home page" title="Go to the home page"><BrandLogo size="sm" /></Link>
           <span className="ml-2 text-[10px] uppercase tracking-wider text-slate-400 border border-slate-300 dark:border-slate-700 rounded px-1.5 py-0.5">
             Student
           </span>
@@ -463,8 +462,8 @@ const StudentDashboard = () => {
       </aside>
 
       <header className="lg:pl-64 sticky top-0 z-20 surface-nav h-16 flex items-center px-4 sm:px-6">
-        <h1 className="lg:hidden text-xl font-black tracking-tight">
-          Attend<span className="text-cyan-500">X</span>
+        <h1 className="lg:hidden flex items-center">
+          <Link to="/" aria-label="AttendX home page" title="Go to the home page"><BrandLogo size="sm" /></Link>
         </h1>
         <p className="hidden lg:block text-sm text-slate-600 dark:text-slate-300">
           <span className="font-semibold text-slate-900 dark:text-slate-100">{NAV.find((n) => n.id === activeTab)?.label || "Home"}</span>

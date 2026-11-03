@@ -8,7 +8,7 @@ import {
 
 const unique = (arr) => new Set(arr).size === arr.length;
 
-describe("seed data — Nihal, Jeel, Ritik, Darshit · Sahil, Jatin · a full demo college", () => {
+describe("seed data - Nihal, Jeel, Ritik, Darshit · Sahil, Jatin · a full demo college", () => {
   it("keeps the requested people with simple logins", () => {
     expect(PASSWORD).toBe("123456");
     expect(ADMIN.email).toBe("admin@attendx.com");
@@ -33,7 +33,7 @@ describe("seed data — Nihal, Jeel, Ritik, Darshit · Sahil, Jatin · a full de
     expect(unique(CLASSES.map((c) => `${c.dept}|${c.name}|${c.batchYear}`))).toBe(true);
   });
 
-  it("has two extra CE classes — same batch other division, and a newer batch — plus at least ten rows for every table", () => {
+  it("has two extra CE classes - same batch other division, and a newer batch - plus at least ten rows for every table", () => {
     const ce = CLASSES.filter((c) => c.dept === "CE");
     expect(ce.map((c) => `${c.name}-${c.batchYear}`)).toEqual(["A-2024", "B-2024", "A-2025"]);
     expect(ce[1].semester).toBe(5); // same batch, different division
@@ -76,7 +76,7 @@ describe("seed data — Nihal, Jeel, Ritik, Darshit · Sahil, Jatin · a full de
     expect(unique(CE_A_LECTURES.map((l) => `${l.daysAgo}@${l.hour}`))).toBe(true); // no two lectures at the same time
     const pct = (roll) => Math.round((CE_A_LECTURES.filter((l) => l.present.includes(roll)).length / CE_A_LECTURES.length) * 100);
     expect(pct("CE2024001")).toBe(100); // Nihal
-    expect(pct("CE2024002")).toBe(92);  // Jeel — the one miss is an approved leave → 100 % after the leave is applied
+    expect(pct("CE2024002")).toBe(92);  // Jeel - the one miss is an approved leave → 100 % after the leave is applied
     expect(pct("CE2024004")).toBe(67);  // Darshit
     expect(pct("CE2024003")).toBe(58);  // Ritik → listed under "Students below 75 %"
     expect(LEAVES.find((l) => l.student === "Jeel")).toMatchObject({ status: "APPROVED", daysAgo: 6 });

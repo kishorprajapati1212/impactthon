@@ -3,7 +3,7 @@ set -e
 
 echo ""
 echo "════════════════════════════════════════════════════════"
-echo "  AttendX API — starting container"
+echo "  AttendX API - starting container"
 echo "════════════════════════════════════════════════════════"
 echo "  MONGODB_URI = ${MONGODB_URI:-not set}"
 echo "  PORT        = ${PORT:-3000}"
@@ -13,7 +13,7 @@ echo ""
 # AUTO_SEED=true seeds ONLY if DB is empty (never wipes unless FORCE_SEED=true)
 if [ "${AUTO_SEED}" = "true" ] || [ "${FORCE_SEED}" = "true" ]; then
   echo "🌱 Running seeder (safe: skips if data exists unless FORCE_SEED=true)..."
-  FORCE_SEED="${FORCE_SEED:-false}" node seed/seed.js || echo "⚠️ seed skipped/failed — continuing"
+  FORCE_SEED="${FORCE_SEED:-false}" node seed/seed.js || echo "⚠️ seed skipped/failed - continuing"
   echo ""
 fi
 

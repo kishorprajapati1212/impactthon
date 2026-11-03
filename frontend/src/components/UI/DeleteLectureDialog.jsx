@@ -6,7 +6,7 @@ import toast from "../../utils/notify.js";
 import getFriendlyError from "../../utils/friendlyError.js";
 
 /**
- * DeleteLectureDialog — the one place a lecture can be deleted from (faculty
+ * DeleteLectureDialog - the one place a lecture can be deleted from (faculty
  * live session, faculty history, admin "Lectures" and "Lectures running now").
  *
  * Deleting a lecture removes attendance marks, so the dialog never guesses:
@@ -17,9 +17,9 @@ import getFriendlyError from "../../utils/friendlyError.js";
  * is shown and the button stays disabled.
  */
 const fmtWhen = (d) => {
-  if (!d) return "—";
+  if (!d) return "-";
   const date = new Date(d);
-  if (Number.isNaN(date.getTime())) return "—";
+  if (Number.isNaN(date.getTime())) return "-";
   return date.toLocaleString(undefined, { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
 };
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
@@ -82,7 +82,7 @@ export default function DeleteLectureDialog({ open, lectureId, onClose, onDelete
     } catch (e) {
       toast.error(getFriendlyError(e, "The lecture could not be deleted."));
       if (e?.response?.status === 404) {
-        onDeleted?.(null); // it is already gone — let the caller refresh
+        onDeleted?.(null); // it is already gone - let the caller refresh
         onClose?.();
       }
     } finally {
@@ -96,9 +96,9 @@ export default function DeleteLectureDialog({ open, lectureId, onClose, onDelete
   const consequences = preview
     ? [
         marks?.total
-          ? { tone: "danger", text: `${plural(marks.total, "attendance mark")} will be removed — ${marks.present} present, ${marks.notPresent} absent/leave.` }
+          ? { tone: "danger", text: `${plural(marks.total, "attendance mark")} will be removed: ${marks.present} present, ${marks.notPresent} absent/leave.` }
           : { tone: "ok", text: running ? "Nobody has been marked present yet, so no attendance record changes." : "This lecture has no attendance marks, so no attendance record changes." },
-        running ? { tone: "info", text: "Students who scan this lecture's QR from now on will see “lecture not found” — point them to the correct session." } : null,
+        running ? { tone: "info", text: "Students who scan this lecture's QR from now on will see “lecture not found”. Point them to the correct session." } : null,
         preview.leaveApplications ? { tone: "info", text: `${plural(preview.leaveApplications, "leave application")} will stop referring to this lecture (the leave itself is kept).` } : null,
         preview.notifications ? { tone: "info", text: `${plural(preview.notifications, "parent notification record")} about this lecture will be removed.` } : null,
         { tone: "info", text: "Every attendance percentage, report and history updates immediately, as if this lecture had never been started." },

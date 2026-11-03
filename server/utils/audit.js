@@ -1,7 +1,7 @@
 import AuditLog from "../models/users/AuditLog.js";
 
 /**
- * Audit trail helper — "who changed what, when" for every admin action.
+ * Audit trail helper - "who changed what, when" for every admin action.
  *
  * Why: a college admin console must be accountable. Before this helper only
  * faculty updates were logged (and with the raw request body, password
@@ -10,7 +10,7 @@ import AuditLog from "../models/users/AuditLog.js";
  * writes one row, with secrets stripped and a human sentence (`summary`) the
  * dashboard can show directly in "Recent activity".
  *
- * recordAudit NEVER throws — an audit failure must not break the request.
+ * recordAudit NEVER throws - an audit failure must not break the request.
  */
 
 const SECRET_KEYS = new Set(["password", "token", "confirmPassword", "oldPassword", "newPassword"]);
@@ -81,7 +81,7 @@ export function describeAudit({ action, entityType, entityLabel, changes = {} })
  * @param {"DEPARTMENT"|"SUBJECT"|"SECTION"|"FACULTY"|"STUDENT"|"ASSIGNMENT"|"LECTURE"} p.entityType
  * @param {string|object} p.entityId
  * @param {"CREATE"|"UPDATE"|"DEACTIVATE"|"REACTIVATE"|"DELETE"} p.action
- * @param {string} [p.entityLabel]  e.g. "CSE2024001 · Rahul Verma" — survives deletion
+ * @param {string} [p.entityLabel]  e.g. "CSE2024001 · Rahul Verma" - survives deletion
  * @param {object} [p.changes]
  * @param {object} [p.previous]
  */

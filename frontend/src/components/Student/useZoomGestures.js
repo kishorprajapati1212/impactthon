@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 /**
- * useZoomGestures — phone-camera-style zoom gestures for the scanner preview.
+ * useZoomGestures - phone-camera-style zoom gestures for the scanner preview.
  *
  *   • pinch with two fingers            → zoom in / out (like the camera app)
  *   • drag one finger up / down         → zoom in / out (drag ≈ 60 % of the

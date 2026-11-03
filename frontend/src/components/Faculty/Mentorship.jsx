@@ -89,7 +89,7 @@ const Mentorship = () => {
   const batchGroups = {};
   for (const m of mentees) {
     const sec = m.sectionId || {};
-    const key = `${sec.batchYear ?? "—"} · ${sec.semester ?? "?"}`;
+    const key = `${sec.batchYear ?? "-"} · ${sec.semester ?? "?"}`;
     if (!batchGroups[key]) batchGroups[key] = [];
     batchGroups[key].push(m);
   }
@@ -103,7 +103,7 @@ const Mentorship = () => {
         </h2>
         <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
           “Mentees” are the students you guide. Review their leave and login
-          requests, open any student for their full record — and find them
+          requests, open any student for their full record, and find them
           again under Former students even after they leave.
         </p>
       </div>
@@ -180,7 +180,7 @@ const Mentorship = () => {
         former.length === 0 ? (
           <div className="card-2026 p-10 text-center">
             <GraduationCap size={40} className="mx-auto text-slate-300 dark:text-slate-600 mb-3" />
-            <p className="text-slate-400">No former students yet. Students you mentored who complete, transfer or leave will stay listed here — with their full record.</p>
+            <p className="text-slate-400">No former students yet. Students you mentored who complete, transfer or leave will stay listed here with their full record.</p>
           </div>
         ) : (
           <div className="card-2026 p-5">
@@ -360,7 +360,7 @@ const Mentorship = () => {
               <div className="flex items-start justify-between gap-2">
                 <div>
                   <h3 className="font-bold text-slate-900 dark:text-slate-100">{detail.student.name || "Student"}</h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{detail.student.rollNumber} · {detail.student.classLabel || (detail.student.section ? classLabel(detail.student.section) : "No class")} · Sem {detail.student.semester ?? "—"} · {detail.student.department || ""}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{detail.student.rollNumber} · {detail.student.classLabel || (detail.student.section ? classLabel(detail.student.section) : "No class")} · Sem {detail.student.semester ?? "-"} · {detail.student.department || ""}</p>
                   <p className="text-xs text-slate-400">{detail.student.email || ""}{detail.student.phone ? ` · ${detail.student.phone}` : ""}{detail.student.parentPhone ? ` · Parent: ${detail.student.parentPhone}` : ""}</p>
                   {detail.student.lifecycleStatus && detail.student.lifecycleStatus !== "STUDYING" && (
                     <p className="text-xs font-semibold text-amber-500 mt-1">{detail.student.lifecycleStatus === "LEFT" ? "Left the college" : detail.student.lifecycleStatus === "COMPLETED" ? "Course completed" : detail.student.lifecycleStatus}{detail.student.leftAt ? ` · ${new Date(detail.student.leftAt).toLocaleDateString()}` : ""}{detail.student.leavingNote ? ` · ${detail.student.leavingNote}` : ""}</p>
@@ -390,7 +390,7 @@ const Mentorship = () => {
                   <div className="space-y-1.5 max-h-56 overflow-y-auto">
                     {detail.recent.map((r,i)=>(
                       <div key={i} className="flex justify-between gap-2 text-xs p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40">
-                        <span className="truncate text-slate-700 dark:text-slate-200">{r.subject} — {r.topic}</span>
+                        <span className="truncate text-slate-700 dark:text-slate-200">{r.subject}: {r.topic}</span>
                         <span className="shrink-0 font-bold">{r.status}</span>
                       </div>
                     ))}
@@ -399,7 +399,7 @@ const Mentorship = () => {
               )}
               {(detail.student.mentorHistory||[]).length > 0 && (
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Mentor history — who guided this student</p>
+                  <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Mentor history: who guided this student</p>
                   <div className="space-y-1.5">
                     {detail.student.mentorHistory.map((h,i)=>(
                       <div key={i} className="flex justify-between gap-2 text-xs p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40">
@@ -432,7 +432,7 @@ const Mentorship = () => {
                         {m.userId?.name || "Unnamed"}
                       </p>
                       <p className="text-xs text-slate-400">
-                        {m.rollNumber} · {m.departmentId?.name || "—"}
+                        {m.rollNumber} · {m.departmentId?.name || "-"}
                       </p>
                     </div>
                     <span className="text-xs text-cyan-500 shrink-0 ml-3 font-semibold">View details →</span>

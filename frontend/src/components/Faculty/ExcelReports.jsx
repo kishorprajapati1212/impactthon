@@ -4,7 +4,7 @@ import toast from "../../utils/notify.js";
 import api from "../../utils/api.js";
 
 /**
- * Faculty Excel export — human-friendly sheets navigable by enrollment/roll
+ * Faculty Excel export - human-friendly sheets navigable by enrollment/roll
  * number, plus a true .xlsx download (and CSV fallback).
  */
 const ExcelReports = () => {
@@ -82,7 +82,7 @@ const ExcelReports = () => {
       a.download = fileNameFrom(res, ext);
       a.click();
       window.URL.revokeObjectURL(url);
-      toast.success(`${ext.toUpperCase()} downloaded — opens in Excel`);
+      toast.success(`${ext.toUpperCase()} downloaded. Opens in Excel.`);
     } catch (err) {
       toast.error(
         err?.response?.status === 403

@@ -2,7 +2,7 @@ import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import { Spinner, EmptyState } from "./ui.jsx";
 
 /**
- * DataTable — desktop table (≥ lg) + stacked cards (< lg) from ONE column
+ * DataTable - desktop table (≥ lg) + stacked cards (< lg) from ONE column
  * config, so both views always show the same information.
  *
  * columns: [{ key, label, render(item), sortField?, className?, hideOn?: "md"|"lg", primary?: bool }]

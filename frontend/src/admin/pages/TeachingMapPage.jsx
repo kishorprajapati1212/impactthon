@@ -7,11 +7,11 @@ import DataTable from "../components/DataTable.jsx";
 import { Button, Panel, Pill, Spinner, EmptyState, inputCls } from "../components/ui.jsx";
 
 /**
- * Teaching & mentor map — two plain tables that answer two plain questions:
+ * Teaching & mentor map - two plain tables that answer two plain questions:
  *   1. For every class: which subjects are taught, and by whom?
  *   2. For every mentor: which students do they look after?
  * Data: GET /api/report/admin/overview (classes[], mentors[], summary).
- * Nothing decorative — an admin uses this page to spot gaps (a class with no
+ * Nothing decorative - an admin uses this page to spot gaps (a class with no
  * teacher, a student with no mentor) and jump to the page that fixes them.
  */
 export default function TeachingMapPage({ go }) {
@@ -56,7 +56,7 @@ export default function TeachingMapPage({ go }) {
     { key: "label", label: "Class", primary: true, render: (c) => (
       <div className="min-w-0">
         <p className="font-medium text-slate-900 dark:text-slate-100">{c.label}</p>
-        <p className="truncate text-xs text-slate-500">{c.department || "—"}{c.semester != null ? ` · Semester ${c.semester}` : ""}</p>
+        <p className="truncate text-xs text-slate-500">{c.department || "-"}{c.semester != null ? ` · Semester ${c.semester}` : ""}</p>
       </div>
     ) },
     { key: "students", label: "Students", className: "text-center", render: (c) => (
@@ -72,13 +72,13 @@ export default function TeachingMapPage({ go }) {
           {c.subjects.map((s) => (
             <li key={s.id} className="flex flex-wrap items-baseline gap-x-2 text-sm">
               <span className="text-slate-900 dark:text-slate-100">{s.name} <span className="text-slate-500">({s.code})</span></span>
-              <span className="text-slate-400">—</span>
+              <span className="text-slate-400">-</span>
               <span className={s.teacher ? "text-slate-700 dark:text-slate-200" : "text-amber-700 dark:text-amber-300"}>{s.teacher || "no teacher"}</span>
             </li>
           ))}
         </ul>
       ) },
-    { key: "mentors", label: "Mentors of these students", render: (c) => c.mentors.length ? c.mentors.join(", ") : <span className="text-slate-400">—</span> },
+    { key: "mentors", label: "Mentors of these students", render: (c) => c.mentors.length ? c.mentors.join(", ") : <span className="text-slate-400">-</span> },
   ];
 
   const mentorColumns = [
@@ -122,7 +122,7 @@ export default function TeachingMapPage({ go }) {
         <div className="rounded-lg border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900"><EmptyState title="Nothing to show yet" description="Create classes, subjects and teaching assignments first." /></div>
       ) : (
         <>
-          {/* One sentence of status + a search box — no decorative tiles */}
+          {/* One sentence of status + a search box - no decorative tiles */}
           <div className="flex flex-col gap-3 rounded-lg border border-slate-200 bg-white px-5 py-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm text-slate-700 dark:text-slate-200">
               <b>{summary.sections}</b> classes · <b>{summary.students}</b> students · <b>{summary.assignments}</b> teaching assignments · <b>{summary.mentors}</b> mentors.
@@ -136,12 +136,12 @@ export default function TeachingMapPage({ go }) {
             </label>
           </div>
 
-          <Panel title="Classes — subjects and teachers" description="One row per class. A class is named department · division · batch, so two divisions from different years are never confused.">
+          <Panel title="Classes: subjects and teachers" description="One row per class. A class is named department · division · batch, so two divisions from different years are never confused.">
             <DataTable columns={classColumns} items={classes} rowKey={(c) => c.id} emptyTitle={needle ? "No class matches that search" : "No classes yet"}
               renderActions={(c) => <Button size="sm" variant="outline" icon={ExternalLink} onClick={() => go("students", { section: c.id })}>Students</Button>} />
           </Panel>
 
-          <Panel title="Mentors — who looks after whom" description="Students are grouped by batch under their mentor. Students without a mentor are listed on the Dashboard to-do list.">
+          <Panel title="Mentors: who looks after whom" description="Students are grouped by batch under their mentor. Students without a mentor are listed on the Dashboard to-do list.">
             <DataTable columns={mentorColumns} items={mentors} rowKey={(m) => m.id} emptyTitle={needle ? "No mentor matches that search" : "No mentor has students yet"}
               emptyDescription={needle ? undefined : "Set a mentor on each student (Students → Edit → Mentor)."}
               renderActions={(m) => <Button size="sm" variant="outline" icon={ExternalLink} onClick={() => go("students", { mentor: m.id })}>Students</Button>} />

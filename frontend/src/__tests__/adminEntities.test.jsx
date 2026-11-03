@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { ENTITIES, ENTITY_KEYS } from "../admin/entities.jsx";
 
 /**
- * Field contract — mirrors the Mongoose schemas in server/models.
+ * Field contract - mirrors the Mongoose schemas in server/models.
  * If a form field is added here that the model does not have (the exact
  * mistake the old UI made with `description` on subjects/classes), this
  * test fails. Keep both lists in sync with MODELS.md.
@@ -24,7 +24,7 @@ const ctx = {
   subjects: [{ _id: "su1", subjectName: "Data Structures", subjectCode: "CS201", isActive: true }],
 };
 
-describe("admin entities — every UI field exists on the model", () => {
+describe("admin entities - every UI field exists on the model", () => {
   it("covers the six admin-managed records", () => {
     expect(ENTITY_KEYS.sort()).toEqual(Object.keys(MODEL_FIELDS).sort());
   });

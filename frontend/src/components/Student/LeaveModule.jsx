@@ -118,7 +118,7 @@ const LeaveModule = () => {
             Leave Applications
           </h2>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-            Apply for leave — your mentor reviews it and approved leave is
+            Apply for leave. Your mentor reviews it, and approved leave is
             credited as attendance.
           </p>
         </div>
@@ -226,7 +226,7 @@ const LeaveModule = () => {
                         }
                       >
                         <span className="text-sm text-slate-700 dark:text-slate-200">
-                          {l.time} — {l.subjectCode || ""} {l.topic || "Lecture"}
+                          {l.time} · {l.subjectCode || ""} {l.topic || "Lecture"}
                         </span>
                         {on && <CheckCircle size={16} className="text-cyan-500 shrink-0" />}
                       </button>
@@ -244,7 +244,7 @@ const LeaveModule = () => {
               onChange={(e) => setReason(e.target.value)}
               rows={3}
               maxLength={500}
-              placeholder="e.g. Fever — advised rest by doctor"
+              placeholder="e.g. Fever, doctor advised rest"
               className="input-field resize-none"
             />
           </div>

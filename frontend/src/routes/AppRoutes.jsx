@@ -19,10 +19,10 @@ const AppRoutes = () => (
     {/* Faculty */}
     <Route path="/faculty" element={<ProtectedRoute allowedRole="faculty"><FacultyDashboard /></ProtectedRoute>} />
 
-    {/* Admin — main panel has everything built-in */}
+    {/* Admin - main panel has everything built-in */}
     <Route path="/admin" element={<ProtectedRoute allowedRole="admin"><AdminDashboard /></ProtectedRoute>} />
 
-    {/* Admin — old standalone pages now live inside the console (bookmarks keep working) */}
+    {/* Admin - old standalone pages now live inside the console (bookmarks keep working) */}
     <Route path="/create-department" element={<Navigate to="/admin?section=departments&new=1" replace />} />
     <Route path="/create-subject" element={<Navigate to="/admin?section=subjects&new=1" replace />} />
     <Route path="/create-section" element={<Navigate to="/admin?section=classes&new=1" replace />} />

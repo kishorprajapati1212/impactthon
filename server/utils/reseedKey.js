@@ -1,5 +1,5 @@
 /**
- * RESEED_KEY — reload the demo college from the dashboard of a host that has
+ * RESEED_KEY - reload the demo college from the dashboard of a host that has
  * no shell (Render free tier, Railway, Fly.io, Heroku-style PaaS).
  *
  *   1. In the host's environment variables set   RESEED_KEY = <any new value>
@@ -24,6 +24,6 @@ export async function applyReseedKey({ key, meta, seedDatabase, log = console.lo
   if (prev?.key === wanted) return { applied: false, reason: "same-key", key: wanted };
   await seedDatabase({ force: true });
   await meta.updateOne({ _id: SEED_META_ID }, { $set: { key: wanted, at: new Date(), previous: prev?.key || null } }, { upsert: true });
-  log(`🌱 RESEED_KEY "${wanted}" applied — database wiped and the demo college reloaded (password 123456 · admin@attendx.com). Change the value to reseed again; remove it when done.`);
+  log(`🌱 RESEED_KEY "${wanted}" applied. Database wiped and the demo college reloaded (password 123456 · admin@attendx.com). Change the value to reseed again; remove it when done.`);
   return { applied: true, key: wanted, previous: prev?.key || null };
 }

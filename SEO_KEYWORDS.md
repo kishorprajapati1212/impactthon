@@ -1,4 +1,4 @@
-# AttendX — keyword plan and how to use it
+# AttendX - keyword plan and how to use it
 
 This is the keyword set the website is now written around (title, meta
 description, H1/H2s, intro copy, FAQ and structured data). Keep this file in
@@ -6,19 +6,19 @@ sync when you change the landing page.
 
 ## 1. One thing to know about Google Search Console first
 
-**You cannot "add keywords" to Search Console.** It has no keyword field —
+**You cannot "add keywords" to Search Console.** It has no keyword field -
 Google decides what you rank for from your page text, titles and links.
 Search Console only *reports* the queries you already appear for.
 So the keywords below go in two places:
 
-1. **The website** — done in v3.6.4 (see §4 for exactly where each one sits).
-2. **Search Console → Performance → Queries** — use them as *filters* to
+1. **The website** - done in v3.6.4 (see §4 for exactly where each one sits).
+2. **Search Console → Performance → Queries** - use them as *filters* to
    track progress: `Performance` → `+ New` → `Query` → `Queries containing`
    → e.g. `qr attendance`. Export the table weekly and watch impressions →
    clicks → average position.
 
 If you ever run ads, the same list is what you paste into Google Ads /
-Keyword Planner (Keyword Planner also shows real monthly volumes for India —
+Keyword Planner (Keyword Planner also shows real monthly volumes for India -
 use it to re-rank this list; the priorities below are editorial, not volumes).
 
 ## 2. Primary keywords (the page is optimised for these)
@@ -42,12 +42,23 @@ use it to re-rank this list; the priorities below are editorial, not volumes).
 | attendance system without biometric / biometric alternative | FAQ 3, features "Zero Hardware" |
 | faculty attendance app / teacher attendance app | Roles section "For Faculty" |
 | attendance report Excel / attendance sheet download | features "One-click Excel Reports", FAQ 7 |
-| 75% attendance rule / attendance below 75% | admin report copy, FAQ 7 — good topic for a blog post |
+| 75% attendance rule / attendance below 75% | admin report copy, FAQ 7 - good topic for a blog post |
 | college attendance app India | intro ("in India and beyond"), `og:locale en_IN` |
-| mentor student attendance tracking | Roles "For Faculty" (mentees) — unique to AttendX, low competition |
-| how to stop proxy attendance in college | FAQ 2 — write a 600-word article with this exact title |
+| mentor student attendance tracking | Roles "For Faculty" (mentees) - unique to AttendX, low competition |
+| how to stop proxy attendance in college | FAQ 2 - write a 600-word article with this exact title |
 | QR code attendance system project / open source attendance system | GitHub README + a "Developers" paragraph (students search this a lot) |
-| AttendX, AttendX login, AttendX attendance | brand — title suffix, Organization JSON-LD, login page title |
+| AttendX, AttendX login, AttendX attendance | brand - title suffix, Organization JSON-LD, login page title |
+
+## 4a. Title change in v3.7.0 / v3.7.1
+
+- `<title>` / `og:title` / `twitter:title` are now **`AttendX | QR Code Attendance System`** (38 chars, brand first - the user wanted a short,
+  professional tab title). The long "for Colleges & Schools" phrase moved
+  into the page: hero eyebrow "QR + GPS attendance for colleges & schools",
+  About H2 "QR code attendance system for colleges & schools", meta
+  description and JSON-LD (unchanged).
+- Login page title: `Login | AttendX`.
+- Everything else in section 4 still applies; the FAQ list and the FAQPage
+  JSON-LD are kept identical by a test.
 
 ## 4. What changed on the site (v3.6.4)
 
@@ -61,22 +72,22 @@ use it to re-rank this list; the priorities below are editorial, not volumes).
   "How QR + GPS attendance works: four steps, thirty seconds" ·
   "One attendance system, three role-based dashboards" ·
   "Ready to make college attendance automatic?"
-- **Intro paragraph** rewritten with keywords 1–6 (still one short paragraph).
+- **Intro paragraph** rewritten with keywords 1-6 (still one short paragraph).
 - **FAQ**: 8 questions (added "schools and coaching institutes", "no app
   install", biometric/RFID comparison, proxy wording); the FAQ JSON-LD mirrors
   the visible list exactly (Google requires that).
 - **Structured data**: SoftwareApplication (+keywords, audience), FAQPage,
-  Organization + WebSite — all with absolute URLs from `SITE_URL`.
+  Organization + WebSite - all with absolute URLs from `SITE_URL`.
 - **Login page** title: "Login · AttendX QR Attendance System".
-- Dashboards remain `noindex` / disallowed — only `/` and `/login` are meant to rank.
+- Dashboards remain `noindex` / disallowed - only `/` and `/login` are meant to rank.
 
 ## 5. Weekly routine (15 minutes)
 
 1. Search Console → Performance → filter `Query contains "attendance"` →
    note impressions and average position for the §2 keywords.
 2. Pages report: `/` must be *Indexed*. If a dashboard URL shows up, it is
-   blocked by robots.txt — expected.
-3. Any query with impressions but position 11–30 → add one sentence using
+   blocked by robots.txt - expected.
+3. Any query with impressions but position 11-30 → add one sentence using
    that exact phrase to the FAQ or intro (then redeploy).
 4. Once a month: publish one article page (ideas in §3: "how to stop proxy
    attendance in college", "QR vs biometric attendance cost", "75 % attendance
@@ -90,5 +101,5 @@ use it to re-rank this list; the priorities below are editorial, not volumes).
   hackathon/Devfolio page, a short YouTube demo with the URL in the description.
 - **Speed and stability**: Netlify static + the no-cache `index.html` header
   already set; keep images small.
-- **Real usage**: Google favours sites people return to — the login page
+- **Real usage**: Google favours sites people return to - the login page
   traffic from your own students counts.

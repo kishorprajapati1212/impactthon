@@ -64,7 +64,7 @@ r.get(
   getActiveLectures
 );
 
-/* Phase 18 — every lecture (admin) and deleting a lecture.
+/* Phase 18 - every lecture (admin) and deleting a lecture.
  * The delete routes are registered here (before the attendance router's
  * GET /lecture/:lectureSessionId) and use a different method/suffix, so
  * nothing else matches them. */

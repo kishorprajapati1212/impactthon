@@ -48,7 +48,7 @@ function isWithinBounds(bounds, distanceMeters, bearingDeg) {
   if (!bounds) return true;
   const d = distanceMeters;
   const b = bearingDeg;
-  // Match original sectors: N 315–45, E 45–135, S 135–225, W 225–315
+  // Match original sectors: N 315-45, E 45-135, S 135-225, W 225-315
   if (bounds.north != null && ((b >= 315 && b <= 360) || (b >= 0 && b <= 45))) {
     if (d > bounds.north) return false;
   } else if (bounds.east != null && b > 45 && b < 135) {
@@ -178,7 +178,7 @@ export const markAttendance = asyncHandler(async (req, res) => {
       });
     }
   } else if (!hasGps) {
-    // No classroom GPS set — still ok without student GPS
+    // No classroom GPS set - still ok without student GPS
   }
 
   const student = await Student.findById(studentId);
@@ -268,7 +268,7 @@ export const markAttendance = asyncHandler(async (req, res) => {
   });
 });
 
-/** Live or completed lecture roster — always section-based totals */
+/** Live or completed lecture roster - always section-based totals */
 export const getLectureAttendanceStatus = asyncHandler(async (req, res) => {
   const { lectureSessionId } = req.params;
   const view = await buildLectureRosterView(lectureSessionId);

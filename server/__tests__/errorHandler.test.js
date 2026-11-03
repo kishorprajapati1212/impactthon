@@ -7,7 +7,7 @@ function run(err, statusCode = 200) {
   console.error.mockRestore();
   return res;
 }
-describe("errorHandler — no raw DB errors to users", () => {
+describe("errorHandler - no raw DB errors to users", () => {
   it("duplicate key -> short human message, no E11000", () => {
     const r = run({ code: 11000, keyValue: { email: "a@b.c" }, message: "E11000 duplicate key error collection: users index" });
     expect(r.statusCode).toBe(409); expect(r.body.code).toBe("ALREADY_EXISTS");

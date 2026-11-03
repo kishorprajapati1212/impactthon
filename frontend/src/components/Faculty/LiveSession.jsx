@@ -137,7 +137,7 @@ const LiveSession = () => {
       const server = r.data?.data;
       const local = loadSession();
       if (!server) {
-        // No active on server — wipe local ghost session
+        // No active on server - wipe local ghost session
         if (local) {
           clearSession();
           setActiveSession(null);
@@ -146,7 +146,7 @@ const LiveSession = () => {
         }
         return;
       }
-      // Server has active — prefer server truth
+      // Server has active - prefer server truth
       const offset = Date.now() - (server.serverTime || Date.now());
       setServerTimeOffset(offset);
       try {
@@ -169,7 +169,7 @@ const LiveSession = () => {
       setActiveSession(sessionData);
       setStep("active");
     } catch {
-      /* offline — keep local */
+      /* offline - keep local */
     }
   };
 
@@ -324,7 +324,7 @@ const LiveSession = () => {
       setShowManual(false);
       setStep("active");
       if (position) toast.success("Session started. Students must be near your location to scan.");
-      else toast.info("Session started without a location — students can scan from anywhere.");
+      else toast.info("Session started without a location. Students can scan from anywhere.");
     } catch (err) {
       toast.error(getFriendlyError(err, "Could not start the session."));
     } finally {
@@ -345,7 +345,7 @@ const LiveSession = () => {
       } catch {
         setSessionResult(null);
       }
-      toast.success("Session ended — absents saved for students");
+      toast.success("Session ended. Absent students have been saved.");
     } catch (err) {
       // If admin already force-ended, still clear local UI
       const msg = err.response?.data?.message || "";
@@ -433,7 +433,7 @@ const LiveSession = () => {
     return parts.filter(Boolean).join(" · ");
   };
 
-  // Students not yet present — for manual late mark panel
+  // Students not yet present - for manual late mark panel
   const needManual = allStudents.filter(
     (s) => s.status !== "PRESENT" && s.status !== "LATE" && s.status !== "EXCUSED"
   );
@@ -467,7 +467,7 @@ const LiveSession = () => {
             <p className="text-sm text-slate-600 dark:text-slate-300 mt-0.5 break-words">
               {sessionContextLine(sessionResult?.lecture)}
               {(sessionResult?.lecture?.topic || activeSession?.topic)
-                ? ` — ${sessionResult?.lecture?.topic || activeSession?.topic}`
+                ? `: ${sessionResult?.lecture?.topic || activeSession?.topic}`
                 : ""}
             </p>
           </div>
@@ -620,7 +620,7 @@ const LiveSession = () => {
             </h2>
             <p className="text-slate-600 dark:text-slate-300 text-sm mt-0.5 break-words">
               {sessionContextLine(null)}
-              {activeSession.topic ? ` — ${activeSession.topic}` : ""}
+              {activeSession.topic ? `: ${activeSession.topic}` : ""}
             </p>
           </div>
           <button
@@ -634,7 +634,7 @@ const LiveSession = () => {
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-dashed border-slate-300 dark:border-slate-700 px-3 py-2 text-xs text-slate-500 dark:text-slate-400">
-          <span>Started this session by mistake (wrong class, or two at once)? Delete it instead of ending it — ending would save everyone as absent.</span>
+          <span>Started this session by mistake (wrong class, or two at once)? Delete it instead of ending it, because ending would save everyone as absent.</span>
           <button
             type="button"
             onClick={() => setDeleteOpen(true)}
@@ -696,7 +696,7 @@ const LiveSession = () => {
           onToggleFullscreen={() => setIsFullscreen((v) => !v)}
         />
 
-        {/* ── MANUAL ATTENDANCE (faculty only — late students) ── */}
+        {/* ── MANUAL ATTENDANCE (faculty only - late students) ── */}
         <div className="glass-card p-4 space-y-3">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <h3 className="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
@@ -879,7 +879,7 @@ const LiveSession = () => {
               className="input-field"
             />
           </div>
-          {/* Location status — the teacher always knows what will happen on Start */}
+          {/* Location status - the teacher always knows what will happen on Start */}
           <LocationStatus
             perm={locPerm}
             fix={locFix}
@@ -1025,7 +1025,7 @@ function LocationStatus({ perm, fix, busy, onAllow }) {
         <div>
           <p className="font-medium">Location is blocked for this site.</p>
           <p className="mt-0.5 text-xs leading-relaxed">
-            You can still start — students will scan without the distance check. To allow it: tap the lock or
+            You can still start, but students will scan without the distance check. To allow it: tap the lock or
             site-settings icon next to the address, set Location to Allow, then come back here.
           </p>
         </div>
@@ -1060,7 +1060,7 @@ function LocationStatus({ perm, fix, busy, onAllow }) {
       <MapPin size={16} className="mt-0.5 shrink-0" />
       <div className="min-w-0 flex-1">
         <p className="font-medium">Share your location so only students in the room can scan.</p>
-        <p className="mt-0.5 text-xs">The browser will ask once. Optional — you can start without it.</p>
+        <p className="mt-0.5 text-xs">The browser will ask once. This is optional, you can start without it.</p>
       </div>
       <button type="button" onClick={onAllow} className="shrink-0 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800">
         Allow location

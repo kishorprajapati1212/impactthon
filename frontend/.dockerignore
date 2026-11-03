@@ -1,8 +1,14 @@
 node_modules
 dist
+dist-e2e
+coverage
+.vite
 .env
 .git
 .gitignore
 *.md
 __tests__
 vitest.config.js
+scripts/brand-fonts
+playwright-report
+test-results

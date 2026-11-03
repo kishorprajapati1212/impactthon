@@ -14,7 +14,7 @@ import { LIFECYCLE } from "../adminFormat.js";
 const DEFAULT_LIMIT = 50;
 
 /**
- * ResourcePage — the generic "manage a list of records" page used by
+ * ResourcePage - the generic "manage a list of records" page used by
  * Departments, Subjects, Classes, Faculty, Students and Who-teaches-what.
  * Everything specific comes from the entity config (entities.jsx).
  */
@@ -154,7 +154,7 @@ export default function ResourcePage({ entity, ctx, refreshCtx, autoCreate = fal
         entity.key === "students" && { label: "Student status", icon: GraduationCap, hint: "Completed, left or transferred", onClick: () => openLifecycle(item) },
         item.isActive === false
           ? { label: "Reactivate", icon: Power, hint: "Shows in lists and dropdowns again", onClick: () => setConfirm({ kind: "toggle", item }) }
-          : { label: "Deactivate", icon: Power, hint: "Hide it, keep everything — reversible", onClick: () => setConfirm({ kind: "toggle", item }) },
+          : { label: "Deactivate", icon: Power, hint: "Hide it and keep everything. Reversible.", onClick: () => setConfirm({ kind: "toggle", item }) },
       ]} />
     </>
   );
@@ -210,22 +210,22 @@ export default function ResourcePage({ entity, ctx, refreshCtx, autoCreate = fal
         message={confirm?.kind === "delete"
           ? `“${confirm && entity.titleOf(confirm.item)}” will be removed from the database. This cannot be undone. If it has any history (students, lectures, attendance) the system will refuse and you should deactivate instead.`
           : confirm?.item?.isActive === false ? `“${confirm && entity.titleOf(confirm.item)}” will be active again and appear in all lists and dropdowns.`
-          : `“${confirm && entity.titleOf(confirm.item)}” will be hidden from dropdowns and can no longer be used${entity.key === "faculty" || entity.key === "students" ? " to log in" : ""}. Nothing is deleted — you can reactivate it any time.`}>
+          : `“${confirm && entity.titleOf(confirm.item)}” will be hidden from dropdowns and can no longer be used${entity.key === "faculty" || entity.key === "students" ? " to log in" : ""}. Nothing is deleted. You can reactivate it any time.`}>
         {confirm?.error && <p className="mt-3 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-300" role="alert">{confirm.error}</p>}
       </ConfirmDialog>
 
-      {/* Student lifecycle — completed / left / transferred / suspended */}
+      {/* Student lifecycle - completed / left / transferred / suspended */}
       <Drawer open={!!lifecycle} onClose={() => setLifecycle(null)} title="Student status" subtitle={lifecycle ? `${entity.titleOf(lifecycle.item)} · ${lifecycle.item.rollNumber}` : ""} width="max-w-md"
         footer={<><Button variant="outline" onClick={() => setLifecycle(null)} disabled={busy}>Cancel</Button><Button variant="primary" onClick={saveLifecycle} loading={busy}>Save status</Button></>}>
         {lifecycle && (
           <div className="space-y-4">
-            <p className="rounded-md bg-blue-50 px-3 py-2.5 text-[13px] leading-relaxed text-blue-900 dark:bg-blue-500/10 dark:text-blue-200">Use this when a student finishes the course or leaves. <b>Nothing is deleted</b> — attendance, leave history and the mentor connection stay saved, and the mentor still finds them under “Former students”.</p>
+            <p className="rounded-md bg-blue-50 px-3 py-2.5 text-[13px] leading-relaxed text-blue-900 dark:bg-blue-500/10 dark:text-blue-200">Use this when a student finishes the course or leaves. <b>Nothing is deleted</b>: attendance, leave history and the mentor connection stay saved, and the mentor still finds them under “Former students”.</p>
             <Field label="New status" required htmlFor="lifecycle-status">
               <select id="lifecycle-status" value={lifecycle.status} onChange={(e) => setLifecycle((l) => ({ ...l, status: e.target.value }))} className={selectCls}>
                 {Object.entries(LIFECYCLE).map(([k, v]) => <option key={k} value={k}>{v.label}{k === "STUDYING" ? " (currently enrolled)" : ""}</option>)}
               </select>
             </Field>
-            <Field label="Note" help="Optional — e.g. “Joined another college, June 2026”." htmlFor="lifecycle-note">
+            <Field label="Note" help="Optional, for example “Joined another college, June 2026”." htmlFor="lifecycle-note">
               <input id="lifecycle-note" value={lifecycle.note} onChange={(e) => setLifecycle((l) => ({ ...l, note: e.target.value }))} className={inputCls} maxLength={300} placeholder="Why / where" />
             </Field>
           </div>

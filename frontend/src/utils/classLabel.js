@@ -1,6 +1,6 @@
 /**
  * One way to name a class in the faculty & student apps (mirrors
- * server/utils/classLabel.js):  "CE · A · 2024"  — department code,
+ * server/utils/classLabel.js):  "CE · A · 2024" - department code,
  * division, batch year. Two divisions from different years share a letter,
  * so the batch is never optional.
  */
@@ -34,7 +34,7 @@ export function subjectLabel(subject) {
   return code ? `${name} (${code})` : name;
 }
 
-/** "Web Development (CE501) · CE · A · 2024 · Sem 5" — a teaching assignment. */
+/** "Web Development (CE501) · CE · A · 2024 · Sem 5" - a teaching assignment. */
 export function assignmentLabel(a) {
   if (!a) return "";
   return `${subjectLabel(a.subjectId)}${SEP}${classLabelLong(a.sectionId)}`;

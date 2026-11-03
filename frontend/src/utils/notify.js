@@ -1,5 +1,5 @@
 /**
- * AttendX notification system — built in-house, no toast library.
+ * AttendX notification system - built in-house, no toast library.
  *
  * Why custom: library toasts rendered raw strings (huge html5-qrcode /
  * Axios messages), styled inconsistently, and could stack endlessly.

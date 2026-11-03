@@ -3,7 +3,7 @@ import { Search, RefreshCw, X, SlidersHorizontal } from "lucide-react";
 import { Button, selectCls } from "./ui.jsx";
 
 /**
- * FilterBar — row 1: search + show-inactive + refresh; row 2: select filters.
+ * FilterBar - row 1: search + show-inactive + refresh; row 2: select filters.
  * On phones the select filters collapse behind a "Filters" button.
  * filters: [{ key, label, options: [{value,label}], value, onChange }]
  */

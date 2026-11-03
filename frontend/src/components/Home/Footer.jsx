@@ -1,16 +1,28 @@
 import { Link } from "react-router-dom";
+import { Instagram } from "lucide-react";
+import BrandLogo from "../Brand/BrandLogo.jsx";
+import { BRAND } from "../../brand.js";
 
 const Footer = () => (
   <footer className="py-12 px-4 border-t border-slate-200 dark:border-slate-800">
     <div className="max-w-7xl mx-auto grid sm:grid-cols-3 gap-8 text-sm">
       <div>
-        <p className="text-xl font-black tracking-tight text-slate-900 dark:text-slate-50 mb-2">
-          Attend<span className="text-cyan-500">X</span>
-        </p>
+        <BrandLogo size="md" tagline className="mb-3" />
         <p className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed">
           Smart QR attendance for colleges, universities and schools —
           geofence-verified, proxy-proof and hardware-free.
         </p>
+        {BRAND.social.instagram ? (
+          <a
+            href={BRAND.social.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="AttendX on Instagram"
+            className="mt-4 inline-flex items-center gap-2 text-xs font-medium text-slate-500 hover:text-cyan-500 dark:text-slate-400 transition-colors"
+          >
+            <Instagram size={16} /> Follow on Instagram
+          </a>
+        ) : null}
       </div>
       <div>
         <p className="font-semibold mb-3 text-slate-700 dark:text-slate-200">

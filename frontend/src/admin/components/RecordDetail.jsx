@@ -52,7 +52,7 @@ const List = ({ items, render, empty = "Nothing yet." }) => items?.length ? (
   <ul className="divide-y divide-slate-100 rounded-md border border-slate-200 dark:divide-slate-800 dark:border-slate-800">{items.map((it, i) => <li key={it._id || it.id || i} className="flex items-center justify-between gap-3 px-3 py-2 text-sm">{render(it)}</li>)}</ul>
 ) : <p className="rounded-md border border-dashed border-slate-200 px-3 py-3 text-[13px] text-slate-500 dark:border-slate-800">{empty}</p>;
 const Dl = ({ children }) => <dl className="divide-y divide-slate-100 rounded-md border border-slate-200 px-3 dark:divide-slate-800 dark:border-slate-800">{children}</dl>;
-const Contact = ({ icon: Icon, value, href }) => value ? <a href={href} className="inline-flex items-center gap-1.5 text-blue-700 hover:underline dark:text-blue-400"><Icon size={13} />{value}</a> : <span className="text-slate-400">—</span>;
+const Contact = ({ icon: Icon, value, href }) => value ? <a href={href} className="inline-flex items-center gap-1.5 text-blue-700 hover:underline dark:text-blue-400"><Icon size={13} />{value}</a> : <span className="text-slate-400">-</span>;
 
 function HistoryList({ history }) {
   return (
@@ -65,7 +65,7 @@ function HistoryList({ history }) {
               <div className="min-w-0"><p className="text-slate-800 dark:text-slate-100">{l.what}</p><p className="text-xs text-slate-500">{l.who} · {formatDateTime(l.when)} ({timeAgo(l.when)})</p></div>
             </li>); })}
         </ol>
-      ) : <p className="text-[13px] text-slate-500">No changes recorded yet — history starts from now.</p>}
+      ) : <p className="text-[13px] text-slate-500">No changes recorded yet. History starts from now.</p>}
     </Section>
   );
 }
@@ -91,7 +91,7 @@ function Body({ entityKey, item, related }) {
       return (<>
         <div className="grid grid-cols-3 gap-2"><Stat label="Semester" value={item.semester} /><Stat label="Credits" value={item.credits} /><Stat label="Teachers" value={new Set(act.map((a) => String(a.facultyId?._id))).size} tone={act.length ? "slate" : "amber"} /></div>
         <Section title="About"><Dl><KV label="Code" value={item.subjectCode} mono /><KV label="Department" value={item.departmentId?.name} /><KV label="Created" value={formatDate(item.createdAt)} /><KV label="Status" value={<Pill tone={statusOf(item).tone}>{statusOf(item).label}</Pill>} /></Dl></Section>
-        <Section title="Who teaches this subject" count={act.length}><List items={act} render={(a) => <><span>{a.facultyId?.userId?.name || a.facultyId?.employeeId}</span><span className="text-xs text-slate-500">{classLabel(a.sectionId)} · {a.academicYear}</span></>} empty="No teacher assigned yet — do it under “Who teaches what”." /></Section>
+        <Section title="Who teaches this subject" count={act.length}><List items={act} render={(a) => <><span>{a.facultyId?.userId?.name || a.facultyId?.employeeId}</span><span className="text-xs text-slate-500">{classLabel(a.sectionId)} · {a.academicYear}</span></>} empty="No teacher assigned yet. Assign one under “Who teaches what”." /></Section>
         <HistoryList history={related.history} />
       </>);
     }
@@ -101,7 +101,7 @@ function Body({ entityKey, item, related }) {
       return (<>
         <div className="grid grid-cols-3 gap-2"><Stat label="Students" value={studying.length} tone={studying.length ? "slate" : "amber"} /><Stat label="Semester" value={item.semester} /><Stat label="Batch" value={batchLabel(item)} /></div>
         <Section title="About"><Dl><KV label="Department" value={item.departmentId?.name} /><KV label="Teachers" value={new Set(act.map((a) => String(a.facultyId?._id))).size} /><KV label="Created" value={formatDate(item.createdAt)} /><KV label="Status" value={<Pill tone={statusOf(item).tone}>{statusOf(item).label}</Pill>} /></Dl></Section>
-        <Section title="Subjects & teachers" count={act.length}><List items={act} render={(a) => <><span>{a.subjectId?.subjectName} <span className="text-slate-400">({a.subjectId?.subjectCode})</span></span><span className="text-xs text-slate-500">{a.facultyId?.userId?.name || "—"}</span></>} empty="No teacher assigned to this class yet." /></Section>
+        <Section title="Subjects & teachers" count={act.length}><List items={act} render={(a) => <><span>{a.subjectId?.subjectName} <span className="text-slate-400">({a.subjectId?.subjectCode})</span></span><span className="text-xs text-slate-500">{a.facultyId?.userId?.name || "-"}</span></>} empty="No teacher assigned to this class yet." /></Section>
         <Section title="Students" count={studying.length}><List items={studying} render={(s) => <><span>{personName(s)} <span className="text-slate-400 font-mono text-xs">{s.rollNumber}</span></span><span className="text-xs text-slate-500">{mentorName(s) ? "Mentor: " + mentorName(s) : "No mentor"}</span></>} empty="No students in this class yet." /></Section>
         <HistoryList history={related.history} />
       </>);
@@ -109,10 +109,10 @@ function Body({ entityKey, item, related }) {
     case "faculty": {
       const act = related.assignments.filter((a) => a.isActive !== false);
       return (<>
-        <div className="grid grid-cols-3 gap-2"><Stat label="Teaches" value={act.length} hint="subject–class pairs" /><Stat label="Mentees" value={related.mentees.length} /><Stat label="Since" value={item.joiningYear || "—"} /></div>
+        <div className="grid grid-cols-3 gap-2"><Stat label="Teaches" value={act.length} hint="subject and class pairs" /><Stat label="Mentees" value={related.mentees.length} /><Stat label="Since" value={item.joiningYear || "-"} /></div>
         <Section title="Contact"><Dl><KV label="Email" value={<Contact icon={Mail} value={item.userId?.email} href={`mailto:${item.userId?.email}`} />} /><KV label="Mobile" value={<Contact icon={Phone} value={item.phone ? formatPhone(item.phone) : null} href={`tel:${item.phone}`} />} /></Dl></Section>
         <Section title="Profile"><Dl><KV label="Employee ID" value={item.employeeId} mono /><KV label="Department" value={item.departmentId?.name} /><KV label="Designation" value={item.designation} /><KV label="Specialisation" value={item.specialization} /><KV label="Status" value={<Pill tone={statusOf(item).tone}>{statusOf(item).label}</Pill>} /></Dl></Section>
-        <Section title="Teaching" count={act.length}><List items={act} render={(a) => <><span>{a.subjectId?.subjectName} <span className="text-slate-400">({a.subjectId?.subjectCode})</span></span><span className="text-xs text-slate-500">{classLabel(a.sectionId)} · {a.academicYear}</span></>} empty="Not teaching anything yet — assign under “Who teaches what”." /></Section>
+        <Section title="Teaching" count={act.length}><List items={act} render={(a) => <><span>{a.subjectId?.subjectName} <span className="text-slate-400">({a.subjectId?.subjectCode})</span></span><span className="text-xs text-slate-500">{classLabel(a.sectionId)} · {a.academicYear}</span></>} empty="Not teaching anything yet. Assign under “Who teaches what”." /></Section>
         <Section title="Mentees (current)" count={related.mentees.length}><List items={related.mentees} render={(s) => <><span>{personName(s)} <span className="font-mono text-xs text-slate-400">{s.rollNumber}</span></span><span className="text-xs text-slate-500">{s.sectionId ? classLabel(s.sectionId) : "No class"}</span></>} empty="No students assigned to this mentor." /></Section>
         <HistoryList history={related.history} />
       </>);
@@ -130,7 +130,7 @@ function Body({ entityKey, item, related }) {
       const mentors = d?.student?.mentorHistory || [];
       return (<>
         <div className="grid grid-cols-3 gap-2">
-          <Stat label="Attendance" value={pct === null ? "—" : `${pct}%`} tone={percentTone(pct)} hint={sum ? (sum.totalLectures ? `${sum.present}/${sum.totalLectures} lectures` : "No lectures yet") : undefined} />
+          <Stat label="Attendance" value={pct === null ? "-" : `${pct}%`} tone={percentTone(pct)} hint={sum ? (sum.totalLectures ? `${sum.present}/${sum.totalLectures} lectures` : "No lectures yet") : undefined} />
           <Stat label="Semester" value={item.semester} />
           <Stat label="Status" value={<Pill tone={l.tone}>{l.label}</Pill>} />
         </div>
@@ -168,7 +168,7 @@ function Body({ entityKey, item, related }) {
 }
 
 /**
- * RecordDetail — right-hand drawer with the full record, related data and
+ * RecordDetail - right-hand drawer with the full record, related data and
  * the same real actions as the table (Edit / Status / Deactivate / Delete).
  */
 export default function RecordDetail({ open, entity, item, onClose, onEdit, onToggleActive, onDelete, onLifecycle, refreshKey }) {

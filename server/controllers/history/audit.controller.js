@@ -4,7 +4,7 @@ import AuditLog from "../../models/users/AuditLog.js";
 const ENTITY_TYPES = ["STUDENT", "FACULTY", "ASSIGNMENT", "DEPARTMENT", "SUBJECT", "SECTION"];
 const clampLimit = (v, d = 20, max = 100) => { const n = Number.parseInt(v, 10); return Number.isFinite(n) && n > 0 ? Math.min(n, max) : d; };
 
-/** GET /api/audit/:entityType/:entityId?limit= — history of one record (newest first). */
+/** GET /api/audit/:entityType/:entityId?limit= - history of one record (newest first). */
 export const getAuditHistory = asyncHandler(async (req, res) => {
   const { entityType, entityId } = req.params;
   const type = String(entityType).toUpperCase();
@@ -15,7 +15,7 @@ export const getAuditHistory = asyncHandler(async (req, res) => {
   res.json({ success: true, count: logs.length, data: logs });
 });
 
-/** GET /api/audit?limit=&entityType= — recent admin activity across the college. */
+/** GET /api/audit?limit=&entityType= - recent admin activity across the college. */
 export const getRecentAudits = asyncHandler(async (req, res) => {
   const filter = {};
   const type = req.query.entityType ? String(req.query.entityType).toUpperCase() : null;

@@ -11,8 +11,8 @@
 #   status = 200
 #   force = true
 
-# SPA redirect (backup to public/_redirects). Real files in public/ — sitemap.xml,
-# robots.txt, og-image.png, version.json — are served BEFORE this rule.
+# SPA redirect (backup to public/_redirects). Real files in public/ - sitemap.xml,
+# robots.txt, og-image.png, version.json - are served BEFORE this rule.
 [[redirects]]
   from = "/*"
   to = "/index.html"
@@ -27,6 +27,28 @@
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# Brand icons / manifest - safe to cache for a day (regenerate with scripts/brand-assets.py)
+[[headers]]
+  for = "/favicon.*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/icon-*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/apple-touch-icon.png"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/site.webmanifest"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+    Content-Type = "application/manifest+json"
 
 [[headers]]
   for = "/sitemap.xml"

@@ -1,5 +1,5 @@
 /**
- * Redis Cache Layer  (Optional — graceful fallback if no Redis)
+ * Redis Cache Layer  (Optional - graceful fallback if no Redis)
  * ===============================================================
  * Caches frequently-hit MongoDB queries to support 2K+ RPS.
  * If REDIS_URL is empty, all operations silently no-op.
@@ -22,7 +22,7 @@ const getRedis = async () => {
     console.log('✅ Redis connected');
     return client;
   } catch (err) {
-    console.warn('⚠️ Redis unavailable — running without cache:', err.message);
+    console.warn('⚠️ Redis unavailable, running without cache:', err.message);
     redis = false;
     return null;
   }

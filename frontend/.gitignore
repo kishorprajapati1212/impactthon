@@ -2,3 +2,6 @@ node_modules/
 dist/
 .env
 public/version.json
+
+# Inter TTFs downloaded by scripts/brand-assets.py
+scripts/brand-fonts/

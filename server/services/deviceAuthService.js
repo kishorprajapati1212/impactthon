@@ -16,7 +16,7 @@ const sh = (v) =>
 
 /**
  * Recompute a trusted web-authn deviceId from the raw (server-verifiable)
- * credential parts — mirrors the same derivation done on the client.
+ * credential parts - mirrors the same derivation done on the client.
  * We never trust a client-provided *final* ID blindly; we recompute it.
  */
 function deriveDeviceId(attestation) {

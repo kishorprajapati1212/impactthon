@@ -8,7 +8,7 @@ import Section from "../models/Academics/Section.js";
 import Subject from "../models/Academics/Subject.js";
 import Department from "../models/Academics/Department.js";
 
-describe("listQuery — pagination & sorting for admin tables", () => {
+describe("listQuery - pagination & sorting for admin tables", () => {
   it("defaults keep the old behaviour (first page, 200 rows)", () => {
     expect(parsePagination({})).toEqual({ page: 1, limit: 200, skip: 0 });
   });
@@ -34,7 +34,7 @@ describe("listQuery — pagination & sorting for admin tables", () => {
   });
 });
 
-describe("audit helper — accountable, secret-free history", () => {
+describe("audit helper - accountable, secret-free history", () => {
   it("never stores passwords or tokens", () => {
     expect(sanitizeAuditChanges({ name: "A", password: "x", token: "t", email: "e" })).toEqual({ name: "A", email: "e" });
   });
@@ -64,7 +64,7 @@ describe("admin console ↔ model field contract", () => {
     expect(Student.schema.path("parentPhone")).toBeTruthy();
     expect(Faculty.schema.path("phone")).toBeTruthy();
   });
-  it("only Department has a description — Subject and Section must not pretend to", () => {
+  it("only Department has a description - Subject and Section must not pretend to", () => {
     expect(Department.schema.path("description")).toBeTruthy();
     expect(Subject.schema.path("description")).toBeUndefined();
     expect(Section.schema.path("description")).toBeUndefined();
@@ -75,7 +75,7 @@ describe("admin console ↔ model field contract", () => {
   });
 });
 
-describe("validators — names an admin really types", () => {
+describe("validators - names an admin really types", () => {
   it("accepts real department, subject and class names", async () => {
     const v = await import("../validators/index.js");
     expect(v.validateCreateDepartment({ name: "Computer Science & Engineering", code: "CSE" }).valid).toBe(true);
@@ -91,7 +91,7 @@ describe("validators — names an admin really types", () => {
   });
 });
 
-describe("listQuery — reference filters never break a table", () => {
+describe("listQuery - reference filters never break a table", () => {
   it("accepts ids and the 'none' sentinel", () => {
     expect(refFilter("64b0000000000000000000a1")).toBe("64b0000000000000000000a1");
     expect(refFilter("none")).toBeNull();

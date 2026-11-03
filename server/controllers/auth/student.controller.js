@@ -93,7 +93,7 @@ export const studentLogin = asyncHandler(async (req, res) => {
             ? "Your login is still waiting for your mentor's approval."
             : status.status === "REJECTED"
               ? "This login was rejected by your mentor."
-              : "You are logged out — login again; your mentor will confirm your device.",
+              : "You are logged out. Login again and your mentor will confirm your device.",
         data: { loginId: status.loginId },
       });
       return;
@@ -102,7 +102,7 @@ export const studentLogin = asyncHandler(async (req, res) => {
 
   // ── EVERY fresh login requires mentor approval (one-time login) ────
   // Per requirement: once a student logs out, the next login must be accepted
-  // by the mentor — regardless of whether it is the same device. The device
+  // by the mentor - regardless of whether it is the same device. The device
   // fingerprint is still stored in the table and the accepted session is
   // BOUND to that device, which stops a friend's phone from reusing it.
   const failsafe =
@@ -156,8 +156,8 @@ export const studentLogin = asyncHandler(async (req, res) => {
     code: "AUTH_APPROVAL_PENDING",
     message:
       student.mentorId
-        ? "Login sent to your mentor for approval. Wait on this screen — it unlocks as soon as they accept."
-        : "Login submitted (you have no mentor assigned yet — an admin can approve it).",
+        ? "Login sent to your mentor for approval. Wait on this screen. It unlocks as soon as they accept."
+        : "Login submitted (you have no mentor assigned yet, an admin can approve it).",
     data: {
       loginId,
       role: user.role,
@@ -170,9 +170,9 @@ export const studentLogin = asyncHandler(async (req, res) => {
 });
 
 /**
- * POST /student/logout — drop the trust for this loginId.
+ * POST /student/logout - drop the trust for this loginId.
  * After this, the NEXT login must be re-approved by the mentor.
- * (Optional body: { loginId } — read from token if absent.)
+ * (Optional body: { loginId } - read from token if absent.)
  */
 export const studentLogout = asyncHandler(async (req, res) => {
   let loginId = req.body?.loginId;
@@ -320,7 +320,7 @@ export const updateStudent = asyncHandler(async (req, res) => {
 });
 
 /**
- * POST /student/:id/lifecycle — mark a student Completed / Left / Transferred /
+ * POST /student/:id/lifecycle - mark a student Completed / Left / Transferred /
  * Suspended (or back to STUDYING). Nothing is deleted: attendance, leaves and
  * mentor history stay readable, and the mentor keeps the student under
  * "Former mentees". Body: { status, note? }

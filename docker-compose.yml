@@ -1,21 +1,21 @@
-# AttendX — Docker Compose (IDX + local)
+# AttendX - Docker Compose (IDX + local)
 #
 # START:
 #   docker compose up --build
 #
 # You MUST see banners from "attendx-server" and "attendx-frontend".
-# If you only see mongo JSON lines, something is wrong — this file
+# If you only see mongo JSON lines, something is wrong - this file
 # silences mongo/redis logs on purpose.
 #
 # URLS:
-#   Local:  http://127.0.0.1:5173         (UI — it reaches the API via /api)
+#   Local:  http://127.0.0.1:5173         (UI - it reaches the API via /api)
 #           http://127.0.0.1:5173/api/health  or  http://127.0.0.1:3000/health
 #   IDX / Firebase Studio / Codespaces: open ONLY port 5173 (nothing else needed)
 
 name: attendx
 
 services:
-  # ── Mongo (logs HIDDEN — was flooding the console) ───────────────────
+  # ── Mongo (logs HIDDEN - was flooding the console) ───────────────────
   mongo:
     image: mongo:7
     container_name: attendx-mongo
@@ -75,7 +75,7 @@ services:
       - CORS_OPEN=true
       - MONGO_RETRY_ATTEMPTS=40
       - MONGO_RETRY_MS=2000
-    # ★ Do NOT wait for healthy — start ASAP; app retries Mongo itself
+    # ★ Do NOT wait for healthy - start ASAP; app retries Mongo itself
     depends_on:
       - mongo
       - redis
@@ -95,7 +95,7 @@ services:
       dockerfile: Dockerfile
       args:
         # Empty on purpose: the UI calls /api/* on its own origin and nginx
-        # forwards it to the server container — no CORS, works on any host/IDE.
+        # forwards it to the server container - no CORS, works on any host/IDE.
         - VITE_API_URL=${VITE_API_URL:-}
     container_name: attendx-frontend
     restart: unless-stopped

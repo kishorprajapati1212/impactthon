@@ -9,7 +9,7 @@ import LectureSession from "../models/lecture/LectureSession.js";
  * values, so nothing matched and every finished lecture was reset to 0
  * ("0 present" on the faculty dashboard / history even though students had
  * scanned). The bug is fixed, but databases that already ran the old code
- * still hold zeros — this recount runs once at start-up and repairs them.
+ * still hold zeros - this recount runs once at start-up and repairs them.
  *
  * Cheap: one aggregate over PRESENT/LATE rows + a bulkWrite of the diffs.
  */

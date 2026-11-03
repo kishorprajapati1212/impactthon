@@ -105,7 +105,7 @@ const QRGenerator = ({
     setProgress(1);
   }, [sessionToken, lectureSessionId, serverTimeOffset]);
 
-  // Stable interval (not rAF — avoids thrash / blur on some GPUs)
+  // Stable interval (not rAF - avoids thrash / blur on some GPUs)
   useEffect(() => {
     rotate();
     timerRef.current = setInterval(() => {
@@ -132,7 +132,7 @@ const QRGenerator = ({
 
   if (!sessionToken || !lectureSessionId) return null;
 
-  // Pure black modules on pure white — best for dull projectors / phone cams
+  // Pure black modules on pure white - best for dull projectors / phone cams
   const qrFg = "#000000";
   const qrBg = "#FFFFFF";
 
@@ -161,7 +161,7 @@ const QRGenerator = ({
           {isFullscreen && (
             <p className="text-xs sm:text-sm text-slate-600 flex items-center gap-1.5 mt-0.5">
               <Sun size={14} className="text-amber-500" />
-              Projection mode — max contrast white screen
+              Projection mode: maximum contrast white screen
             </p>
           )}
         </div>
@@ -187,7 +187,7 @@ const QRGenerator = ({
         className="mx-auto flex flex-col items-stretch w-full"
         style={{ width: isFullscreen ? qrSize + 2 * plateGap : "100%", maxWidth: "100%" }}
       >
-      {/* QR plate — thick quiet zone helps phone cameras */}
+      {/* QR plate - thick quiet zone helps phone cameras */}
       <div
         className="bg-white shadow-none mx-auto"
         style={{

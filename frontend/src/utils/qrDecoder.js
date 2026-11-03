@@ -4,12 +4,12 @@
  * Two engines behind one tiny interface:
  *   1. the browser's native `BarcodeDetector` (Chrome/Edge on Android & desktop,
  *      hardware-accelerated, very tolerant of small or blurry codes)
- *   2. `jsQR` — pure JavaScript, works everywhere else (iOS Safari, Firefox,
+ *   2. `jsQR` - pure JavaScript, works everywhere else (iOS Safari, Firefox,
  *      older browsers). Loaded on demand so it never weighs on the login or
  *      dashboard bundles.
  *
  * Why not keep html5-qrcode: it owns the <video> element and the decode loop,
- * which made two things impossible — a digital zoom that actually reaches
+ * which made two things impossible - a digital zoom that actually reaches
  * the decoder, and a guaranteed camera release when the user navigates away
  * mid-start. The scanner now owns both (see useQrCamera.js) and only needs a
  * function that turns a canvas into text.
@@ -53,7 +53,7 @@ export async function createQrDecoder({ preferNative = true } = {}) {
     const { width, height } = canvas;
     if (!width || !height) return null;
     const img = ctx.getImageData(0, 0, width, height);
-    // Inverted codes (light-on-dark) are rare for a projected QR — try them
+    // Inverted codes (light-on-dark) are rare for a projected QR - try them
     // only every third frame so the common case stays fast.
     const inversionAttempts = frame++ % 3 === 0 ? "attemptBoth" : "dontInvert";
     const hit = jsQR(img.data, width, height, { inversionAttempts });
@@ -71,7 +71,7 @@ export async function createQrDecoder({ preferNative = true } = {}) {
           const text = codes?.find((c) => c.rawValue)?.rawValue;
           return text ? String(text) : null;
         } catch {
-          // Some builds expose the API but fail at runtime — switch engines for good.
+          // Some builds expose the API but fail at runtime - switch engines for good.
           detector = null;
           try {
             jsQR = await loadJsQR();
