@@ -1,0 +1,13 @@
+import express from "express";
+import { createFaculty, loginUser, getAllFaculty, getFacultyProfile, updateFaculty, deleteFaculty, permanentlyDeleteFaculty } from "../../controllers/auth/faculty.controller.js";
+import protect from "../../middleware/auth.middleware.js";
+import authorizeRoles from "../../middleware/role.middleware.js";
+const r = express.Router();
+r.post("/faculty/create", protect, authorizeRoles("ADMIN"), createFaculty);
+r.post("/faculty/login", loginUser);
+r.get("/faculty", protect, authorizeRoles("ADMIN"), getAllFaculty);
+r.get("/faculty/me", protect, authorizeRoles("FACULTY"), getFacultyProfile);
+r.put("/faculty/:id", protect, authorizeRoles("ADMIN"), updateFaculty);
+r.delete("/faculty/:id", protect, authorizeRoles("ADMIN"), deleteFaculty);
+r.delete("/faculty/:id/permanent", protect, authorizeRoles("ADMIN"), permanentlyDeleteFaculty);
+export default r;

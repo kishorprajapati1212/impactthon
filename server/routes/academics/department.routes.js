@@ -1,0 +1,12 @@
+import express from "express";
+import { createDepartment, getAllDepartments, getDepartmentById, updateDepartment, deleteDepartment, permanentlyDeleteDepartment } from "../../controllers/academics/department.controller.js";
+import protect from "../../middleware/auth.middleware.js";
+import authorizeRoles from "../../middleware/role.middleware.js";
+const r = express.Router();
+r.post("/department/create", protect, authorizeRoles("ADMIN"), createDepartment);
+r.get("/departments", getAllDepartments);
+r.get("/department/:id", getDepartmentById);
+r.put("/department/:id", protect, authorizeRoles("ADMIN"), updateDepartment);
+r.delete("/department/:id", protect, authorizeRoles("ADMIN"), deleteDepartment);
+r.delete("/department/:id/permanent", protect, authorizeRoles("ADMIN"), permanentlyDeleteDepartment);
+export default r;

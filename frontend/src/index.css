@@ -1,0 +1,217 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* #features / #how-it-works / #faq land below the fixed header */
+    scroll-padding-top: 5.5rem;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    @apply bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  *:focus-visible {
+    outline: 2px solid #06b6d4;
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  /* Light theme (Phase 18): the UI was designed dark-first, so many accents
+     are the pale "-400" shades that glow on dark panels but wash out on
+     white (e.g. cyan-400 "X" in the logo, rose-400 error text). Darken them
+     once here for light mode; `dark:` classes keep the original shades. */
+  html:not(.dark) .text-cyan-400 { color: theme("colors.cyan.600"); }
+  html:not(.dark) .text-cyan-300 { color: theme("colors.cyan.700"); }
+  html:not(.dark) .text-emerald-400 { color: theme("colors.emerald.600"); }
+  html:not(.dark) .text-rose-400 { color: theme("colors.rose.600"); }
+  html:not(.dark) .text-amber-400 { color: theme("colors.amber.600"); }
+  html:not(.dark) .text-blue-400 { color: theme("colors.blue.600"); }
+  html:not(.dark) .text-purple-400 { color: theme("colors.purple.600"); }
+  html:not(.dark) .hover\:text-cyan-400:hover { color: theme("colors.cyan.600"); }
+  /* Dark overlays that exist in both themes (camera preview, projector) keep bright text */
+  html:not(.dark) .on-dark .text-cyan-400 { color: theme("colors.cyan.300"); }
+  html:not(.dark) .on-dark .text-cyan-300 { color: theme("colors.cyan.300"); }
+}
+
+@layer components {
+  /* ── 2026 design system ───────────────────────────────────────────── */
+  /* Legacy aliases (kept so older components never lose their styling) */
+  .glass-card {
+    @apply rounded-2xl border border-slate-200 bg-white
+           shadow-[0_1px_2px_rgba(16,24,40,0.05),0_2px_6px_-2px_rgba(16,24,40,0.08)]
+           dark:border-slate-800 dark:bg-slate-900 dark:shadow-none;
+  }
+
+  .glass-nav {
+    @apply backdrop-blur-xl border-b border-slate-200/80
+           bg-white/85 dark:border-slate-800 dark:bg-slate-950/80;
+  }
+
+  .card-2026 {
+    @apply rounded-2xl border border-slate-200 bg-white
+           shadow-[0_1px_2px_rgba(16,24,40,0.05),0_2px_6px_-2px_rgba(16,24,40,0.08)]
+           dark:border-slate-800 dark:bg-slate-900 dark:shadow-none;
+  }
+
+  .card-hover {
+    @apply transition-all duration-200 hover:-translate-y-0.5
+           hover:border-cyan-500/40 hover:shadow-[0_12px_32px_-12px_rgba(6,182,212,0.25)];
+  }
+
+  .surface-nav {
+    @apply backdrop-blur-xl border-b border-slate-200/80
+           bg-white/80 dark:border-slate-800 dark:bg-slate-950/80;
+  }
+
+  .btn-primary {
+    @apply px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600
+           text-white font-semibold rounded-xl
+           hover:from-cyan-400 hover:to-blue-500
+           transition-all duration-200 shadow-md shadow-cyan-500/25
+           active:scale-[0.97]
+           disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 border font-semibold rounded-xl
+           transition-all duration-200 active:scale-[0.97]
+           bg-white dark:bg-slate-900
+           border-slate-300 dark:border-slate-700
+           text-slate-700 dark:text-slate-200
+           hover:bg-slate-50 dark:hover:bg-slate-800;
+  }
+
+  .btn-danger {
+    @apply px-6 py-3 border font-semibold rounded-xl
+           transition-all duration-200 active:scale-[0.97]
+           bg-white dark:bg-rose-500/10
+           border-rose-300 dark:border-rose-500/30
+           text-rose-600 dark:text-rose-400
+           hover:bg-rose-50 dark:hover:bg-rose-500/20;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-xl transition-all duration-200
+           bg-white dark:bg-slate-900
+           border border-slate-300 dark:border-slate-700
+           text-slate-900 dark:text-slate-100
+           placeholder:text-slate-400 dark:placeholder:text-slate-500
+           font-medium;
+  }
+
+  .input-field:focus {
+    @apply outline-none ring-2 ring-cyan-500/20;
+    border-color: #06b6d4;
+  }
+
+  .input-label {
+    @apply block text-xs font-bold uppercase tracking-wider mb-1.5
+           text-slate-600 dark:text-slate-400;
+  }
+
+  .admin-primary {
+    @apply px-4 py-2.5 bg-indigo-600 text-white text-sm font-semibold rounded-lg
+           hover:bg-indigo-500 transition-colors shadow-sm
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .admin-code {
+    @apply inline-flex px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 font-mono text-xs font-semibold;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold;
+  }
+
+  .badge-success {
+    @apply bg-emerald-100 text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-400;
+  }
+
+  .badge-danger {
+    @apply bg-rose-100 text-rose-800 dark:bg-rose-500/15 dark:text-rose-400;
+  }
+
+  .badge-warning {
+    @apply bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-400;
+  }
+
+  .badge-info {
+    @apply bg-cyan-100 text-cyan-800 dark:bg-cyan-500/15 dark:text-cyan-400;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@keyframes notify-in { from { opacity: 0; transform: translateY(-8px) scale(.98); } to { opacity: 1; transform: none; } }
+@keyframes notify-shrink { from { width: 100%; } to { width: 0%; } }
+.notify-enter { animation: notify-in .22s ease-out; }
+.notify-progress { animation-name: notify-shrink; animation-timing-function: linear; animation-fill-mode: forwards; }
+
+
+/* Fullscreen QR projection — pure white, no dull overlays */
+html.qr-project-mode,
+html.qr-project-mode body {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+html.qr-project-mode .surface-nav,
+html.qr-project-mode header,
+html.qr-project-mode nav {
+  display: none !important;
+}
+html.qr-project-mode main {
+  padding: 0 !important;
+  max-width: none !important;
+}
+
+/* Admin console — right-hand drawers (RecordForm / RecordDetail) */
+@keyframes drawer-in { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .animate-\[drawer-in_\.22s_ease-out\] { animation: none; } }
+
+/* ── Student scanner: zoom slider on top of the camera (Phase 18.1) ───────── */
+.zoom-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #22d3ee var(--fill, 0%), rgba(255, 255, 255, 0.35) var(--fill, 0%));
+  outline: none;
+  cursor: pointer;
+  touch-action: none;
+}
+.zoom-range:disabled { opacity: 0.5; cursor: default; }
+.zoom-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: 3px solid #0891b2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+  cursor: grab;
+}
+.zoom-range::-moz-range-thumb {
+  width: 30px;
+  height: 30px;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: 3px solid #0891b2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+  cursor: grab;
+}
+.zoom-range:active::-webkit-slider-thumb { cursor: grabbing; transform: scale(1.08); }
+.zoom-range:focus-visible { box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.6); }
