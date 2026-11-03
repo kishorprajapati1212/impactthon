@@ -1,0 +1,10 @@
+# AttendX — public pages are crawlable; dashboards and the API are not.
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /faculty
+Disallow: /student
+Disallow: /register
+Disallow: /api/
+
+Sitemap: https://attendex12345.netlify.app/sitemap.xml

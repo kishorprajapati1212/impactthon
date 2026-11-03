@@ -3,17 +3,44 @@
   command = "npm run build"
   publish = "dist"
 
-# SPA redirect (backup to public/_redirects)
+# Same-origin API (recommended, no CORS): uncomment and put your API host here.
+# Must stay ABOVE the SPA rule. Then leave VITE_API_URL unset.
+# [[redirects]]
+#   from = "/api/*"
+#   to = "https://YOUR-API.onrender.com/api/:splat"
+#   status = 200
+#   force = true
+
+# SPA redirect (backup to public/_redirects). Real files in public/ — sitemap.xml,
+# robots.txt, og-image.png, version.json — are served BEFORE this rule.
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
 [build.environment]
-  # Set this in Netlify UI → Site settings → Environment variables
-  # VITE_API_URL = https://your-api-host.example.com
+  # Set these in Netlify UI → Site configuration → Environment variables
+  # SITE_URL      = https://your-domain.example   (absolute URLs in sitemap/canonical; defaults to the Netlify URL)
+  # VITE_API_URL  = https://your-api-host.example.com   (only if you do NOT use the /api/* proxy rule above)
 
 [[headers]]
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Content-Type = "application/xml; charset=utf-8"
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache"

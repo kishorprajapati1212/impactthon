@@ -38,11 +38,11 @@ const HeroSection = () => {
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-600 dark:text-cyan-400 text-xs font-semibold mb-6">
               <span className="w-2 h-2 rounded-full bg-cyan-500 animate-pulse" />
-              Smart QR Attendance System · 2026
+              QR Code Attendance System for Colleges &amp; Schools
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6 text-slate-900 dark:text-slate-50">
-              Attendance{" "}
+              QR attendance{" "}
               <span className="bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent">
                 without proxies
               </span>
@@ -50,10 +50,11 @@ const HeroSection = () => {
             </h1>
 
             <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-lg leading-relaxed">
-              AttendX turns any classroom into a 30-second check-in. Faculty
-              project a live rotating QR, students scan with their phone, and
-              GPS + geofence verification proves they were really there —
-              with analytics and Excel reports included.
+              AttendX is a student attendance management system that turns any
+              classroom into a 30-second check-in. Faculty project a live
+              rotating QR, students scan with their phone, and GPS geofence
+              verification proves they were really there — with dashboards for
+              admin, faculty and students, and Excel reports included.
             </p>
 
             <div className="flex flex-wrap gap-4 mb-10">

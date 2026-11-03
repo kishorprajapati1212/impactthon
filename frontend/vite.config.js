@@ -29,8 +29,14 @@ export default defineConfig(({ mode }) => {
     },
   };
 
+  // Absolute canonical / Open Graph URLs in index.html (Google wants absolute
+  // URLs). SITE_URL=https://your-domain overrides; Netlify's own URL variable
+  // is used automatically; otherwise the current Netlify site.
+  const siteUrl = (process.env.SITE_URL || env.SITE_URL || env.VITE_SITE_URL || process.env.URL || 'https://attendex12345.netlify.app').replace(/\/+$/, '');
+  const seoHtml = { name: 'attendx-seo-urls', transformIndexHtml: { order: 'pre', handler: (html) => html.split('__SITE_URL__').join(siteUrl) } };
+
   return {
-    plugins: [react()],
+    plugins: [react(), seoHtml],
     // Visible in the login page, the admin sidebar and the console so a stale build is obvious
     define: {
       __APP_VERSION__: JSON.stringify(process.env.npm_package_version || '0.0.0'),

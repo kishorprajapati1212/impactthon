@@ -10,6 +10,7 @@ import {
 import api from "../../utils/api.js";
 import { login } from "../../store/authSlice.js";
 import AppNavbar from "../../components/UI/AppNavbar.jsx";
+import AppHelmet from "../../components/SEO/AppHelmet.jsx";
 import { getDeviceProfile, isFirstLoginHere, rememberDevice } from "../../utils/device.js";
 
 /* global __APP_VERSION__, __BUILD_TIME__ */
@@ -190,6 +191,7 @@ const Login = () => {
   if (sentForApproval && pendingLoginId) {
     return (
       <div className="min-h-screen bg-white dark:bg-dark-900 flex flex-col relative overflow-hidden transition-colors">
+        <AppHelmet title="Login · AttendX QR Attendance System" description="Sign in to AttendX — the QR code + GPS attendance system for colleges and schools. Student, faculty and admin login." />
         <AppNavbar />
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/5 dark:bg-blue-600/10 blur-[120px] rounded-full pointer-events-none" />
         <div className="flex-1 flex items-center justify-center p-4 relative z-10">
@@ -244,6 +246,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-dark-900 flex flex-col relative overflow-hidden transition-colors">
+      <AppHelmet title="Login · AttendX QR Attendance System" description="Sign in to AttendX — the QR code + GPS attendance system for colleges and schools. Student, faculty and admin login." />
       <AppNavbar />
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/5 dark:bg-blue-600/10 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/5 dark:bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none" />

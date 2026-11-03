@@ -29,8 +29,8 @@ const LandingPage = () => {
   <div className="relative min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden transition-colors">
     {/* Document-level SEO */}
     <AppHelmet
-      title="AttendX — QR Code Attendance System for Colleges & Schools (2026)"
-      description="AttendX is a smart QR code attendance system for colleges, universities and schools. Live rotating QR codes, GPS geofence verification, role-based dashboards and one-click Excel reports."
+      title="QR Code Attendance System for Colleges & Schools | AttendX"
+      description="Free QR code attendance system for colleges & schools. Rotating QR + GPS geofence stops proxy attendance; admin, faculty and student dashboards; Excel reports."
     />
 
     {/* Skip link for accessibility (also helps crawlers) */}
@@ -58,13 +58,16 @@ const LandingPage = () => {
         <h2 className="sr-only">About AttendX college QR attendance system</h2>
         <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed text-center">
           <strong className="text-slate-800 dark:text-slate-200">AttendX</strong>{" "}
-          is a modern <strong>QR code attendance system</strong> built for{" "}
-          <strong>colleges</strong>, <strong>universities</strong> and{" "}
-          <strong>schools</strong>. Teachers start a live lecture with a
-          rotating secure QR, students scan it with{" "}
-          <strong>GPS geofence</strong> verification, and admins track every
-          department with analytics and <strong>Excel attendance reports</strong>.
-          No biometric scanners, no RFID cards, no extra hardware.
+          is a free <strong>QR code attendance system</strong> and{" "}
+          <strong>student attendance management system</strong> built for{" "}
+          <strong>colleges</strong>, <strong>universities</strong>,{" "}
+          <strong>schools</strong> and coaching institutes in India and beyond.
+          Teachers start a live lecture with a rotating secure QR, students scan
+          it with <strong>GPS geofence</strong> verification that stops{" "}
+          <strong>proxy attendance</strong>, mentors see every student they
+          guide, and admins track every department with a plain attendance
+          report and <strong>Excel attendance sheets</strong>. No biometric
+          scanners, no RFID cards, no app install, no extra hardware.
         </p>
       </section>
 

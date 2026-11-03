@@ -609,6 +609,43 @@ then disappears. Tests: frontend 99/99 (7 new gesture tests), server 83/83,
 build OK. The original repository commit had no zoom code at all; nothing
 from it was removed.
 
+### Phase 18.2 — "How do I run reseed on Render?" (v3.6.2)
+`reseed.sh` needs Docker Compose; Render has none and its free instance type
+has no Shell. Added `RESEED_KEY` (`server/utils/reseedKey.js`, wired in
+`index.js` before `AUTO_SEED`): on boot the API compares the variable with the
+value remembered in a one-document `seed_meta` collection (not a Mongoose
+model, so the seeder's wipe leaves it alone). New value → `seedDatabase({force:
+true})` + remember; same value → nothing, so redeploys/restarts never lose
+data. README section "Reseed on Render". Tests: server 87/87 (4 new).
+
+### Phase 18.3 — SEO: "Sitemap is HTML" on the Netlify site (v3.6.3)
+The user submitted `/home` as the sitemap of `attendex12345.netlify.app`. The
+SPA fallback answers every path with `index.html`, so `/home` and `/sitemap.xml`
+were HTML. Added `frontend/scripts/seo.mjs` (runs first in `npm run build`):
+writes `public/sitemap.xml` (absolute URLs, public pages `/` and `/login`) and
+`public/robots.txt` (disallow dashboards + `/api/`, Sitemap line); domain from
+`SITE_URL` → Netlify `URL` → default. `vite.config.js` plugin replaces
+`__SITE_URL__` in `index.html` (canonical, og:url, og:image, JSON-LD url) with
+the same value (a `%…%` placeholder breaks Vite's URI decoding — don't).
+`public/og-image.png` 1200×630 generated with Pillow. `ProtectedRoute` sets
+`robots: noindex` while a private page is mounted (`useNoIndex`).
+`netlify.toml`: content-type/cache headers for the SEO files, `no-cache` for
+index.html, commented `/api/*` proxy template. README "SEO & Google Search
+Console" with the exact Search Console steps. Tests: frontend 102/102 (3 new).
+
+### Phase 18.4 — Keywords on the page + keyword plan (v3.6.4)
+User asked for ranking keywords on the site, a list "to add in Search
+Console", and title/meta aligned to them. Search Console has no keyword input
+(explained in `SEO_KEYWORDS.md` §1 — use Performance → Queries filters).
+Page work (text only, design unchanged): `<title>` "QR Code Attendance System
+for Colleges & Schools | AttendX" (58 chars), meta description 159 chars,
+hero eyebrow + H1 "QR attendance without proxies, paper or queues", keyworded
+H2s in Features / HowItWorks / Roles / CTA, intro paragraph, FAQ extended to
+8 items (visible list and FAQ JSON-LD rebuilt from the same data), new
+Organization + WebSite JSON-LD, SoftwareApplication keywords/audience, Login
+page `AppHelmet`. `SEO_KEYWORDS.md` = primary/secondary/long-tail table with
+intent and location, weekly GSC routine, article ideas. Build + 102 tests OK.
+
 ## Status: all requested items are implemented (Phases 1–18)
 Next work is only user acceptance testing with Docker:
 `docker compose up --build` (frontend rebuild picks up bundled Leaflet).

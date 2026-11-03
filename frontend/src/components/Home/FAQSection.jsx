@@ -3,16 +3,24 @@ import { ChevronDown } from "lucide-react";
 
 const faqs = [
   {
-    q: "How does the QR attendance system work?",
+    q: "How does the QR code attendance system work?",
     a: "A faculty member starts a live lecture and a QR code appears on screen, refreshing every 5 seconds so screenshots can't be reused. Students point their phone camera at the code; AttendX verifies the QR signature and the student's GPS location against the classroom geofence before marking them present.",
   },
   {
-    q: "Can a student mark attendance from outside the classroom?",
-    a: "No. Every scan is geofence-verified against the classroom coordinates and the student's live GPS. If they are outside the allowed area, the mark is rejected. The rotating QR also makes sharing a screenshot useless.",
+    q: "Can a student mark attendance from outside the classroom (proxy attendance)?",
+    a: "No. Every scan is geofence-verified against the classroom coordinates and the student's live GPS. If they are outside the allowed area, the mark is rejected. The rotating QR also makes sharing a screenshot useless — that is how AttendX stops proxy attendance.",
   },
   {
-    q: "Do I need any special hardware?",
-    a: "No. You only need a screen or projector to show the QR and students' smartphones. There are no fingerprint scanners, RFID cards or biometric devices required.",
+    q: "Do I need biometric, RFID or any special hardware?",
+    a: "No. You only need a screen or projector to show the QR and students' smartphones. There are no fingerprint scanners, RFID cards or biometric devices required, which is why a QR + GPS attendance system costs a fraction of biometric attendance.",
+  },
+  {
+    q: "Is AttendX only for colleges, or also for schools and coaching institutes?",
+    a: "AttendX works for any institution that teaches in rooms: colleges, universities, schools, coaching institutes and training centres. Departments, classes, subjects and batches are configured by the admin, so the same system fits a 200-student school and a multi-department college.",
+  },
+  {
+    q: "Do students need to install an app?",
+    a: "No app install. AttendX is a web app: students open the site in the phone browser, allow the camera and location once, and scan. It works on Android and iPhone.",
   },
   {
     q: "What if a student arrives late?",
@@ -20,7 +28,7 @@ const faqs = [
   },
   {
     q: "Can teachers export attendance to Excel?",
-    a: "Yes. Faculty generate a CSV/Excel sheet with roll numbers, names and a per-date P/A/L/E grid including totals and attendance percentage, filterable by date range.",
+    a: "Yes. Faculty generate a CSV/Excel sheet with roll numbers, names and a per-date P/A/L/E grid including totals and attendance percentage, filterable by date range — the attendance report most colleges need for the 75% rule.",
   },
   {
     q: "Is it free to try?",
@@ -42,7 +50,7 @@ const FAQSection = () => {
             FAQ
           </p>
           <h2 className="text-3xl sm:text-4xl font-black mb-4 text-slate-900 dark:text-slate-50">
-            Frequently asked questions
+            Frequently asked questions about QR attendance
           </h2>
         </div>
 

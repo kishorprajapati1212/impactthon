@@ -46,7 +46,7 @@ const HowItWorksSection = () => (
           How it works
         </p>
         <h2 className="text-3xl sm:text-4xl font-black mb-4 text-slate-900 dark:text-slate-50">
-          Four steps, thirty seconds
+          How QR + GPS attendance works: four steps, thirty seconds
         </h2>
         <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-lg">
           From lecture start to complete attendance record — no roll call, no

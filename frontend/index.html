@@ -3,37 +3,43 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AttendX — QR Code Attendance System for Colleges &amp; Schools (2026)</title>
+    <title>QR Code Attendance System for Colleges & Schools | AttendX</title>
     <meta
       name="description"
-      content="AttendX is a smart QR code attendance system for colleges, universities and schools. Live rotating QR codes, GPS geofence verification, role-based dashboards for admin, faculty and students, analytics and one-click Excel reports. Zero extra hardware."
+      content="Free QR code attendance system for colleges & schools. Rotating QR + GPS geofence stops proxy attendance; admin, faculty and student dashboards; Excel reports."
     />
     <meta
       name="keywords"
-      content="QR attendance system, college attendance app, school attendance software, student attendance tracker, faculty QR code, GPS geofence attendance, proxy-proof attendance, biometric alternative, Excel attendance report, India college ERP, classroom attendance management"
+      content="QR code attendance system, QR attendance system for colleges, student attendance management system, attendance app for college, GPS attendance system, geofence attendance, proxy attendance solution, smart attendance system, online attendance system for students, attendance tracking software for schools, faculty attendance app, attendance report Excel, attendance system without biometric, college attendance app India, AttendX"
     />
     <meta name="author" content="AttendX" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="theme-color" content="#06b6d4" />
-    <link rel="canonical" href="/" />
+    <link rel="canonical" href="__SITE_URL__/" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="AttendX" />
-    <meta property="og:title" content="AttendX — Smart QR Attendance for Education" />
+    <meta property="og:title" content="QR Code Attendance System for Colleges & Schools | AttendX" />
     <meta
       property="og:description"
-      content="Secure rotating QR codes, GPS geofence, role-based dashboards for admin, faculty and students. Export attendance to Excel in one click."
+      content="Rotating QR + GPS geofence verification stops proxy attendance. Admin, faculty and student dashboards, mentor view and one-click Excel reports. No extra hardware."
     />
-    <meta property="og:url" content="/" />
+    <meta property="og:url" content="__SITE_URL__/" />
+    <meta property="og:image" content="__SITE_URL__/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="AttendX — QR + GPS attendance for colleges" />
+    <meta property="og:locale" content="en_IN" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="AttendX — QR Attendance System" />
+    <meta name="twitter:title" content="QR Code Attendance System for Colleges & Schools | AttendX" />
     <meta
       name="twitter:description"
-      content="College & school QR attendance with geofence, analytics and Excel export."
+      content="QR code + GPS attendance system for colleges and schools: proxy-proof marking, dashboards for every role, Excel reports."
     />
+    <meta name="twitter:image" content="__SITE_URL__/og-image.png" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -48,7 +54,11 @@
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         "name": "AttendX",
+        "url": "__SITE_URL__/",
+        "image": "__SITE_URL__/og-image.png",
         "applicationCategory": "EducationalApplication",
+        "keywords": "QR code attendance system, college attendance app, GPS geofence attendance, proxy-proof attendance, Excel attendance report",
+        "audience": { "@type": "EducationalAudience", "educationalRole": "administrator, teacher, student" },
         "operatingSystem": "Web",
         "description": "QR code based attendance management system with GPS geofence verification, live rotating QR codes, role-based dashboards and Excel export for colleges, universities and schools.",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
@@ -65,7 +75,7 @@
       }
     </script>
 
-    <!-- Structured data — FAQ -->
+    <!-- Structured data — FAQ (mirrors the visible FAQ section) -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -73,35 +83,93 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "How does the AttendX QR attendance system work?",
+            "name": "How does the QR code attendance system work?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "A faculty member starts a live lecture and a QR code appears on screen, refreshing every 5 seconds so screenshots cannot be reused. Students point their phone camera at the code; AttendX verifies the code signature and the student's GPS location before marking them present."
+              "text": "A faculty member starts a live lecture and a QR code appears on screen, refreshing every 5 seconds so screenshots can't be reused. Students point their phone camera at the code; AttendX verifies the QR signature and the student's GPS location against the classroom geofence before marking them present."
             }
           },
           {
             "@type": "Question",
-            "name": "Does AttendX prevent proxy attendance?",
+            "name": "Can a student mark attendance from outside the classroom (proxy attendance)?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. The QR code rotates every 5 seconds and is only valid for about 25 seconds, and every scan is cross-checked against the classroom geofence and the student's live GPS coordinates, so a classmate cannot mark attendance on someone else's behalf remotely."
+              "text": "No. Every scan is geofence-verified against the classroom coordinates and the student's live GPS. If they are outside the allowed area, the mark is rejected. The rotating QR also makes sharing a screenshot useless — that is how AttendX stops proxy attendance."
             }
           },
           {
             "@type": "Question",
-            "name": "What hardware do I need to use AttendX?",
+            "name": "Do I need biometric, RFID or any special hardware?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "None beyond a projector or screen for the QR code and students' smartphones. There are no fingerprint scanners, RFID cards or biometric devices required."
+              "text": "No. You only need a screen or projector to show the QR and students' smartphones. There are no fingerprint scanners, RFID cards or biometric devices required, which is why a QR + GPS attendance system costs a fraction of biometric attendance."
             }
           },
           {
             "@type": "Question",
-            "name": "Can teachers download attendance reports to Excel?",
+            "name": "Is AttendX only for colleges, or also for schools and coaching institutes?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. Faculty can generate a CSV/Excel sheet with roll numbers, names and per-date P/A/L/E status with totals and attendance percentage, filterable by date range."
+              "text": "AttendX works for any institution that teaches in rooms: colleges, universities, schools, coaching institutes and training centres. Departments, classes, subjects and batches are configured by the admin, so the same system fits a 200-student school and a multi-department college."
             }
+          },
+          {
+            "@type": "Question",
+            "name": "Do students need to install an app?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No app install. AttendX is a web app: students open the site in the phone browser, allow the camera and location once, and scan. It works on Android and iPhone."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What if a student arrives late?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Faculty can manually mark a late student as Present, Late or Excused from the live session or from the history view. Auto-finalization still marks everyone else correctly."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can teachers export attendance to Excel?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Faculty generate a CSV/Excel sheet with roll numbers, names and a per-date P/A/L/E grid including totals and attendance percentage, filterable by date range — the attendance report most colleges need for the 75% rule."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is it free to try?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "AttendX is free to start. The demo includes seeded admin, faculty and student accounts so you can test the whole flow in minutes."
+            }
+          }
+        ]
+      }
+    </script>
+
+    <!-- Structured data — Organization / WebSite -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "__SITE_URL__/#organization",
+            "name": "AttendX",
+            "url": "__SITE_URL__/",
+            "logo": "__SITE_URL__/og-image.png",
+            "description": "QR code + GPS attendance system for colleges, universities and schools."
+          },
+          {
+            "@type": "WebSite",
+            "@id": "__SITE_URL__/#website",
+            "url": "__SITE_URL__/",
+            "name": "AttendX — QR Code Attendance System",
+            "publisher": { "@id": "__SITE_URL__/#organization" },
+            "inLanguage": "en-IN",
+            "keywords": "QR code attendance system, student attendance management system, GPS geofence attendance, proxy attendance, college attendance app"
           }
         ]
       }

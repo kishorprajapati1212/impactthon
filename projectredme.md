@@ -125,9 +125,10 @@ the audit log. Details: `MODELS.md` §13.
 
 ## If you still see an old screen
 Run `FRESH=1 ./start.sh` (rebuilds the Docker images without cache) and
-hard-refresh the browser. The sidebar footer shows `Console v3.6.1 · built …`
+hard-refresh the browser. The sidebar footer shows `Console v3.6.4 · built …`
 and `/version.json` returns the running build.
 
 ## Docs
+- `SEO_KEYWORDS.md` — keyword plan, where each keyword sits on the landing page, Search Console routine
 - `context.md` — current priorities, phase log, what to do next (**read first**)
 - `MODELS.md` — database models · `GEOFENCE.md` — geofence configuration

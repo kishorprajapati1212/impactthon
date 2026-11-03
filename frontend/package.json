@@ -1,11 +1,11 @@
 {
   "name": "attendx-frontend",
   "private": true,
-  "version": "3.6.1",
+  "version": "3.6.4",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node -e \"require('fs').writeFileSync('public/version.json', JSON.stringify({version: process.env.npm_package_version, builtAt: new Date().toISOString()}))\" && vite build",
+    "build": "node scripts/seo.mjs && node -e \"require('fs').writeFileSync('public/version.json', JSON.stringify({version: process.env.npm_package_version, builtAt: new Date().toISOString()}))\" && vite build",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest"

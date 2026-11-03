@@ -44,7 +44,7 @@ const RolesSection = () => (
           Built for everyone
         </p>
         <h2 className="text-3xl sm:text-4xl font-black mb-4 text-slate-900 dark:text-slate-50">
-          One system, three role-based dashboards
+          One attendance system, three role-based dashboards
         </h2>
       </div>
 

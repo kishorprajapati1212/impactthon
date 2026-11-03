@@ -93,7 +93,7 @@ const FeaturesSection = () => (
           Features
         </p>
         <h2 className="text-3xl sm:text-4xl font-black mb-4 text-slate-900 dark:text-slate-50">
-          Everything attendance, in one place
+          Everything a college attendance system needs, in one place
         </h2>
         <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-lg">
           AttendX eliminates proxy attendance, saves class time and gives

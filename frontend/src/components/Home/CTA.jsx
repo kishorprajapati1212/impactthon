@@ -12,7 +12,7 @@ const CTA = () => {
       <div className="max-w-4xl mx-auto text-center">
         <div className="card-2026 p-10 sm:p-14 bg-gradient-to-br from-cyan-500/10 via-transparent to-blue-600/10">
           <h2 className="text-3xl sm:text-4xl font-black mb-4 text-slate-900 dark:text-slate-50">
-            Ready to make attendance automatic?
+            Ready to make college attendance automatic?
           </h2>
           <p className="text-slate-600 dark:text-slate-400 mb-8 text-lg max-w-xl mx-auto">
             Set up your institution in minutes. No extra hardware, no paper

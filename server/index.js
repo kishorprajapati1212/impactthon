@@ -115,6 +115,19 @@ const scanLimiter = rateLimit({
 
 // ── Connect DB ───────────────────────────────────────────────────────
 await connectDB();
+// RESEED_KEY=<new value>: wipe + reload the demo college ONCE per value — the
+// way to "run reseed" on hosts without a shell (Render, Railway…). See
+// utils/reseedKey.js. Same value on later boots → nothing happens.
+if (String(process.env.RESEED_KEY || "").trim()) {
+  try {
+    const { seedDatabase } = await import("./seed/seed.js");
+    const { applyReseedKey } = await import("./utils/reseedKey.js");
+    const mongoose = (await import("mongoose")).default;
+    await applyReseedKey({ key: process.env.RESEED_KEY, meta: mongoose.connection.db.collection("seed_meta"), seedDatabase });
+  } catch (e) {
+    console.warn("[reseed] skipped:", e.message);
+  }
+}
 // AUTO_SEED=true: load the demo college when the database is EMPTY (never wipes;
 // FORCE_SEED is honoured only by the seeder CLI / Docker entrypoint).
 if (["true", "1", "yes"].includes(String(process.env.AUTO_SEED).toLowerCase())) {
